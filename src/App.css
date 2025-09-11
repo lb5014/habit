@@ -6,7 +6,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* 현대적인, 시선을 끄는 네온 그라디언트 배경 */
+  background: radial-gradient(1200px circle at 10% 10%, #ff6b6b 0%, #f06595 28%, #845ef7 60%, #5c7cfa 100%);
+  background-attachment: fixed;
   min-height: 100vh;
 }
 
@@ -20,20 +22,48 @@ body {
 
 /* 헤더 스타일 */
 .habit-header {
-  text-align: center;
   margin-bottom: 3rem;
   color: white;
 }
 
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.header-text {
+  text-align: left;
+  flex: 1;
+  min-width: 300px;
+}
+
 .habit-title {
-  font-size: 3rem;
+  font-family: 'Oleo Script Swash Caps', cursive;
+  font-size: 3.5rem;
   font-weight: 700;
   margin: 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  background: linear-gradient(45deg, #fff, #f0f8ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #4364de;
+  letter-spacing: 1px;
+  line-height: 1.1;
+}
+
+/* 망치 아이콘 스타일 */
+.hammer-icon {
+  color: #de5743;
+  font-size: 1.2em;
+  margin-left: 2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  display: inline-block;
+  transform: rotate(15deg);
+  transition: transform 0.3s ease;
+}
+
+.hammer-icon:hover {
+  transform: rotate(15deg) scale(1.1);
 }
 
 .habit-subtitle {
@@ -41,6 +71,12 @@ body {
   margin-top: 0.5rem;
   opacity: 0.9;
   font-weight: 300;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 /* 카드 스타일 */
@@ -450,8 +486,42 @@ body {
     padding: 1rem;
   }
   
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+  
+  .header-text {
+    text-align: center;
+    min-width: auto;
+  }
+  
   .habit-title {
-    font-size: 2rem;
+    font-size: 2.5rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .hammer-icon {
+    font-size: 1.1em;
+  }
+  
+  .header-actions {
+    justify-content: center;
+  }
+  
+  .user-info-compact,
+  .guest-info {
+    justify-content: center;
+    padding: 0.5rem 0.75rem;
+  }
+  
+  .user-details h3 {
+    font-size: 0.8rem;
+  }
+  
+  .user-details p {
+    font-size: 0.7rem;
   }
   
   .form-row {
@@ -533,4 +603,424 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #5a67d8, #6b46c1);
+}
+
+/* 인증 관련 스타일 */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 0.5rem 0;
+}
+
+.auth-subtitle {
+  color: #718096;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.9rem;
+}
+
+.form-input {
+  padding: 1rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.form-input:disabled {
+  background: #f7fafc;
+  cursor: not-allowed;
+}
+
+.auth-button {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.auth-button.primary {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  color: white;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.auth-button.primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.auth-button.primary:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.auth-footer p {
+  color: #718096;
+  margin: 0;
+}
+
+.auth-link {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.auth-link:hover:not(:disabled) {
+  color: #5a67d8;
+}
+
+.auth-link:disabled {
+  color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background: #fed7d7;
+  color: #c53030;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid #feb2b2;
+}
+
+/* 사용자 정보 표시 스타일 */
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 헤더용 컴팩트 사용자 정보 */
+.user-info-compact {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.user-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.user-details h3 {
+  margin: 0;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.user-details p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.75rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.logout-button {
+  background: rgba(229, 62, 62, 0.9);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.logout-button:hover {
+  background: rgba(197, 48, 48, 0.9);
+  transform: translateY(-1px);
+}
+
+/* 게스트 정보 스타일 */
+.guest-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.guest-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.guest-text span {
+  display: block;
+}
+
+/* 반응형 디자인 - 인증 페이지 */
+@media (max-width: 768px) {
+  .auth-page {
+    padding: 1rem;
+  }
+  
+  .auth-card {
+    padding: 2rem;
+  }
+  
+  .auth-title {
+    font-size: 1.5rem;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+  
+  .logout-button {
+    margin-left: 0;
+  }
+}
+
+/* Google 로그인 관련 스타일 */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8f0;
+}
+
+.auth-divider span {
+  padding: 0 1rem;
+  color: #718096;
+  font-size: 0.875rem;
+  background: white;
+}
+
+.google-login-section {
+  margin-bottom: 1.5rem;
+}
+
+.google-login-container {
+  width: 100%;
+}
+
+.google-button-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Google 버튼 커스터마이징 */
+.google-button-wrapper iframe {
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Google 로그인 설정 필요 상태 */
+.google-disabled {
+  background: #f7fafc !important;
+  color: #718096 !important;
+  border: 2px dashed #cbd5e0 !important;
+  cursor: not-allowed !important;
+}
+
+.google-disabled:hover {
+  background: #f7fafc !important;
+  transform: none !important;
+}
+
+.google-setup-hint {
+  font-size: 0.75rem;
+  color: #a0aec0;
+  text-align: center;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+/* 모달 스타일 */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #718096;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 1001;
+}
+
+.modal-close:hover {
+  background: #f7fafc;
+  color: #2d3748;
+}
+
+/* 모달 내부 인증 페이지 스타일 조정 */
+.modal-content .auth-page {
+  min-height: auto;
+  padding: 0;
+}
+
+.modal-content .auth-container {
+  max-width: none;
+}
+
+.modal-content .auth-card {
+  box-shadow: none;
+  border: none;
+  padding: 2rem;
+}
+
+/* 반응형 모달 */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 1rem;
+  }
+  
+  .modal-content {
+    max-height: 95vh;
+  }
+  
+  .modal-close {
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 1.5rem;
+    width: 35px;
+    height: 35px;
+  }
 }

@@ -13,6 +13,8 @@
 
 // React 및 필요한 라이브러리 import
 import React, { useState, useEffect } from "react";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import AuthPage from "./pages/AuthPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import ProgressChart from "./components/ProgressChart";
@@ -23,11 +25,17 @@ import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 
 /**
- * 메인 App 컴포넌트
+ * 메인 앱 컨텐츠 컴포넌트 (인증된 사용자용)
  * 
- * @returns {JSX.Element} 습관 추적기 앱의 전체 UI
+ * @returns {JSX.Element} 습관 추적기 메인 UI
  */
-const App = () => {
+const AppContent = () => {
+  // 인증 컨텍스트에서 사용자 정보와 인증 함수들 가져오기
+  const { user, logout, isAuthenticated } = useAuth();
+  
+  // 로그인/회원가입 모달 상태 관리
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  
   // 습관 목록 상태 관리
   const [habits, setHabits] = useState([]);
   
@@ -135,8 +143,41 @@ const App = () => {
     <div className="habit-tracker">
       {/* 앱 헤더 섹션 */}
       <div className="habit-header">
-        <h1 className="habit-title">습관 추적기</h1>
-        <p className="habit-subtitle">매일의 작은 습관이 큰 변화를 만듭니다</p>
+        <div className="header-content">
+          <div className="header-text">
+            <h1 className="habit-title">
+              Building Habi<span className="hammer-icon">🔨</span>
+            </h1>
+            <p className="habit-subtitle">매일의 작은 습관이 큰 변화를 만듭니다</p>
+          </div>
+          
+          {/* 사용자 정보 또는 로그인 버튼 (오른쪽) */}
+          <div className="header-actions">
+            {isAuthenticated && user ? (
+              <div className="user-info-compact">
+                <div className="user-avatar">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="user-details">
+                  <h3>{user.name}님</h3>
+                  <p>{user.email}</p>
+                </div>
+                <button onClick={logout} className="logout-button">
+                  로그아웃
+                </button>
+              </div>
+            ) : (
+              <div className="guest-info">
+                <div className="guest-text">
+                  <span>게스트 모드</span>
+                </div>
+                <button onClick={() => setShowAuthModal(true)} className="auth-button primary">
+                  로그인
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* 습관 추가 폼 카드 */}
@@ -185,8 +226,64 @@ const App = () => {
           </div>
         </div>
       )}
+
+      {/* 인증 모달 */}
+      {showAuthModal && (
+        <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="modal-close" 
+              onClick={() => setShowAuthModal(false)}
+            >
+              ×
+            </button>
+            <AuthPage onClose={() => setShowAuthModal(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
+};
+
+/**
+ * 메인 App 컴포넌트
+ * 
+ * 인증 상태에 따라 로그인 페이지 또는 메인 앱을 표시합니다.
+ * 
+ * @returns {JSX.Element} 전체 앱 UI
+ */
+const App = () => {
+  return (
+    <AuthProvider>
+      <AppWrapper />
+    </AuthProvider>
+  );
+};
+
+/**
+ * 인증 상태를 확인하여 적절한 컴포넌트를 렌더링하는 래퍼 컴포넌트
+ * 
+ * @returns {JSX.Element} 인증 상태에 따른 UI
+ */
+const AppWrapper = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // 로딩 중일 때 표시할 UI
+  if (isLoading) {
+    return (
+      <div className="habit-tracker">
+        <div className="habit-header">
+          <h1 className="habit-title">
+            Building Habi<span className="hammer-icon">🔨</span>
+          </h1>
+          <p className="habit-subtitle">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 항상 메인 앱을 표시 (로그인 여부와 관계없이)
+  return <AppContent />;
 };
 
 export default App;
