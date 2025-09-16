@@ -47,47 +47,55 @@ const Home = () => {
         <HabitForm addHabit={addHabit} />
       </div>
 
-      {/* 습관 목록 카드 */}
-      <div className="habit-card">
-        <HabitList 
-          habits={habits} 
-          toggleToday={toggleToday} 
-          deleteHabit={deleteHabit}
-          editHabit={editHabit}
-        />
-      </div>
-
-      {/* 습관 완료 현황 차트 카드 */}
-      <div className="habit-card">
-        <ProgressChart habits={habits} />
-      </div>
-
-      {/* 선택된 습관의 그래프 뷰 카드 (습관이 선택된 경우에만 표시) */}
-      {selectedHabit && (
-        <div className="habit-card">
-          <CalendarView habit={selectedHabit} />
-        </div>
-      )}
-
-      {/* 그래프 뷰를 위한 습관 선택 버튼들 (습관이 존재하는 경우에만 표시) */}
-      {habits.length > 0 && (
-        <div className="habit-card">
-          <div className="selection-container">
-            <h2 className="selection-title">그래프 보기</h2>
-            <div className="selection-buttons">
-              {habits.map((habit) => (
-                <button
-                  key={habit.id}
-                  onClick={() => setSelectedHabitId(habit.id)}
-                  className="selection-button"
-                >
-                  {habit.title}
-                </button>
-              ))}
-            </div>
+      {/* 메인 컨텐츠 영역 - 2열 레이아웃 */}
+      <div className="main-content">
+        {/* 왼쪽 컬럼 - 습관 목록 */}
+        <div className="left-column">
+          <div className="habit-card">
+            <HabitList 
+              habits={habits} 
+              toggleToday={toggleToday} 
+              deleteHabit={deleteHabit}
+              editHabit={editHabit}
+            />
           </div>
         </div>
-      )}
+
+        {/* 오른쪽 컬럼 - 달성률과 달력보기 */}
+        <div className="right-column">
+          {/* 습관 완료 현황 차트 카드 */}
+          <div className="habit-card compact">
+            <ProgressChart habits={habits} />
+          </div>
+
+          {/* 달력 보기 선택 버튼들 */}
+          {habits.length > 0 && (
+            <div className="habit-card compact">
+              <div className="selection-container">
+                <h2 className="selection-title">달력 보기</h2>
+                <div className="selection-buttons">
+                  {habits.map((habit) => (
+                    <button
+                      key={habit.id}
+                      onClick={() => setSelectedHabitId(habit.id)}
+                      className={`selection-button ${selectedHabitId === habit.id ? 'active' : ''}`}
+                    >
+                      {habit.title}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 선택된 습관의 캘린더 뷰 카드 */}
+          {selectedHabit && (
+            <div className="habit-card compact">
+              <CalendarView habit={selectedHabit} />
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

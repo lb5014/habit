@@ -116,11 +116,11 @@ const ProgressChart = ({ habits }: Props) => {
       <h2 className="chart-title">습관 완료 현황</h2>
       {/* 습관이 있는 경우 원형 차트 표시, 없는 경우 안내 메시지 표시 */}
       {habits.length > 0 ? (
-        <div style={{ height: '400px', width: '100%' }}>
+        <div style={{ height: '250px', width: '100%' }}>
           <Doughnut data={data} options={options} />
         </div>
       ) : (
-        <p style={{ textAlign: 'center', color: '#718096', padding: '2rem' }}>
+        <p style={{ textAlign: 'center', color: '#718096', padding: '1rem' }}>
           등록된 습관이 없습니다.
         </p>
       )}
