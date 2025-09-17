@@ -17,7 +17,7 @@ import { useHabits } from "../hooks/useHabits";
 import HabitForm from "../components/HabitForm";
 import HabitList from "../components/HabitList";
 import ProgressChart from "../components/ProgressChart";
-import CalendarView from "../components/CalendarView";
+import AchievementWidget from "../components/AchievementWidget";
 
 /**
  * 홈 페이지 컴포넌트
@@ -28,8 +28,8 @@ const Home = () => {
   // useHabits 훅을 통해 습관 관련 상태와 함수들 가져오기
   const { habits, addHabit, toggleToday, deleteHabit, editHabit } = useHabits();
   
-  // 캘린더 뷰에서 선택된 습관의 ID 상태 관리
-  const [selectedHabitId, setSelectedHabitId] = useState(null);
+  // 목록에서 선택된 습관의 ID 상태 관리 (달성률 위젯용)
+  const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
 
   // 선택된 습관 객체 찾기
   const selectedHabit = habits.find((h) => h.id === selectedHabitId);
@@ -57,43 +57,20 @@ const Home = () => {
               toggleToday={toggleToday} 
               deleteHabit={deleteHabit}
               editHabit={editHabit}
+              onSelectHabit={(id) => setSelectedHabitId(id)}
             />
           </div>
         </div>
 
-        {/* 오른쪽 컬럼 - 달성률과 달력보기 */}
+        {/* 오른쪽 컬럼 - 달성률 차트와 컴팩트 위젯 */}
         <div className="right-column">
           {/* 습관 완료 현황 차트 카드 */}
           <div className="habit-card compact">
             <ProgressChart habits={habits} />
           </div>
 
-          {/* 달력 보기 선택 버튼들 */}
-          {habits.length > 0 && (
-            <div className="habit-card compact">
-              <div className="selection-container">
-                <h2 className="selection-title">달력 보기</h2>
-                <div className="selection-buttons">
-                  {habits.map((habit) => (
-                    <button
-                      key={habit.id}
-                      onClick={() => setSelectedHabitId(habit.id)}
-                      className={`selection-button ${selectedHabitId === habit.id ? 'active' : ''}`}
-                    >
-                      {habit.title}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* 선택된 습관의 캘린더 뷰 카드 */}
-          {selectedHabit && (
-            <div className="habit-card compact">
-              <CalendarView habit={selectedHabit} />
-            </div>
-          )}
+          {/* 선택된 습관의 달성률 위젯 */}
+          <AchievementWidget habit={selectedHabit || null} />
         </div>
       </div>
     </div>

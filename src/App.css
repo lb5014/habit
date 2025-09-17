@@ -6,9 +6,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* 현대적인, 시선을 끄는 네온 그라디언트 배경 */
-  background: radial-gradient(1200px circle at 10% 10%, #ff6b6b 0%, #f06595 28%, #845ef7 60%, #5c7cfa 100%);
-  background-attachment: fixed;
+  background: #FFFFFF;
   min-height: 100vh;
 }
 
@@ -105,7 +103,7 @@ body {
 /* 헤더 스타일 */
 .habit-header {
   margin-bottom: 3rem;
-  color: white;
+  color: #808080;
 }
 
 .header-content {
@@ -127,15 +125,14 @@ body {
   font-size: 3.5rem;
   font-weight: 700;
   margin: 0;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  color: #4364de;
+  color: #4364DE;
   letter-spacing: 1px;
   line-height: 1.1;
 }
 
 /* 망치 아이콘 스타일 */
 .hammer-icon {
-  color: #de5743;
+  color: #DE5743;
   font-size: 1em;
   margin-left: -10px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -163,13 +160,13 @@ body {
 
 /* 카드 스타일 */
 .habit-card {
-  background: rgba(255, 255, 255, 0.95);
+  background: #FFFFFF;
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid #eaeaea;
   transition: all 0.3s ease;
 }
 
@@ -196,37 +193,37 @@ body {
   flex: 1;
   min-width: 200px;
   padding: 1rem;
-  border: 2px solid #e1e5e9;
+  border: 2px solid #e6e6e6;
   border-radius: 12px;
   font-size: 1rem;
   transition: all 0.3s ease;
-  background: white;
+  background: #FFFFFF;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #4364DE;
+  box-shadow: 0 0 0 3px rgba(67, 100, 222, 0.12);
 }
 
 .form-select {
   padding: 1rem;
-  border: 2px solid #e1e5e9;
+  border: 2px solid #e6e6e6;
   border-radius: 12px;
   font-size: 1rem;
-  background: white;
+  background: #FFFFFF;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .form-select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #4364DE;
+  box-shadow: 0 0 0 3px rgba(67, 100, 222, 0.12);
 }
 
 .form-button {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: #4364DE;
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -235,12 +232,12 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.24);
 }
 
 .form-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 18px rgba(67, 100, 222, 0.3);
 }
 
 /* 습관 리스트 스타일 */
@@ -259,7 +256,7 @@ body {
   align-items: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #4364DE;
 }
 
 .habit-item:hover {
@@ -269,21 +266,21 @@ body {
 
 .habit-info h3 {
   margin: 0 0 0.5rem 0;
-  color: #2d3748;
+  color: #202124;
   font-size: 1.3rem;
   font-weight: 600;
 }
 
 .habit-info p {
   margin: 0 0 0.5rem 0;
-  color: #718096;
+  color: #808080;
   font-size: 0.9rem;
 }
 
 .habit-frequency {
   display: inline-block;
-  background: #e2e8f0;
-  color: #4a5568;
+  background: #f2f4ff;
+  color: #4364DE;
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.8rem;
@@ -307,15 +304,15 @@ body {
 }
 
 .habit-button.completed {
-  background: linear-gradient(45deg, #48bb78, #38a169);
+  background: #4364DE;
   color: white;
-  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.24);
 }
 
 .habit-button.pending {
-  background: #f7fafc;
-  color: #4a5568;
-  border: 2px solid #e2e8f0;
+  background: #FFFFFF;
+  color: #808080;
+  border: 2px solid #e6e6e6;
 }
 
 .habit-button:hover {
@@ -338,13 +335,13 @@ body {
 }
 
 .dropdown-toggle {
-  background: #f7fafc;
-  border: 2px solid #e2e8f0;
+  background: #FFFFFF;
+  border: 2px solid #e6e6e6;
   border-radius: 8px;
   padding: 0.5rem;
   cursor: pointer;
   font-size: 1.2rem;
-  color: #4a5568;
+  color: #808080;
   transition: all 0.3s ease;
   width: 40px;
   height: 40px;
@@ -354,8 +351,8 @@ body {
 }
 
 .dropdown-toggle:hover {
-  background: #edf2f7;
-  border-color: #cbd5e0;
+  background: #f7f7f7;
+  border-color: #d9d9d9;
   transform: translateY(-1px);
 }
 
@@ -363,10 +360,10 @@ body {
   position: absolute;
   top: 100%;
   right: 0;
-  background: white;
+  background: #FFFFFF;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  border: 1px solid #e2e8f0;
+  border: 1px solid #e6e6e6;
   min-width: 120px;
   z-index: 1000;
   opacity: 0;
@@ -390,7 +387,7 @@ body {
   text-align: left;
   cursor: pointer;
   font-size: 0.9rem;
-  color: #4a5568;
+  color: #808080;
   transition: all 0.3s ease;
   border-radius: 0;
 }
@@ -404,17 +401,17 @@ body {
 }
 
 .dropdown-item:hover {
-  background: #f7fafc;
-  color: #2d3748;
+  background: #f7f8ff;
+  color: #202124;
 }
 
 .dropdown-item.delete {
-  color: #e53e3e;
+  color: #DE5743;
 }
 
 .dropdown-item.delete:hover {
-  background: #fed7d7;
-  color: #c53030;
+  background: #FFE8E4;
+  color: #B53F2F;
 }
 
 /* 편집 폼 스타일 */
@@ -432,7 +429,7 @@ body {
 }
 
 .save-button {
-  background: linear-gradient(45deg, #48bb78, #38a169);
+  background: #4364DE;
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -440,7 +437,7 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(72, 187, 120, 0.3);
+  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.24);
 }
 
 .save-button:hover {
@@ -449,9 +446,9 @@ body {
 }
 
 .cancel-button {
-  background: #f7fafc;
-  color: #4a5568;
-  border: 2px solid #e2e8f0;
+  background: #FFFFFF;
+  color: #808080;
+  border: 2px solid #e6e6e6;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
@@ -460,8 +457,8 @@ body {
 }
 
 .cancel-button:hover {
-  background: #edf2f7;
-  border-color: #cbd5e0;
+  background: #f7f7f7;
+  border-color: #d9d9d9;
   transform: translateY(-2px);
 }
 
@@ -476,7 +473,7 @@ body {
 .chart-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2d3748;
+  color: #202124;
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -637,32 +634,32 @@ body {
 
 .selection-button {
   padding: 0.75rem 1.5rem;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #e6e6e6;
   border-radius: 10px;
   background: white;
-  color: #4a5568;
+  color: #808080;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .selection-button:hover {
-  border-color: #667eea;
-  background: #f7fafc;
+  border-color: #4364DE;
+  background: #f7f8ff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.15);
 }
 
 .selection-button.active {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: #4364DE;
   color: white;
-  border-color: #667eea;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border-color: #4364DE;
+  box-shadow: 0 4px 15px rgba(67, 100, 222, 0.3);
 }
 
 .selection-button.active:hover {
-  background: linear-gradient(45deg, #5a67d8, #6b46c1);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: #3654C1;
+  box-shadow: 0 6px 20px rgba(67, 100, 222, 0.4);
 }
 
 /* 반응형 디자인 */
@@ -794,7 +791,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: #4364DE;
   border-radius: 4px;
 }
 
@@ -894,9 +891,9 @@ body {
 }
 
 .auth-button.primary {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: #4364DE;
   color: white;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.24);
 }
 
 .auth-button.primary:hover:not(:disabled) {
@@ -926,7 +923,7 @@ body {
 .auth-link {
   background: none;
   border: none;
-  color: #667eea;
+  color: #4364DE;
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
@@ -934,7 +931,7 @@ body {
 }
 
 .auth-link:hover:not(:disabled) {
-  color: #5a67d8;
+  color: #3654C1;
 }
 
 .auth-link:disabled {

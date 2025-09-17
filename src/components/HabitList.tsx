@@ -23,6 +23,7 @@ interface Props {
   toggleToday: (id: string) => void; // 오늘 완료 상태 토글 함수
   deleteHabit: (id: string) => void; // 습관 삭제 함수
   editHabit: (id: string, title: string, description: string, frequency: 'daily' | 'weekly') => void; // 습관 수정 함수
+  onSelectHabit?: (id: string) => void; // 습관 선택 시 호출 (달성률 위젯 표시용)
 }
 
 /**
@@ -31,7 +32,7 @@ interface Props {
  * @param {Props} props - 컴포넌트 props
  * @returns {JSX.Element} 습관 목록 UI
  */
-const HabitList = ({ habits, toggleToday, deleteHabit, editHabit }: Props) => {
+const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit }: Props) => {
   // 오늘 날짜를 YYYY-MM-DD 형식으로 생성
   const today = new Date().toISOString().split("T")[0];
   
@@ -87,7 +88,7 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit }: Props) => {
           const isEditing = editingId === habit.id; // 현재 편집 중인 습관인지 확인
 
           return (
-            <div key={habit.id} className="habit-item">
+            <div key={habit.id} className="habit-item" onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
               {/* 편집 모드일 때 표시되는 편집 폼 */}
               {isEditing ? (
                 <div className="habit-edit-form">
