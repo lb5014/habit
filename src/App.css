@@ -10,6 +10,43 @@ body {
   min-height: 100vh;
 }
 
+/* 로딩 화면 스타일 */
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(1200px circle at 10% 10%, #ff6b6b 0%, #f06595 28%, #845ef7 60%, #5c7cfa 100%);
+  background-attachment: fixed;
+}
+
+.loading-content {
+  text-align: center;
+  color: white;
+}
+
+.loading-title {
+  font-family: 'Oleo Script Swash Caps', cursive;
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: #4364de;
+  letter-spacing: 1px;
+}
+
+.loading-title .hammer-icon {
+  color: #ffd700;
+  font-size: 3.5rem;
+  margin-left: 10px;
+}
+
+.loading-subtitle {
+  font-size: 1.2rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
 /* 메인 컨테이너 */
 .habit-tracker {
   max-width: 1200px;

@@ -2,6 +2,7 @@
  * 습관 추적기 메인 앱 컴포넌트
  * 
  * 이 컴포넌트는 습관 추적기의 핵심 기능을 담당합니다:
+ * - 랜딩 페이지 표시
  * - 습관 추가, 수정, 삭제
  * - 일일 체크 기능
  * - 진행률 차트 표시
@@ -14,12 +15,13 @@
 // React 및 필요한 라이브러리 import
 import React, { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import LandingPage from "./pages/LandingPage";
 import AuthPage from "./pages/AuthPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import ProgressChart from "./components/ProgressChart";
 import CalendarView from "./components/CalendarView";
-import { Habit } from "./types/habit";
+// import { Habit } from "./types/habit"; // 현재 사용하지 않음
 import { loadHabits, saveHabits } from "./utils/storage";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
@@ -248,7 +250,7 @@ const AppContent = () => {
 /**
  * 메인 App 컴포넌트
  * 
- * 인증 상태에 따라 로그인 페이지 또는 메인 앱을 표시합니다.
+ * 라우팅에 따라 랜딩 페이지 또는 메인 앱을 표시합니다.
  * 
  * @returns {JSX.Element} 전체 앱 UI
  */
@@ -261,29 +263,61 @@ const App = () => {
 };
 
 /**
- * 인증 상태를 확인하여 적절한 컴포넌트를 렌더링하는 래퍼 컴포넌트
+ * 라우팅을 처리하여 적절한 컴포넌트를 렌더링하는 래퍼 컴포넌트
  * 
- * @returns {JSX.Element} 인증 상태에 따른 UI
+ * @returns {JSX.Element} 라우팅에 따른 UI
  */
 const AppWrapper = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isLoading } = useAuth();
+  const [currentPage, setCurrentPage] = useState('landing');
+
+  // URL 해시 변경 감지
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash === 'login' || hash === 'signup') {
+        setCurrentPage('auth');
+      } else if (hash === 'app') {
+        setCurrentPage('app');
+      } else {
+        setCurrentPage('landing');
+      }
+    };
+
+    // 초기 로드 시 해시 확인
+    handleHashChange();
+
+    // 해시 변경 이벤트 리스너 등록
+    window.addEventListener('hashchange', handleHashChange);
+    
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, []);
 
   // 로딩 중일 때 표시할 UI
   if (isLoading) {
     return (
-      <div className="habit-tracker">
-        <div className="habit-header">
-          <h1 className="habit-title">
+      <div className="loading-screen">
+        <div className="loading-content">
+          <h1 className="loading-title">
             Building Habi<span className="hammer-icon">🔨</span>
           </h1>
-          <p className="habit-subtitle">로딩 중...</p>
+          <p className="loading-subtitle">로딩 중...</p>
         </div>
       </div>
     );
   }
 
-  // 항상 메인 앱을 표시 (로그인 여부와 관계없이)
-  return <AppContent />;
+  // 페이지별 렌더링
+  switch (currentPage) {
+    case 'auth':
+      return <AuthPage onClose={() => setCurrentPage('landing')} />;
+    case 'app':
+      return <AppContent />;
+    default:
+      return <LandingPage />;
+  }
 };
 
 export default App;
