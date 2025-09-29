@@ -10,6 +10,7 @@
 // React와 필요한 훅들 import
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * LoginForm 컴포넌트의 Props 타입
@@ -26,7 +27,8 @@ interface LoginFormProps {
  */
 const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup }) => {
   // 인증 컨텍스트에서 로그인 함수 가져오기
-  const { login } = useAuth();
+  const { login, loginWithGoogle } = useAuth();
+  const navigate = useNavigate();
   
   // 폼 상태 관리
   const [formData, setFormData] = useState({
@@ -75,9 +77,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup }) => {
       
       if (!success) {
         setError('이메일 또는 비밀번호가 올바르지 않습니다.');
+      } else {
+        navigate('/app', { replace: true });
       }
     } catch (error) {
       setError('로그인 중 오류가 발생했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setIsLoading(true);
+    setError('');
+    try {
+      const ok = await loginWithGoogle();
+      if (ok) {
+        navigate('/app', { replace: true });
+      } else {
+        setError('구글 로그인에 실패했습니다.');
+      }
+    } catch (err) {
+      setError('구글 로그인 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -143,6 +164,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSwitchToSignup }) => {
             disabled={isLoading}
           >
             {isLoading ? '로그인 중...' : '로그인'}
+          </button>
+          <button
+            type="button"
+            className="auth-button google"
+            onClick={handleGoogleLogin}
+            disabled={isLoading}
+          >
+            구글로 로그인
           </button>
         </form>
 

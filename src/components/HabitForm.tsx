@@ -10,7 +10,6 @@
 
 // React와 필요한 훅 import
 import React, { useState } from "react";
-import { useHabits } from "../hooks/useHabits";
 
 /**
  * HabitForm 컴포넌트의 Props 타입 정의

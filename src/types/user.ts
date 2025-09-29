@@ -49,4 +49,5 @@ export interface AuthContextType extends AuthState {
   login: (email: string, password: string) => Promise<boolean>; // 로그인 함수
   signup: (name: string, email: string, password: string) => Promise<boolean>; // 회원가입 함수
   logout: () => void; // 로그아웃 함수
+  loginWithGoogle: () => Promise<boolean>; // 구글 로그인 함수
 }
