@@ -37,8 +37,7 @@ interface Props {
  * @returns {JSX.Element} 습관 달성률 원형 차트 UI
  */
 const ProgressChart = ({ habits }: Props) => {
-  // 오늘 날짜를 YYYY-MM-DD 형식으로 생성
-  const today = new Date().toISOString().split("T")[0];
+  // 필요 시 사용할 수 있으나 현재 로직에서는 사용하지 않으므로 제거
 
   /**
    * 각 습관별 달성률을 계산하는 함수

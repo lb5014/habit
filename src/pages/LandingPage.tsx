@@ -10,6 +10,7 @@
 
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 
 /**
@@ -19,16 +20,17 @@ import './LandingPage.css';
  */
 const LandingPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   // 로그인 버튼 클릭 핸들러
   const handleLogin = () => {
-    window.location.href = '#login';
+    navigate('/login');
   };
 
   // 시작하기 버튼 클릭 핸들러
   const handleGetStarted = () => {
     if (isAuthenticated) {
-      window.location.href = '/app';
+      navigate('/app');
     } else {
       handleLogin();
     }

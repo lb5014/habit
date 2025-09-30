@@ -10,7 +10,16 @@
 // React와 필요한 타입들 import
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, AuthContextType, AuthState } from '../types/user';
-import { v4 as uuidv4 } from 'uuid';
+import { auth } from '../firebase';
+import { 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  updateProfile, 
+  signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
+} from 'firebase/auth';
 
 /**
  * AuthContext 생성
@@ -42,34 +51,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    * 컴포넌트 마운트 시 로컬 스토리지에서 사용자 정보 로드
    */
   useEffect(() => {
-    const loadUser = () => {
-      try {
-        const savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-          const user: User = JSON.parse(savedUser);
-          setAuthState({
-            user,
-            isLoading: false,
-            isAuthenticated: true,
-          });
-        } else {
-          setAuthState({
-            user: null,
-            isLoading: false,
-            isAuthenticated: false,
-          });
-        }
-      } catch (error) {
-        console.error('사용자 정보 로드 실패:', error);
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        const currentUser: User = {
+          id: firebaseUser.uid,
+          email: firebaseUser.email || '',
+          name: firebaseUser.displayName || firebaseUser.email || '사용자',
+          createdAt: firebaseUser.metadata?.creationTime || new Date().toISOString(),
+        };
+        setAuthState({
+          user: currentUser,
+          isLoading: false,
+          isAuthenticated: true,
+        });
+      } else {
         setAuthState({
           user: null,
           isLoading: false,
           isAuthenticated: false,
         });
       }
-    };
+    });
 
-    loadUser();
+    return () => unsubscribe();
   }, []);
 
   /**
@@ -81,33 +85,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      // 로컬 스토리지에서 사용자 목록 가져오기
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      
-      // 이메일과 비밀번호가 일치하는 사용자 찾기
-      const user = users.find((u: any) => u.email === email && u.password === password);
-      
-      if (user) {
-        // 로그인 성공 시 현재 사용자 정보 저장
-        const currentUser: User = {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          createdAt: user.createdAt,
-        };
-        
-        localStorage.setItem('currentUser', JSON.stringify(currentUser));
-        
-        setAuthState({
-          user: currentUser,
-          isLoading: false,
-          isAuthenticated: true,
-        });
-        
-        return true;
-      } else {
-        return false;
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      return true;
     } catch (error) {
       console.error('로그인 실패:', error);
       return false;
@@ -124,47 +103,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   const signup = async (name: string, email: string, password: string): Promise<boolean> => {
     try {
-      // 로컬 스토리지에서 사용자 목록 가져오기
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      
-      // 이미 존재하는 이메일인지 확인
-      const existingUser = users.find((u: any) => u.email === email);
-      if (existingUser) {
-        return false; // 이미 존재하는 이메일
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, { displayName: name });
       }
-      
-      // 새 사용자 생성
-      const newUser = {
-        id: uuidv4(),
-        name,
-        email,
-        password, // 실제 프로덕션에서는 해시화해야 함
-        createdAt: new Date().toISOString(),
-      };
-      
-      // 사용자 목록에 추가
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      
-      // 자동 로그인
-      const currentUser: User = {
-        id: newUser.id,
-        email: newUser.email,
-        name: newUser.name,
-        createdAt: newUser.createdAt,
-      };
-      
-      localStorage.setItem('currentUser', JSON.stringify(currentUser));
-      
-      setAuthState({
-        user: currentUser,
-        isLoading: false,
-        isAuthenticated: true,
-      });
-      
       return true;
     } catch (error) {
       console.error('회원가입 실패:', error);
+      return false;
+    }
+  };
+
+  const loginWithGoogle = async (): Promise<boolean> => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+      return true;
+    } catch (error) {
+      console.error('구글 로그인 실패:', error);
       return false;
     }
   };
@@ -173,8 +129,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   /**
    * 로그아웃 함수
    */
-  const logout = () => {
-    localStorage.removeItem('currentUser');
+  const logout = async () => {
+    await signOut(auth);
     setAuthState({
       user: null,
       isLoading: false,
@@ -188,6 +144,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     signup,
     logout,
+    loginWithGoogle,
   };
 
   return (

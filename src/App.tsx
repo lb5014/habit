@@ -15,12 +15,15 @@
 // React 및 필요한 라이브러리 import
 import React, { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import LandingPage from "./pages/LandingPage";
-import AuthPage from "./pages/AuthPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import ProgressChart from "./components/ProgressChart";
 import CalendarView from "./components/CalendarView";
+import ProtectedRoute from './routes/ProtectedRoute';
 // import { Habit } from "./types/habit"; // 현재 사용하지 않음
 import { loadHabits, saveHabits } from "./utils/storage";
 import { v4 as uuidv4 } from "uuid";
@@ -34,6 +37,7 @@ import "./App.css";
 const AppContent = () => {
   // 인증 컨텍스트에서 사용자 정보와 인증 함수들 가져오기
   const { user, logout, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   
   // 로그인/회원가입 모달 상태 관리
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -173,7 +177,7 @@ const AppContent = () => {
                 <div className="guest-text">
                   <span>게스트 모드</span>
                 </div>
-                <button onClick={() => setShowAuthModal(true)} className="auth-button primary">
+                <button onClick={() => navigate('/login')} className="auth-button primary">
                   로그인
                 </button>
               </div>
@@ -229,20 +233,7 @@ const AppContent = () => {
         </div>
       )}
 
-      {/* 인증 모달 */}
-      {showAuthModal && (
-        <div className="modal-overlay" onClick={() => setShowAuthModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="modal-close" 
-              onClick={() => setShowAuthModal(false)}
-            >
-              ×
-            </button>
-            <AuthPage onClose={() => setShowAuthModal(false)} />
-          </div>
-        </div>
-      )}
+      {/* 인증 모달 제거: SPA 라우팅으로 이동 */}
     </div>
   );
 };
@@ -257,7 +248,22 @@ const AppContent = () => {
 const App = () => {
   return (
     <AuthProvider>
-      <AppWrapper />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route
+            path="/app"
+            element={
+              <ProtectedRoute>
+                <AppContent />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
   );
 };
@@ -267,57 +273,6 @@ const App = () => {
  * 
  * @returns {JSX.Element} 라우팅에 따른 UI
  */
-const AppWrapper = () => {
-  const { isLoading } = useAuth();
-  const [currentPage, setCurrentPage] = useState('landing');
-
-  // URL 해시 변경 감지
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.slice(1);
-      if (hash === 'login' || hash === 'signup') {
-        setCurrentPage('auth');
-      } else if (hash === 'app') {
-        setCurrentPage('app');
-      } else {
-        setCurrentPage('landing');
-      }
-    };
-
-    // 초기 로드 시 해시 확인
-    handleHashChange();
-
-    // 해시 변경 이벤트 리스너 등록
-    window.addEventListener('hashchange', handleHashChange);
-    
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, []);
-
-  // 로딩 중일 때 표시할 UI
-  if (isLoading) {
-    return (
-      <div className="loading-screen">
-        <div className="loading-content">
-          <h1 className="loading-title">
-            Building Habi<span className="hammer-icon">🔨</span>
-          </h1>
-          <p className="loading-subtitle">로딩 중...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // 페이지별 렌더링
-  switch (currentPage) {
-    case 'auth':
-      return <AuthPage onClose={() => setCurrentPage('landing')} />;
-    case 'app':
-      return <AppContent />;
-    default:
-      return <LandingPage />;
-  }
-};
+const AppWrapper = () => null;
 
 export default App;
