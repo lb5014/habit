@@ -1027,17 +1027,15 @@ body {
 
 .user-details h3 {
   margin: 0;
-  color: white;
+  color: black;
   font-size: 0.9rem;
   font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .user-details p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.8);
+  color: black;
   font-size: 0.75rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .logout-button {
@@ -1254,4 +1252,325 @@ body {
     width: 35px;
     height: 35px;
   }
+}
+
+/* ========================================
+   테마 토글 버튼 스타일
+   ======================================== */
+.theme-toggle-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+.theme-toggle {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #ffd700;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.9);
+  color: #ffff00;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  border-color: #ffff00;
+}
+
+.theme-toggle:active {
+  transform: translateY(0);
+}
+
+.theme-toggle svg {
+  transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* ========================================
+   다크모드 스타일
+   ======================================== */
+body.dark {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #e2e8f0;
+}
+
+/* 다크모드 - 헤더 스타일 */
+body.dark .habit-header {
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .habit-title {
+  color: #f7fafc;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .habit-subtitle {
+  color: #cbd5e0;
+}
+
+/* 다크모드 - 카드 스타일 */
+body.dark .habit-card {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .habit-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* 다크모드 - 사용자 정보 */
+body.dark .user-info-compact {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark .user-details h3 {
+  color: #f7fafc;
+}
+
+body.dark .user-details p {
+  color: #cbd5e0;
+}
+
+/* 다크모드 - 게스트 정보 */
+body.dark .guest-info {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark .guest-text {
+  color: #cbd5e0;
+}
+
+/* 다크모드 - 테마 토글 버튼 */
+body.dark .theme-toggle-container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  pointer-events: auto;
+}
+
+body.dark .theme-toggle {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(0, 0, 0, 0.8);
+  color: #ff6b35;
+}
+
+body.dark .theme-toggle:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #ff4500;
+  box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+  border-color: #ff4500;
+}
+
+/* 다크모드 - 로그아웃 버튼 */
+body.dark .logout-button {
+  background: rgba(229, 62, 62, 0.8);
+}
+
+body.dark .logout-button:hover {
+  background: rgba(197, 48, 48, 0.9);
+}
+
+/* 다크모드 - 폼 스타일 */
+body.dark .form-input {
+  background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f7fafc;
+}
+
+body.dark .form-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+body.dark .form-input::placeholder {
+  color: #a0aec0;
+}
+
+/* 다크모드 - 버튼 스타일 */
+body.dark .auth-button.primary {
+  background: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+body.dark .auth-button.primary:hover:not(:disabled) {
+  background: #5a67d8;
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* 다크모드 - 습관 아이템 */
+body.dark .habit-item {
+  background: rgba(26, 26, 46, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .habit-item:hover {
+  background: rgba(26, 26, 46, 0.8);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark .habit-item h3 {
+  color: #f7fafc;
+}
+
+body.dark .habit-item p {
+  color: #cbd5e0;
+}
+
+/* 다크모드 - 체크박스 */
+body.dark .habit-checkbox {
+  background: rgba(26, 26, 46, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+body.dark .habit-checkbox.checked {
+  background: #667eea;
+  border-color: #667eea;
+}
+
+/* 다크모드 - 편집/삭제 버튼 */
+body.dark .habit-actions button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #cbd5e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.dark .habit-actions button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #f7fafc;
+}
+
+body.dark .habit-actions .delete-button:hover {
+  background: rgba(229, 62, 62, 0.8);
+  color: white;
+}
+
+/* 다크모드 - 스트릭 카운터 */
+body.dark .streak-counter {
+  color: #cbd5e0;
+}
+
+/* 다크모드 - 달력 */
+body.dark .calendar-grid {
+  background: rgba(26, 26, 46, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .calendar-day {
+  color: #cbd5e0;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark .calendar-day:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark .calendar-day.checked {
+  background: #667eea;
+  color: white;
+}
+
+/* 다크모드 - 차트 */
+body.dark .progress-chart {
+  background: rgba(26, 26, 46, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .chart-title {
+  color: #f7fafc;
+}
+
+body.dark .chart-subtitle {
+  color: #cbd5e0;
+}
+
+/* 다크모드 - 에러 메시지 */
+body.dark .error-message {
+  background: rgba(197, 48, 48, 0.2);
+  color: #fed7d7;
+  border: 1px solid rgba(197, 48, 48, 0.3);
+}
+
+/* 다크모드 - 인증 페이지 */
+body.dark .auth-page {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+body.dark .auth-card {
+  background: rgba(26, 26, 46, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .auth-title {
+  color: #f7fafc;
+}
+
+body.dark .auth-subtitle {
+  color: #cbd5e0;
+}
+
+body.dark .auth-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .auth-footer p {
+  color: #a0aec0;
+}
+
+body.dark .auth-link {
+  color: #667eea;
+}
+
+body.dark .auth-link:hover:not(:disabled) {
+  color: #5a67d8;
+}
+
+/* 다크모드 - 구분선 */
+body.dark .auth-divider::before,
+body.dark .auth-divider::after {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+body.dark .auth-divider span {
+  color: #a0aec0;
+}
+
+/* 다크모드 - 구글 로그인 버튼 */
+body.dark .google-login-button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #f7fafc;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+body.dark .google-login-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 다크모드 - 사용자 아바타 */
+body.dark .user-avatar {
+  background: linear-gradient(45deg, #667eea, #764ba2);
 }

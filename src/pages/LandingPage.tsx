@@ -11,6 +11,7 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import ThemeToggle from '../components/ThemeToggle';
 import './LandingPage.css';
 
 /**
@@ -38,6 +39,11 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="landing-page">
+      {/* Theme Toggle */}
+      <div className="theme-toggle-container">
+        <ThemeToggle />
+      </div>
+      
       {/* Hero 섹션 */}
       <section className="hero-section">
         <div className="hero-container">

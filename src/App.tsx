@@ -15,6 +15,7 @@
 // React 및 필요한 라이브러리 import
 import React, { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -23,6 +24,7 @@ import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import ProgressChart from "./components/ProgressChart";
 import CalendarView from "./components/CalendarView";
+import ThemeToggle from "./components/ThemeToggle";
 import ProtectedRoute from './routes/ProtectedRoute';
 // import { Habit } from "./types/habit"; // 현재 사용하지 않음
 import { loadHabits, saveHabits } from "./utils/storage";
@@ -147,6 +149,11 @@ const AppContent = () => {
 
   return (
     <div className="habit-tracker">
+      {/* Theme Toggle */}
+      <div className="theme-toggle-container">
+        <ThemeToggle />
+      </div>
+      
       {/* 앱 헤더 섹션 */}
       <div className="habit-header">
         <div className="header-content">
@@ -247,24 +254,26 @@ const AppContent = () => {
  */
 const App = () => {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route
-            path="/app"
-            element={
-              <ProtectedRoute>
-                <AppContent />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route
+              path="/app"
+              element={
+                <ProtectedRoute>
+                  <AppContent />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
   );
 };
 
