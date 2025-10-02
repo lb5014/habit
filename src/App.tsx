@@ -41,14 +41,8 @@ const AppContent = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   
-  // 로그인/회원가입 모달 상태 관리
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  
   // 습관 목록 상태 관리
   const [habits, setHabits] = useState([]);
-  
-  // 캘린더 뷰에서 선택된 습관의 ID 상태 관리
-  const [selectedHabitId, setSelectedHabitId] = useState(null);
 
   /**
    * 컴포넌트 마운트 시 로컬 스토리지에서 습관 데이터 로드
@@ -144,8 +138,6 @@ const AppContent = () => {
     );
   };
 
-  // 선택된 습관 객체 찾기
-  const selectedHabit = habits.find((h) => h.id === selectedHabitId);
 
   return (
     <div className="habit-tracker">
@@ -213,32 +205,6 @@ const AppContent = () => {
         <ProgressChart habits={habits} />
       </div>
 
-      {/* 선택된 습관의 캘린더 뷰 카드 (습관이 선택된 경우에만 표시) */}
-      {selectedHabit && (
-        <div className="habit-card">
-          <CalendarView habit={selectedHabit} />
-        </div>
-      )}
-
-      {/* 캘린더 뷰를 위한 습관 선택 버튼들 (습관이 존재하는 경우에만 표시) */}
-      {habits.length > 0 && (
-        <div className="habit-card">
-          <div className="selection-container">
-            <h2 className="selection-title">달력 보기</h2>
-            <div className="selection-buttons">
-              {habits.map((habit) => (
-                <button
-                  key={habit.id}
-                  onClick={() => setSelectedHabitId(habit.id)}
-                  className="selection-button"
-                >
-                  {habit.title}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 인증 모달 제거: SPA 라우팅으로 이동 */}
     </div>
@@ -277,11 +243,5 @@ const App = () => {
   );
 };
 
-/**
- * 라우팅을 처리하여 적절한 컴포넌트를 렌더링하는 래퍼 컴포넌트
- * 
- * @returns {JSX.Element} 라우팅에 따른 UI
- */
-const AppWrapper = () => null;
 
 export default App;

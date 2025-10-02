@@ -1574,3 +1574,243 @@ body.dark .google-login-button:hover {
 body.dark .user-avatar {
   background: linear-gradient(45deg, #667eea, #764ba2);
 }
+
+/* ========================================
+   새로운 레이아웃 스타일
+   ======================================== */
+
+/* 습관 아이템과 캘린더를 함께 배치하는 컨테이너 */
+.habit-item-with-calendar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.habit-main-content {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+/* 달력보기 버튼과 달성률을 함께 표시하는 섹션 */
+.calendar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  min-width: 120px;
+}
+
+.calendar-button {
+  background: #f8f9fa;
+  color: #6c757d;
+  border: 2px solid #e9ecef;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.calendar-button:hover {
+  background: #e9ecef;
+  border-color: #dee2e6;
+  transform: translateY(-1px);
+}
+
+.calendar-button.active {
+  background: #4364DE;
+  color: white;
+  border-color: #4364DE;
+  box-shadow: 0 2px 8px rgba(67, 100, 222, 0.3);
+}
+
+/* 달성률 정보 스타일 */
+.achievement-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  color: #6c757d;
+  text-align: center;
+}
+
+.achievement-percentage {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #4364DE;
+}
+
+.achievement-text {
+  font-size: 0.7rem;
+  color: #6c757d;
+}
+
+.achievement-count {
+  font-size: 0.7rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* 습관 달성 캘린더 사이드바 */
+.habit-calendar-sidebar {
+  flex: 0 0 280px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* 작은 캘린더 컨테이너 */
+.calendar-container-small {
+  background: transparent;
+  padding: 0;
+}
+
+.calendar-title-small {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+  margin: 0 0 0.75rem 0;
+  text-align: center;
+}
+
+/* 작은 캘린더 요일 헤더 */
+.calendar-weekdays-small {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.2rem;
+  margin-bottom: 0.3rem;
+  text-align: center;
+}
+
+.calendar-weekday-small {
+  padding: 0.3rem 0.1rem;
+  font-weight: 600;
+  color: #6c757d;
+  font-size: 0.7rem;
+  background: rgba(67, 100, 222, 0.1);
+  border-radius: 4px;
+}
+
+/* 작은 캘린더 그리드 */
+.calendar-grid-small {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.calendar-day-small {
+  padding: 0.3rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.calendar-day-small:hover {
+  transform: scale(1.05);
+}
+
+.calendar-day-small.other-month {
+  opacity: 0.3;
+  color: #adb5bd;
+}
+
+/* 반응형 디자인 - 새로운 레이아웃 */
+@media (max-width: 768px) {
+  .habit-main-content {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .habit-calendar-sidebar {
+    flex: none;
+    width: 100%;
+  }
+  
+  .calendar-section {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .achievement-info {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  
+  .achievement-percentage {
+    font-size: 1rem;
+  }
+  
+  .achievement-text,
+  .achievement-count {
+    font-size: 0.8rem;
+  }
+}
+
+/* 다크모드 - 새로운 레이아웃 */
+body.dark .habit-calendar-sidebar {
+  background: rgba(26, 26, 46, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark .calendar-title-small {
+  color: #f7fafc;
+}
+
+body.dark .calendar-weekday-small {
+  color: #cbd5e0;
+  background: rgba(102, 126, 234, 0.2);
+}
+
+body.dark .calendar-day-small {
+  color: #cbd5e0;
+}
+
+body.dark .calendar-day-small.other-month {
+  color: #718096;
+}
+
+body.dark .calendar-button {
+  background: rgba(26, 26, 46, 0.8);
+  color: #cbd5e0;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+body.dark .calendar-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+body.dark .calendar-button.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+body.dark .achievement-info {
+  color: #cbd5e0;
+}
+
+body.dark .achievement-percentage {
+  color: #667eea;
+}
+
+body.dark .achievement-text,
+body.dark .achievement-count {
+  color: #a0aec0;
+}

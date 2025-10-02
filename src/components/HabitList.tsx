@@ -103,7 +103,8 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
 
           return (
             <div key={habit.id} className="habit-item-with-calendar">
-              <div className="habit-item" onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
+              <div className="habit-main-content">
+                <div className="habit-item" onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
                 {/* 편집 모드일 때 표시되는 편집 폼 */}
                 {isEditing ? (
                   <div className="habit-edit-form">
@@ -148,29 +149,11 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
                 ) : (
                   /* 일반 보기 모드 */
                   <>
-                    {/* 습관 정보 섹션 - 반으로 나누기 */}
-                    <div className="habit-info-split">
-                      {/* 왼쪽: 기존 습관 정보 */}
-                      <div className="habit-info-left">
-                        <h3>{habit.title}</h3>
-                        <p>{habit.description}</p>
-                        <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
-                      </div>
-                      
-                      {/* 오른쪽: 달성률 정보 */}
-                      <div className="habit-info-right">
-                        <div className="habit-achievement">
-                          <div className="achievement-percentage">
-                            {Math.round((habit.completedDates.length / 30) * 100)}%
-                          </div>
-                          <div className="achievement-text">
-                            달성률
-                          </div>
-                          <div className="achievement-count">
-                            {habit.completedDates.length}일
-                          </div>
-                        </div>
-                      </div>
+                    {/* 습관 정보 섹션 */}
+                    <div className="habit-info">
+                      <h3>{habit.title}</h3>
+                      <p>{habit.description}</p>
+                      <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
                     </div>
                     
                     {/* 습관 액션 버튼들 */}
@@ -183,16 +166,27 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
                         {doneToday ? "완료!" : "오늘 체크"}
                       </button>
                       
-                      {/* 달력보기 버튼 */}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleCalendar(habit.id);
-                        }}
-                        className={`habit-button calendar-button ${showCalendar ? "active" : ""}`}
-                      >
-                        📅 달력보기
-                      </button>
+                      {/* 달력보기 버튼과 달성률 */}
+                      <div className="calendar-section">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleCalendar(habit.id);
+                          }}
+                          className={`habit-button calendar-button ${showCalendar ? "active" : ""}`}
+                        >
+                          📅 달력보기
+                        </button>
+                        <div className="achievement-info">
+                          <span className="achievement-percentage">
+                            {Math.round((habit.completedDates.length / 30) * 100)}%
+                          </span>
+                          <span className="achievement-text">달성률</span>
+                          <span className="achievement-count">
+                            {habit.completedDates.length}일
+                          </span>
+                        </div>
+                      </div>
                       
                       {/* 드롭다운 메뉴 */}
                       <div className="dropdown">
@@ -213,16 +207,17 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
                     </div>
                   </>
                 )}
-              </div>
-              
-              {/* 달력 표시 영역 */}
-              {showCalendar && (
-                <div className="habit-calendar-container">
-                  <CalendarView 
-                    habit={habit}
-                  />
                 </div>
-              )}
+                
+                {/* 달력 표시 영역 - 습관 목록 옆에 작게 배치 */}
+                {showCalendar && (
+                  <div className="habit-calendar-sidebar">
+                    <CalendarView 
+                      habit={habit}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           );
         })

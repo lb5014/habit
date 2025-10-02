@@ -87,43 +87,43 @@ const CalendarView = ({ habit }: Props) => {
   };
 
   return (
-    <div className="calendar-container">
+    <div className="calendar-container-small">
       {/* 캘린더 제목 */}
-      <h2 className="calendar-title">{habit.title} - 이번 달</h2>
+      <h3 className="calendar-title-small">{habit.title}</h3>
       
       {/* 요일 헤더 */}
-      <div className="calendar-weekdays">
+      <div className="calendar-weekdays-small">
         {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
-          <div key={day} className="calendar-weekday">
+          <div key={day} className="calendar-weekday-small">
             {day}
           </div>
         ))}
       </div>
       
       {/* 캘린더 그리드 */}
-      <div className="calendar-grid grid grid-cols-7 gap-1">
-  {days.map((day, idx) => {
-    const dateStr = format(day, "yyyy-MM-dd");
-    const isCompleted = habit.completedDates.includes(dateStr);
-    const isCurrentMonth = day >= monthStart && day <= monthEnd;
-    const dayStyle = getDayColor(day, isCompleted);
+      <div className="calendar-grid-small">
+        {days.map((day, idx) => {
+          const dateStr = format(day, "yyyy-MM-dd");
+          const isCompleted = habit.completedDates.includes(dateStr);
+          const isCurrentMonth = day >= monthStart && day <= monthEnd;
+          const dayStyle = getDayColor(day, isCompleted);
 
-    return (
-      <div
-        key={dateStr}
-        className={`calendar-day flex items-center justify-center p-2 border rounded ${
-          isCompleted ? "completed" : "pending"
-        } ${!isCurrentMonth ? "text-gray-300" : ""}`}
-        style={dayStyle}
-        title={`${format(day, "yyyy년 M월 d일")} ${
-          isCompleted ? "완료" : "미완료"
-        }`}
-      >
-        {isCurrentMonth ? format(day, "d") : ""}
+          return (
+            <div
+              key={dateStr}
+              className={`calendar-day-small ${
+                isCompleted ? "completed" : "pending"
+              } ${!isCurrentMonth ? "other-month" : ""}`}
+              style={dayStyle}
+              title={`${format(day, "yyyy년 M월 d일")} ${
+                isCompleted ? "완료" : "미완료"
+              }`}
+            >
+              {isCurrentMonth ? format(day, "d") : ""}
+            </div>
+          );
+        })}
       </div>
-    );
-  })}
-</div>
     </div>
   );
 };
