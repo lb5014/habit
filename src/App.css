@@ -27,7 +27,7 @@ body {
 
 .loading-title {
   font-family: 'Oleo Script Swash Caps', cursive;
-  font-size: 3.5rem;
+  font-size: 3.5rem; 
   font-weight: 700;
   margin: 0 0 20px 0;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
