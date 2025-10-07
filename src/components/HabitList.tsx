@@ -41,8 +41,6 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
   const [editingId, setEditingId] = useState(null); // 현재 편집 중인 습관의 ID
   const [editForm, setEditForm] = useState({ title: '', description: '', frequency: 'daily' }); // 편집 폼 데이터
   
-  // 달력 표시 상태 관리
-  const [showCalendarFor, setShowCalendarFor] = useState<string | null>(null); // 달력을 표시할 습관 ID
 
   /**
    * 습관 편집을 시작하는 함수
@@ -78,14 +76,6 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
     setEditForm({ title: '', description: '', frequency: 'daily' });
   };
 
-  /**
-   * 달력 표시를 토글하는 함수
-   * 
-   * @param {string} habitId - 달력을 토글할 습관 ID
-   */
-  const toggleCalendar = (habitId: string) => {
-    setShowCalendarFor(showCalendarFor === habitId ? null : habitId);
-  };
 
   return (
     <div className="habit-list">
@@ -99,12 +89,10 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
         habits.map((habit) => {
           const doneToday = habit.completedDates.includes(today); // 오늘 완료 여부 확인
           const isEditing = editingId === habit.id; // 현재 편집 중인 습관인지 확인
-          const showCalendar = showCalendarFor === habit.id; // 이 습관의 달력을 표시할지 확인
 
           return (
-            <div key={habit.id} className="habit-item-with-calendar">
-              <div className="habit-main-content">
-                <div className="habit-item" onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
+            <div key={habit.id} className="habit-item">
+              <div onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
                 {/* 편집 모드일 때 표시되는 편집 폼 */}
                 {isEditing ? (
                   <div className="habit-edit-form">
@@ -166,27 +154,6 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
                         {doneToday ? "완료!" : "오늘 체크"}
                       </button>
                       
-                      {/* 달력보기 버튼과 달성률 */}
-                      <div className="calendar-section">
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleCalendar(habit.id);
-                          }}
-                          className={`habit-button calendar-button ${showCalendar ? "active" : ""}`}
-                        >
-                          📅 달력보기
-                        </button>
-                        <div className="achievement-info">
-                          <span className="achievement-percentage">
-                            {Math.round((habit.completedDates.length / 30) * 100)}%
-                          </span>
-                          <span className="achievement-text">달성률</span>
-                          <span className="achievement-count">
-                            {habit.completedDates.length}일
-                          </span>
-                        </div>
-                      </div>
                       
                       {/* 드롭다운 메뉴 */}
                       <div className="dropdown">
@@ -206,16 +173,6 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
                       </div>
                     </div>
                   </>
-                )}
-                </div>
-                
-                {/* 달력 표시 영역 - 습관 목록 옆에 작게 배치 */}
-                {showCalendar && (
-                  <div className="habit-calendar-sidebar">
-                    <CalendarView 
-                      habit={habit}
-                    />
-                  </div>
                 )}
               </div>
             </div>

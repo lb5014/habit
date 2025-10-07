@@ -88,9 +88,6 @@ const CalendarView = ({ habit }: Props) => {
 
   return (
     <div className="calendar-container-small">
-      {/* 캘린더 제목 */}
-      <h3 className="calendar-title-small">{habit.title}</h3>
-      
       {/* 요일 헤더 */}
       <div className="calendar-weekdays-small">
         {['일', '월', '화', '수', '목', '금', '토'].map((day) => (

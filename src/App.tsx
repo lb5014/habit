@@ -43,6 +43,16 @@ const AppContent = () => {
   
   // 습관 목록 상태 관리
   const [habits, setHabits] = useState([]);
+  
+  // 전체 달성률 계산
+  const getOverallProgress = () => {
+    if (habits.length === 0) return 0;
+    
+    const totalDays = habits.length * 30; // 각 습관당 30일 기준
+    const completedDays = habits.reduce((total, habit) => total + habit.completedDates.length, 0);
+    
+    return Math.round((completedDays / totalDays) * 100);
+  };
 
   /**
    * 컴포넌트 마운트 시 로컬 스토리지에서 습관 데이터 로드
@@ -141,9 +151,61 @@ const AppContent = () => {
 
   return (
     <div className="habit-tracker">
-      {/* Theme Toggle */}
-      <div className="theme-toggle-container">
-        <ThemeToggle />
+      {/* Theme Toggle and Progress Bar */}
+      <div className="top-controls">
+        <div className="theme-toggle-container">
+          <ThemeToggle />
+        </div>
+        <div className="progress-tagbar">
+          <div className="progress-info">
+            <span className="progress-percentage">{getOverallProgress()}%</span>
+            <span className="progress-text">전체 달성률</span>
+          </div>
+          <div className="progress-chart-tooltip">
+            <div className="circular-progress">
+              <svg className="progress-ring" width="120" height="120">
+                <circle
+                  className="progress-ring-circle-bg"
+                  stroke="#e2e8f0"
+                  strokeWidth="8"
+                  fill="transparent"
+                  r="52"
+                  cx="60"
+                  cy="60"
+                />
+                <circle
+                  className="progress-ring-circle"
+                  stroke="#4364DE"
+                  strokeWidth="8"
+                  fill="transparent"
+                  r="52"
+                  cx="60"
+                  cy="60"
+                  style={{
+                    strokeDasharray: `${2 * Math.PI * 52}`,
+                    strokeDashoffset: `${2 * Math.PI * 52 * (1 - getOverallProgress() / 100)}`
+                  }}
+                />
+              </svg>
+              <div className="progress-center">
+                <span className="progress-value">{getOverallProgress()}%</span>
+                <span className="progress-label">달성률</span>
+              </div>
+            </div>
+            <div className="progress-details">
+              <div className="progress-stat">
+                <span className="stat-number">{habits.length}</span>
+                <span className="stat-label">습관</span>
+              </div>
+              <div className="progress-stat">
+                <span className="stat-number">
+                  {habits.reduce((total, habit) => total + habit.completedDates.length, 0)}
+                </span>
+                <span className="stat-label">완료일</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       
       {/* 앱 헤더 섹션 */}
@@ -190,19 +252,31 @@ const AppContent = () => {
         <HabitForm addHabit={addHabit} />
       </div>
 
-      {/* 습관 목록 카드 */}
+      {/* 습관 목록, 달성률 차트, 캘린더 카드 */}
       <div className="habit-card">
-        <HabitList 
-          habits={habits} 
-          toggleToday={toggleToday} 
-          deleteHabit={deleteHabit}
-          editHabit={editHabit}
-        />
-      </div>
-
-      {/* 습관 달성률 차트 카드 */}
-      <div className="habit-card">
-        <ProgressChart habits={habits} />
+        <div className="habits-progress-calendar-container">
+          <div className="habits-section">
+            <HabitList 
+              habits={habits} 
+              toggleToday={toggleToday} 
+              deleteHabit={deleteHabit}
+              editHabit={editHabit}
+            />
+          </div>
+          <div className="progress-section">
+            <ProgressChart habits={habits} />
+          </div>
+          <div className="calendar-section">
+            <h3 className="calendar-section-title">전체 달력 보기</h3>
+            <div className="calendar-grid-container">
+              {habits.map((habit) => (
+                <div key={habit.id} className="calendar-item">
+                  <CalendarView habit={habit} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
 

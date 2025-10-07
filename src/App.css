@@ -292,13 +292,41 @@ body {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border-left: 4px solid #4364DE;
+  position: relative;
+  overflow: hidden;
+}
+
+.habit-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(67, 100, 222, 0.1), transparent);
+  transition: left 0.6s ease;
+  z-index: 1;
+}
+
+.habit-item:hover::before {
+  left: 100%;
 }
 
 .habit-item:hover {
-  transform: translateX(5px);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+  transform: translateX(8px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(67, 100, 222, 0.2);
+  border-left-color: #61DAFB;
+}
+
+.habit-item > * {
+  position: relative;
+  z-index: 2;
+}
+
+.habit-info {
+  transition: all 0.3s ease;
 }
 
 .habit-info h3 {
@@ -306,12 +334,24 @@ body {
   color: #202124;
   font-size: 1.3rem;
   font-weight: 600;
+  transition: all 0.3s ease;
 }
 
 .habit-info p {
   margin: 0 0 0.5rem 0;
   color: #808080;
   font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.habit-item:hover .habit-info h3 {
+  color: #4364DE;
+  transform: translateX(5px);
+}
+
+.habit-item:hover .habit-info p {
+  color: #61DAFB;
+  transform: translateX(5px);
 }
 
 .habit-frequency {
@@ -328,6 +368,11 @@ body {
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.habit-item:hover .habit-actions {
+  transform: translateX(-5px);
 }
 
 .habit-button {
@@ -1252,17 +1297,60 @@ body {
     width: 35px;
     height: 35px;
   }
+  
+  /* 상단 컨트롤 반응형 */
+  .top-controls {
+    flex-direction: column;
+    gap: 0.5rem;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+  
+  .progress-tagbar {
+    min-width: 60px;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .progress-percentage {
+    font-size: 0.8rem;
+  }
+  
+  .progress-text {
+    font-size: 0.5rem;
+  }
+  
+  .progress-chart-tooltip {
+    right: -50px;
+    min-width: 180px;
+    padding: 1rem;
+  }
+  
+  .progress-ring {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .progress-value {
+    font-size: 1.2rem;
+  }
 }
 
 /* ========================================
-   테마 토글 버튼 스타일
+   상단 컨트롤 스타일 (테마 토글 + 달성률 태그바)
    ======================================== */
-.theme-toggle-container {
+.top-controls {
   position: fixed;
   top: 1rem;
   right: 1rem;
   z-index: 9999;
   pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.theme-toggle-container {
+  position: relative;
 }
 
 .theme-toggle {
@@ -1300,6 +1388,145 @@ body {
 
 .theme-toggle:hover svg {
   transform: rotate(15deg);
+}
+
+/* 달성률 태그바 스타일 */
+.progress-tagbar {
+  position: relative;
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 65px;
+}
+
+.progress-tagbar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.progress-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.progress-percentage {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #61DAFB;
+  text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
+}
+
+.progress-text {
+  font-size: 0.55rem;
+  color: #cbd5e0;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 호버 시 나타나는 원형 그래프 툴팁 */
+.progress-chart-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 1rem;
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 10000;
+  min-width: 200px;
+}
+
+.progress-tagbar:hover .progress-chart-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 원형 그래프 스타일 */
+.circular-progress {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  transition: all 0.3s ease;
+}
+
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.5s ease;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(67, 100, 222, 0.4));
+}
+
+.progress-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.progress-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #61DAFB;
+  text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
+}
+
+.progress-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #cbd5e0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.25rem;
+}
+
+/* 상세 통계 */
+.progress-details {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.progress-stat {
+  text-align: center;
+}
+
+.stat-number {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #f7fafc;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.7rem;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 0.25rem;
 }
 
 /* ========================================
@@ -1362,13 +1589,17 @@ body.dark .guest-text {
   color: #cbd5e0;
 }
 
-/* 다크모드 - 테마 토글 버튼 */
-body.dark .theme-toggle-container {
+/* 다크모드 - 상단 컨트롤 */
+body.dark .top-controls {
   position: fixed;
   top: 1rem;
   right: 1rem;
   z-index: 9999;
   pointer-events: auto;
+}
+
+body.dark .theme-toggle-container {
+  position: relative;
 }
 
 body.dark .theme-toggle {
@@ -1391,6 +1622,50 @@ body.dark .logout-button {
 
 body.dark .logout-button:hover {
   background: rgba(197, 48, 48, 0.9);
+}
+
+/* 다크모드 - 달성률 태그바 */
+body.dark .progress-tagbar {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .progress-tagbar:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark .progress-percentage {
+  color: #61DAFB;
+  text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
+}
+
+body.dark .progress-text {
+  color: #e2e8f0;
+}
+
+body.dark .progress-chart-tooltip {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+body.dark .progress-value {
+  color: #61DAFB;
+  text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
+}
+
+body.dark .progress-label {
+  color: #e2e8f0;
+}
+
+body.dark .stat-number {
+  color: #f7fafc;
+}
+
+body.dark .stat-label {
+  color: #cbd5e0;
 }
 
 /* 다크모드 - 폼 스타일 */
@@ -1425,11 +1700,18 @@ body.dark .auth-button.primary:hover:not(:disabled) {
 body.dark .habit-item {
   background: rgba(26, 26, 46, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #667eea;
+}
+
+body.dark .habit-item::before {
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
 }
 
 body.dark .habit-item:hover {
   background: rgba(26, 26, 46, 0.8);
   border-color: rgba(255, 255, 255, 0.15);
+  border-left-color: #61DAFB;
+  box-shadow: 0 8px 30px rgba(97, 218, 251, 0.2);
 }
 
 body.dark .habit-item h3 {
@@ -1438,6 +1720,14 @@ body.dark .habit-item h3 {
 
 body.dark .habit-item p {
   color: #cbd5e0;
+}
+
+body.dark .habit-item:hover .habit-info h3 {
+  color: #61DAFB;
+}
+
+body.dark .habit-item:hover .habit-info p {
+  color: #97d4ff;
 }
 
 /* 다크모드 - 체크박스 */
@@ -1579,53 +1869,36 @@ body.dark .user-avatar {
    새로운 레이아웃 스타일
    ======================================== */
 
-/* 습관 아이템과 캘린더를 함께 배치하는 컨테이너 */
-.habit-item-with-calendar {
+/* 습관 목록, 달성률 차트, 캘린더를 함께 배치하는 컨테이너 */
+.habits-progress-calendar-container {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.habit-main-content {
-  display: flex;
-  gap: 1.5rem;
+  gap: 2rem;
   align-items: flex-start;
 }
 
-/* 달력보기 버튼과 달성률을 함께 표시하는 섹션 */
-.calendar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
-  min-width: 120px;
+.habits-section {
+  flex: 1;
+  min-width: 0; /* flex item이 축소될 수 있도록 */
 }
 
-.calendar-button {
+.progress-section {
+  flex: 0 0 300px;
   background: #f8f9fa;
-  color: #6c757d;
-  border: 2px solid #e9ecef;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.calendar-button:hover {
-  background: #e9ecef;
-  border-color: #dee2e6;
-  transform: translateY(-1px);
+.calendar-section {
+  flex: 0 0 350px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.calendar-button.active {
-  background: #4364DE;
-  color: white;
-  border-color: #4364DE;
-  box-shadow: 0 2px 8px rgba(67, 100, 222, 0.3);
-}
 
 /* 달성률 정보 스타일 */
 .achievement-info {
@@ -1655,15 +1928,6 @@ body.dark .user-avatar {
   font-weight: 500;
 }
 
-/* 습관 달성 캘린더 사이드바 */
-.habit-calendar-sidebar {
-  flex: 0 0 280px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 1rem;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
 
 /* 작은 캘린더 컨테이너 */
 .calendar-container-small {
@@ -1728,25 +1992,20 @@ body.dark .user-avatar {
 }
 
 /* 반응형 디자인 - 새로운 레이아웃 */
-@media (max-width: 768px) {
-  .habit-main-content {
+@media (max-width: 1400px) {
+  .habits-progress-calendar-container {
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
   }
   
-  .habit-calendar-sidebar {
+  .progress-section,
+  .calendar-section {
     flex: none;
     width: 100%;
   }
-  
-  .calendar-section {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    min-width: auto;
-    width: 100%;
-  }
-  
+}
+
+@media (max-width: 768px) {
   .achievement-info {
     flex-direction: row;
     gap: 0.5rem;
@@ -1763,10 +2022,12 @@ body.dark .user-avatar {
 }
 
 /* 다크모드 - 새로운 레이아웃 */
-body.dark .habit-calendar-sidebar {
+body.dark .progress-section,
+body.dark .calendar-section {
   background: rgba(26, 26, 46, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 
 body.dark .calendar-title-small {
   color: #f7fafc;
@@ -1785,22 +2046,6 @@ body.dark .calendar-day-small.other-month {
   color: #718096;
 }
 
-body.dark .calendar-button {
-  background: rgba(26, 26, 46, 0.8);
-  color: #cbd5e0;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-body.dark .calendar-button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-body.dark .calendar-button.active {
-  background: #667eea;
-  color: white;
-  border-color: #667eea;
-}
 
 body.dark .achievement-info {
   color: #cbd5e0;
