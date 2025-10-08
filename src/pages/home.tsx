@@ -30,6 +30,9 @@ const Home = () => {
   
   // 목록에서 선택된 습관의 ID 상태 관리 (달성률 위젯용)
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
+  
+  // 달력 보기 상태 관리
+  const [showCalendar, setShowCalendar] = useState(false);
 
   // 선택된 습관 객체 찾기
   const selectedHabit = habits.find((h) => h.id === selectedHabitId);
@@ -58,6 +61,8 @@ const Home = () => {
               deleteHabit={deleteHabit}
               editHabit={editHabit}
               onSelectHabit={(id) => setSelectedHabitId(id)}
+              showCalendar={showCalendar}
+              setShowCalendar={setShowCalendar}
             />
           </div>
         </div>

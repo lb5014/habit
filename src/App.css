@@ -284,6 +284,55 @@ body {
   gap: 1rem;
 }
 
+/* 달력 보기 버튼 스타일 */
+.calendar-toggle-section {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-toggle-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #4364DE 0%, #667eea 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.24);
+}
+
+.calendar-toggle-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(67, 100, 222, 0.4);
+  background: linear-gradient(135deg, #3654C1 0%, #5a67d8 100%);
+}
+
+.calendar-toggle-button.active {
+  background: linear-gradient(135deg, #61DAFB 0%, #97d4ff 100%);
+  color: #2d3748;
+  box-shadow: 0 4px 12px rgba(97, 218, 251, 0.3);
+}
+
+.calendar-toggle-button.active:hover {
+  background: linear-gradient(135deg, #4fc3f7 0%, #81d4fa 100%);
+  box-shadow: 0 6px 20px rgba(97, 218, 251, 0.4);
+}
+
+.calendar-icon {
+  font-size: 1rem;
+}
+
+.calendar-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
 .habit-item {
   background: white;
   border-radius: 16px;
@@ -1334,33 +1383,33 @@ body {
     font-size: 1.2rem;
   }
   
-  /* 완료 현황 태그바 반응형 */
-  .completion-tagbar {
+  /* 차트 태그바 반응형 */
+  .chart-tagbar {
     min-width: 60px;
     padding: 0.3rem 0.5rem;
   }
   
-  .completion-icon {
+  .chart-icon {
     font-size: 0.8rem;
   }
   
-  .completion-text {
+  .chart-text {
     font-size: 0.5rem;
   }
   
-  .completion-chart-tooltip {
+  .chart-tooltip {
     right: -50px;
     min-width: 200px;
     padding: 1rem;
     max-height: 300px;
   }
   
-  .completion-chart-title {
+  .chart-title {
     font-size: 0.9rem;
     margin-bottom: 0.75rem;
   }
   
-  .completion-charts {
+  .chart-content {
     gap: 0.75rem;
   }
   
@@ -1379,6 +1428,20 @@ body {
   .habit-mini-chart svg {
     width: 50px;
     height: 50px;
+  }
+  
+  /* 달력 보기 버튼 반응형 */
+  .calendar-toggle-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
+  
+  .calendar-icon {
+    font-size: 0.9rem;
+  }
+  
+  .calendar-text {
+    font-size: 0.8rem;
   }
 }
 
@@ -1576,8 +1639,8 @@ body {
   margin-top: 0.25rem;
 }
 
-/* 완료 현황 태그바 스타일 */
-.completion-tagbar {
+/* 차트 태그바 스타일 */
+.chart-tagbar {
   position: relative;
   background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
   border-radius: 6px;
@@ -1589,26 +1652,26 @@ body {
   min-width: 65px;
 }
 
-.completion-tagbar:hover {
+.chart-tagbar:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-.completion-info {
+.chart-info {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
 }
 
-.completion-icon {
+.chart-icon {
   font-size: 0.9rem;
   color: #61DAFB;
   text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
 }
 
-.completion-text {
+.chart-text {
   font-size: 0.55rem;
   color: #cbd5e0;
   font-weight: 500;
@@ -1616,8 +1679,8 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* 완료 현황 호버 시 나타나는 차트 툴팁 */
-.completion-chart-tooltip {
+/* 차트 호버 시 나타나는 차트 툴팁 */
+.chart-tooltip {
   position: absolute;
   top: 100%;
   right: 0;
@@ -1638,13 +1701,13 @@ body {
   overflow-y: auto;
 }
 
-.completion-tagbar:hover .completion-chart-tooltip {
+.chart-tagbar:hover .chart-tooltip {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-.completion-chart-title {
+.chart-title {
   font-size: 1rem;
   font-weight: 600;
   color: #f7fafc;
@@ -1654,7 +1717,7 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.completion-charts {
+.chart-content {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -1855,34 +1918,34 @@ body.dark .stat-label {
   color: #cbd5e0;
 }
 
-/* 다크모드 - 완료 현황 태그바 */
-body.dark .completion-tagbar {
+/* 다크모드 - 차트 태그바 */
+body.dark .chart-tagbar {
   background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-body.dark .completion-tagbar:hover {
+body.dark .chart-tagbar:hover {
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-body.dark .completion-icon {
+body.dark .chart-icon {
   color: #61DAFB;
   text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
 }
 
-body.dark .completion-text {
+body.dark .chart-text {
   color: #e2e8f0;
 }
 
-body.dark .completion-chart-tooltip {
+body.dark .chart-tooltip {
   background: rgba(15, 23, 42, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
-body.dark .completion-chart-title {
+body.dark .chart-title {
   color: #f7fafc;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
@@ -2003,6 +2066,28 @@ body.dark .habit-actions button:hover {
 body.dark .habit-actions .delete-button:hover {
   background: rgba(229, 62, 62, 0.8);
   color: white;
+}
+
+/* 다크모드 - 달력 보기 버튼 */
+body.dark .calendar-toggle-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+body.dark .calendar-toggle-button:hover {
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+body.dark .calendar-toggle-button.active {
+  background: linear-gradient(135deg, #61DAFB 0%, #97d4ff 100%);
+  color: #1a202c;
+  box-shadow: 0 4px 12px rgba(97, 218, 251, 0.4);
+}
+
+body.dark .calendar-toggle-button.active:hover {
+  background: linear-gradient(135deg, #4fc3f7 0%, #81d4fa 100%);
+  box-shadow: 0 6px 20px rgba(97, 218, 251, 0.5);
 }
 
 /* 다크모드 - 스트릭 카운터 */
@@ -2128,14 +2213,6 @@ body.dark .user-avatar {
   min-width: 0; /* flex item이 축소될 수 있도록 */
 }
 
-.progress-section {
-  flex: 0 0 300px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 1.5rem;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
 
 .calendar-section {
   flex: 0 0 350px;
@@ -2245,7 +2322,6 @@ body.dark .user-avatar {
     gap: 1.5rem;
   }
   
-  .progress-section,
   .calendar-section {
     flex: none;
     width: 100%;
@@ -2269,7 +2345,6 @@ body.dark .user-avatar {
 }
 
 /* 다크모드 - 새로운 레이아웃 */
-body.dark .progress-section,
 body.dark .calendar-section {
   background: rgba(26, 26, 46, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.1);

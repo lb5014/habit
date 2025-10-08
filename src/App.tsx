@@ -22,7 +22,6 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
-import ProgressChart from "./components/ProgressChart";
 import CalendarView from "./components/CalendarView";
 import ThemeToggle from "./components/ThemeToggle";
 import ProtectedRoute from './routes/ProtectedRoute';
@@ -43,6 +42,9 @@ const AppContent = () => {
   
   // 습관 목록 상태 관리
   const [habits, setHabits] = useState([]);
+  
+  // 달력 보기 상태 관리
+  const [showCalendar, setShowCalendar] = useState(false);
   
   // 전체 달성률 계산
   const getOverallProgress = () => {
@@ -206,14 +208,14 @@ const AppContent = () => {
             </div>
           </div>
         </div>
-        <div className="completion-tagbar">
-          <div className="completion-info">
-            <span className="completion-icon">📊</span>
-            <span className="completion-text">완료 현황</span>
+        <div className="chart-tagbar">
+          <div className="chart-info">
+            <span className="chart-icon">📈</span>
+            <span className="chart-text">차트</span>
           </div>
-          <div className="completion-chart-tooltip">
-            <div className="completion-chart-title">습관별 완료 현황</div>
-            <div className="completion-charts">
+          <div className="chart-tooltip">
+            <div className="chart-title">습관별 완료 현황</div>
+            <div className="chart-content">
               {habits.map((habit) => {
                 const habitProgress = Math.round((habit.completedDates.length / 30) * 100);
                 return (
@@ -309,21 +311,22 @@ const AppContent = () => {
               toggleToday={toggleToday} 
               deleteHabit={deleteHabit}
               editHabit={editHabit}
+              showCalendar={showCalendar}
+              setShowCalendar={setShowCalendar}
             />
           </div>
-          <div className="progress-section">
-            <ProgressChart habits={habits} />
-          </div>
-          <div className="calendar-section">
-            <h3 className="calendar-section-title">전체 달력 보기</h3>
-            <div className="calendar-grid-container">
-              {habits.map((habit) => (
-                <div key={habit.id} className="calendar-item">
-                  <CalendarView habit={habit} />
-                </div>
-              ))}
+          {showCalendar && (
+            <div className="calendar-section">
+              <h3 className="calendar-section-title">전체 달력 보기</h3>
+              <div className="calendar-grid-container">
+                {habits.map((habit) => (
+                  <div key={habit.id} className="calendar-item">
+                    <CalendarView habit={habit} />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 

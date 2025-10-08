@@ -25,6 +25,8 @@ interface Props {
   deleteHabit: (id: string) => void; // 습관 삭제 함수
   editHabit: (id: string, title: string, description: string, frequency: 'daily' | 'weekly') => void; // 습관 수정 함수
   onSelectHabit?: (id: string) => void; // 습관 선택 시 호출 (달성률 위젯 표시용)
+  showCalendar: boolean; // 달력 보기 상태
+  setShowCalendar: (show: boolean) => void; // 달력 보기 상태 변경 함수
 }
 
 /**
@@ -33,7 +35,7 @@ interface Props {
  * @param {Props} props - 컴포넌트 props
  * @returns {JSX.Element} 습관 목록 UI
  */
-const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit }: Props) => {
+const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit, showCalendar, setShowCalendar }: Props) => {
   // 오늘 날짜를 YYYY-MM-DD 형식으로 생성
   const today = new Date().toISOString().split("T")[0];
   
@@ -79,6 +81,19 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit 
 
   return (
     <div className="habit-list">
+      {/* 달력 보기 버튼 */}
+      <div className="calendar-toggle-section">
+        <button 
+          onClick={() => setShowCalendar(!showCalendar)}
+          className={`calendar-toggle-button ${showCalendar ? 'active' : ''}`}
+        >
+          <span className="calendar-icon">📅</span>
+          <span className="calendar-text">
+            {showCalendar ? '달력 숨기기' : '달력 보기'}
+          </span>
+        </button>
+      </div>
+      
       {/* 습관이 없는 경우 안내 메시지 표시 */}
       {habits.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '2rem', color: '#718096' }}>
