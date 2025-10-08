@@ -1333,6 +1333,53 @@ body {
   .progress-value {
     font-size: 1.2rem;
   }
+  
+  /* 완료 현황 태그바 반응형 */
+  .completion-tagbar {
+    min-width: 60px;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .completion-icon {
+    font-size: 0.8rem;
+  }
+  
+  .completion-text {
+    font-size: 0.5rem;
+  }
+  
+  .completion-chart-tooltip {
+    right: -50px;
+    min-width: 200px;
+    padding: 1rem;
+    max-height: 300px;
+  }
+  
+  .completion-chart-title {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .completion-charts {
+    gap: 0.75rem;
+  }
+  
+  .habit-chart-item {
+    padding: 0.5rem;
+  }
+  
+  .habit-name {
+    font-size: 0.7rem;
+  }
+  
+  .habit-progress {
+    font-size: 0.6rem;
+  }
+  
+  .habit-mini-chart svg {
+    width: 50px;
+    height: 50px;
+  }
 }
 
 /* ========================================
@@ -1529,6 +1576,146 @@ body {
   margin-top: 0.25rem;
 }
 
+/* 완료 현황 태그바 스타일 */
+.completion-tagbar {
+  position: relative;
+  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-width: 65px;
+}
+
+.completion-tagbar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.completion-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.completion-icon {
+  font-size: 0.9rem;
+  color: #61DAFB;
+  text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
+}
+
+.completion-text {
+  font-size: 0.55rem;
+  color: #cbd5e0;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* 완료 현황 호버 시 나타나는 차트 툴팁 */
+.completion-chart-tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 1rem;
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 10000;
+  min-width: 250px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.completion-tagbar:hover .completion-chart-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.completion-chart-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f7fafc;
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.completion-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.habit-chart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.habit-chart-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(97, 218, 251, 0.3);
+}
+
+.habit-chart-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.habit-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #f7fafc;
+}
+
+.habit-progress {
+  font-size: 0.7rem;
+  color: #61DAFB;
+  font-weight: 600;
+}
+
+.habit-mini-chart {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.habit-mini-chart svg {
+  transform: rotate(-90deg);
+}
+
+.habit-ring-bg {
+  stroke: #e2e8f0;
+  opacity: 0.3;
+}
+
+.habit-ring {
+  stroke: #61DAFB;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(97, 218, 251, 0.4));
+  transition: stroke-dashoffset 0.5s ease;
+}
+
 /* ========================================
    다크모드 스타일
    ======================================== */
@@ -1666,6 +1853,66 @@ body.dark .stat-number {
 
 body.dark .stat-label {
   color: #cbd5e0;
+}
+
+/* 다크모드 - 완료 현황 태그바 */
+body.dark .completion-tagbar {
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .completion-tagbar:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.dark .completion-icon {
+  color: #61DAFB;
+  text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
+}
+
+body.dark .completion-text {
+  color: #e2e8f0;
+}
+
+body.dark .completion-chart-tooltip {
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+body.dark .completion-chart-title {
+  color: #f7fafc;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark .habit-chart-item {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark .habit-chart-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(97, 218, 251, 0.4);
+}
+
+body.dark .habit-name {
+  color: #f7fafc;
+}
+
+body.dark .habit-progress {
+  color: #61DAFB;
+}
+
+body.dark .habit-ring-bg {
+  stroke: #4a5568;
+  opacity: 0.5;
+}
+
+body.dark .habit-ring {
+  stroke: #61DAFB;
+  filter: drop-shadow(0 0 6px rgba(97, 218, 251, 0.6));
 }
 
 /* 다크모드 - 폼 스타일 */

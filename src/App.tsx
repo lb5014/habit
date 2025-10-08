@@ -206,6 +206,54 @@ const AppContent = () => {
             </div>
           </div>
         </div>
+        <div className="completion-tagbar">
+          <div className="completion-info">
+            <span className="completion-icon">📊</span>
+            <span className="completion-text">완료 현황</span>
+          </div>
+          <div className="completion-chart-tooltip">
+            <div className="completion-chart-title">습관별 완료 현황</div>
+            <div className="completion-charts">
+              {habits.map((habit) => {
+                const habitProgress = Math.round((habit.completedDates.length / 30) * 100);
+                return (
+                  <div key={habit.id} className="habit-chart-item">
+                    <div className="habit-chart-info">
+                      <span className="habit-name">{habit.title}</span>
+                      <span className="habit-progress">{habitProgress}%</span>
+                    </div>
+                    <div className="habit-mini-chart">
+                      <svg width="60" height="60">
+                        <circle
+                          className="habit-ring-bg"
+                          stroke="#e2e8f0"
+                          strokeWidth="4"
+                          fill="transparent"
+                          r="26"
+                          cx="30"
+                          cy="30"
+                        />
+                        <circle
+                          className="habit-ring"
+                          stroke="#61DAFB"
+                          strokeWidth="4"
+                          fill="transparent"
+                          r="26"
+                          cx="30"
+                          cy="30"
+                          style={{
+                            strokeDasharray: `${2 * Math.PI * 26}`,
+                            strokeDashoffset: `${2 * Math.PI * 26 * (1 - habitProgress / 100)}`
+                          }}
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </div>
       
       {/* 앱 헤더 섹션 */}
