@@ -375,6 +375,10 @@ body {
 }
 
 .habit-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -419,6 +423,12 @@ body {
 .habit-item:hover .habit-info p {
   color: #61DAFB;
   transform: translateX(5px);
+}
+
+.frequency-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .habit-frequency {
@@ -875,7 +885,18 @@ body {
   .habit-item {
     flex-direction: column;
     gap: 1rem;
-    text-align: center;
+    text-align: left;
+    align-items: stretch;
+  }
+  
+  .habit-info {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .frequency-section {
+    justify-content: flex-start;
   }
   
   .habit-title-row {
