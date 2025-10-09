@@ -160,8 +160,8 @@ const AppContent = () => {
         </div>
         <div className="progress-tagbar">
           <div className="progress-info">
-            <span className="progress-percentage">{getOverallProgress()}%</span>
-            <span className="progress-text">전체 달성률</span>
+            <span className="progress-icon">📊</span>
+            <span className="progress-text">달성률</span>
           </div>
           <div className="progress-chart-tooltip">
             <div className="circular-progress">

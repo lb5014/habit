@@ -1360,7 +1360,7 @@ body {
     padding: 0.3rem 0.5rem;
   }
   
-  .progress-percentage {
+  .progress-icon {
     font-size: 0.8rem;
   }
   
@@ -1526,9 +1526,8 @@ body {
   gap: 0.25rem;
 }
 
-.progress-percentage {
+.progress-icon {
   font-size: 0.9rem;
-  font-weight: 700;
   color: #61DAFB;
   text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
 }
@@ -1540,6 +1539,8 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+/* 이전 progress-percentage 스타일은 이제 사용하지 않음 */
 
 /* 호버 시 나타나는 원형 그래프 툴팁 */
 .progress-chart-tooltip {
@@ -1886,7 +1887,7 @@ body.dark .progress-tagbar:hover {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-body.dark .progress-percentage {
+body.dark .progress-icon {
   color: #61DAFB;
   text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
 }
