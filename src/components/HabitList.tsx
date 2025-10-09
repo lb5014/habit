@@ -81,18 +81,6 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
 
   return (
     <div className="habit-list">
-      {/* 달력 보기 버튼 */}
-      <div className="calendar-toggle-section">
-        <button 
-          onClick={() => setShowCalendar(!showCalendar)}
-          className={`calendar-toggle-button ${showCalendar ? 'active' : ''}`}
-        >
-          <span className="calendar-icon">📅</span>
-          <span className="calendar-text">
-            {showCalendar ? '달력 숨기기' : '달력 보기'}
-          </span>
-        </button>
-      </div>
       
       {/* 습관이 없는 경우 안내 메시지 표시 */}
       {habits.length === 0 ? (
@@ -156,7 +144,18 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
                     <div className="habit-info">
                       <h3>{habit.title}</h3>
                       <p>{habit.description}</p>
-                      <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
+                      <div className="frequency-section">
+                        <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
+                        <button 
+                          onClick={() => setShowCalendar(!showCalendar)}
+                          className={`calendar-toggle-button ${showCalendar ? 'active' : ''}`}
+                        >
+                          <span className="calendar-icon">📅</span>
+                          <span className="calendar-text">
+                            {showCalendar ? '달력 숨기기' : '달력 보기'}
+                          </span>
+                        </button>
+                      </div>
                     </div>
                     
                     {/* 습관 액션 버튼들 */}
