@@ -376,18 +376,36 @@ body {
 
 .habit-info {
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.habit-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.habit-title-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .habit-info h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   color: #202124;
   font-size: 1.3rem;
   font-weight: 600;
   transition: all 0.3s ease;
+  flex: 1;
 }
 
 .habit-info p {
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   color: #808080;
   font-size: 0.9rem;
   transition: all 0.3s ease;
@@ -411,6 +429,7 @@ body {
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 500;
+  flex-shrink: 0;
 }
 
 .habit-actions {
@@ -857,6 +876,17 @@ body {
     flex-direction: column;
     gap: 1rem;
     text-align: center;
+  }
+  
+  .habit-title-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .habit-info h3 {
+    font-size: 1.1rem;
   }
   
   .habit-actions {
@@ -1360,7 +1390,7 @@ body {
     padding: 0.3rem 0.5rem;
   }
   
-  .progress-percentage {
+  .progress-icon {
     font-size: 0.8rem;
   }
   
@@ -1526,9 +1556,8 @@ body {
   gap: 0.25rem;
 }
 
-.progress-percentage {
+.progress-icon {
   font-size: 0.9rem;
-  font-weight: 700;
   color: #61DAFB;
   text-shadow: 0 0 10px rgba(97, 218, 251, 0.5);
 }
@@ -1540,6 +1569,8 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
+/* 이전 progress-percentage 스타일은 이제 사용하지 않음 */
 
 /* 호버 시 나타나는 원형 그래프 툴팁 */
 .progress-chart-tooltip {
@@ -1886,7 +1917,7 @@ body.dark .progress-tagbar:hover {
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-body.dark .progress-percentage {
+body.dark .progress-icon {
   color: #61DAFB;
   text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
 }
