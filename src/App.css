@@ -375,11 +375,15 @@ body {
 }
 
 .habit-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
   transition: all 0.3s ease;
 }
 
 .habit-info h3 {
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   color: #202124;
   font-size: 1.3rem;
   font-weight: 600;
@@ -387,7 +391,7 @@ body {
 }
 
 .habit-info p {
-  margin: 0 0 0.5rem 0;
+  margin: 0;
   color: #808080;
   font-size: 0.9rem;
   transition: all 0.3s ease;
@@ -401,6 +405,12 @@ body {
 .habit-item:hover .habit-info p {
   color: #61DAFB;
   transform: translateX(5px);
+}
+
+.frequency-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .habit-frequency {
@@ -856,7 +866,18 @@ body {
   .habit-item {
     flex-direction: column;
     gap: 1rem;
-    text-align: center;
+    text-align: left;
+    align-items: stretch;
+  }
+  
+  .habit-info {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .frequency-section {
+    justify-content: flex-start;
   }
   
   .habit-actions {
