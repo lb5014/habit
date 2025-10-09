@@ -291,6 +291,27 @@ body {
   justify-content: center;
 }
 
+/* 습관 목록 헤더 스타일 */
+.habit-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.header-left .header-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
 .calendar-toggle-button {
   display: flex;
   align-items: center;
@@ -1799,6 +1820,10 @@ body.dark .habit-title {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+body.dark .header-title {
+  color: #f7fafc;
+}
+
 body.dark .habit-subtitle {
   color: #cbd5e0;
 }
@@ -2088,6 +2113,11 @@ body.dark .calendar-toggle-button.active {
 body.dark .calendar-toggle-button.active:hover {
   background: linear-gradient(135deg, #4fc3f7 0%, #81d4fa 100%);
   box-shadow: 0 6px 20px rgba(97, 218, 251, 0.5);
+}
+
+/* 다크모드 - 습관 목록 헤더 */
+body.dark .header-left .header-title {
+  color: #e2e8f0;
 }
 
 /* 다크모드 - 스트릭 카운터 */
