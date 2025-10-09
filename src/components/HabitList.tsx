@@ -81,27 +81,33 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
 
   return (
     <div className="habit-list">
-      {/* 달력 보기 버튼 */}
-      <div className="calendar-toggle-section">
-        <button 
-          onClick={() => setShowCalendar(!showCalendar)}
-          className={`calendar-toggle-button ${showCalendar ? 'active' : ''}`}
-        >
-          <span className="calendar-icon">📅</span>
-          <span className="calendar-text">
-            {showCalendar ? '달력 숨기기' : '달력 보기'}
-          </span>
-        </button>
-      </div>
-      
       {/* 습관이 없는 경우 안내 메시지 표시 */}
       {habits.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '2rem', color: '#718096' }}>
           <p>아직 등록된 습관이 없습니다. 새로운 습관을 추가해보세요!</p>
         </div>
       ) : (
-        /* 습관 목록 렌더링 */
-        habits.map((habit) => {
+        <>
+          {/* 습관 목록 헤더 */}
+          <div className="habit-list-header">
+            <div className="header-left">
+              <span className="header-title">습관 목록</span>
+            </div>
+            <div className="header-right">
+              <button 
+                onClick={() => setShowCalendar(!showCalendar)}
+                className={`calendar-toggle-button ${showCalendar ? 'active' : ''}`}
+              >
+                <span className="calendar-icon">📅</span>
+                <span className="calendar-text">
+                  {showCalendar ? '달력 숨기기' : '달력 보기'}
+                </span>
+              </button>
+            </div>
+          </div>
+          
+          {/* 습관 목록 렌더링 */}
+          {habits.map((habit) => {
           const doneToday = habit.completedDates.includes(today); // 오늘 완료 여부 확인
           const isEditing = editingId === habit.id; // 현재 편집 중인 습관인지 확인
 
@@ -192,7 +198,8 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
               </div>
             </div>
           );
-        })
+        })}
+        </>
       )}
     </div>
   );
