@@ -378,20 +378,12 @@ body {
   transition: all 0.3s ease;
 }
 
-.habit-title-row {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-}
-
 .habit-info h3 {
-  margin: 0;
+  margin: 0 0 0.5rem 0;
   color: #202124;
   font-size: 1.3rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  flex: 1;
 }
 
 .habit-info p {
@@ -419,7 +411,6 @@ body {
   border-radius: 12px;
   font-size: 0.8rem;
   font-weight: 500;
-  flex-shrink: 0;
 }
 
 .habit-actions {
@@ -865,17 +856,6 @@ body {
   .habit-item {
     flex-direction: column;
     gap: 1rem;
-    text-align: center;
-  }
-  
-  .habit-title-row {
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
-    align-items: center;
-  }
-  
-  .habit-info h3 {
     text-align: center;
   }
   

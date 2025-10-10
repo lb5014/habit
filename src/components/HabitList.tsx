@@ -154,11 +154,9 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
                   <>
                     {/* 습관 정보 섹션 */}
                     <div className="habit-info">
-                      <div className="habit-title-row">
-                        <h3>{habit.title}</h3>
-                        <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
-                      </div>
+                      <h3>{habit.title}</h3>
                       <p>{habit.description}</p>
+                      <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
                     </div>
                     
                     {/* 습관 액션 버튼들 */}
