@@ -1,89 +1,187 @@
-/**
- * 습관 추가를 위한 폼 컴포넌트
- * 
- * 사용자가 새로운 습관을 추가할 수 있는 입력 폼을 제공합니다.
- * 습관 제목, 설명, 빈도를 입력받아 상위 컴포넌트로 전달합니다.
- * 
- * @author 습관 추적기 개발팀
- * @version 1.0.0
- */
-
-// React와 필요한 훅 import
 import React, { useState } from "react";
+import { Schedule, DayOfWeek } from "../types/habit";
 
-/**
- * HabitForm 컴포넌트의 Props 타입 정의
- */
 interface Props {
-  addHabit: (title: string, description: string, frequency: 'daily' | 'weekly') => void;
+  addHabit: (
+    title: string,
+    description: string,
+    schedule: Schedule,
+    notificationOn: boolean,
+    notificationTime?: string
+  ) => void;
 }
 
-/**
- * 습관 추가 폼 컴포넌트
- * 
- * @param {Props} props - 컴포넌트 props
- * @param {Function} props.addHabit - 습관 추가 함수
- * @returns {JSX.Element} 습관 추가 폼 UI
- */
 const HabitForm = ({ addHabit }: Props) => {
-  // 폼 입력 상태 관리
-  const [title, setTitle] = useState(""); // 습관 제목
-  const [description, setDescription] = useState(""); // 습관 설명
-  const [frequency, setFrequency] = useState("daily"); // 습관 빈도 (기본값: 매일)
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [scheduleType, setScheduleType] = useState<'daily' | 'weekly'>("daily");
+  const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
+  const [notificationOn, setNotificationOn] = useState(false);
+  const [notificationTime, setNotificationTime] = useState("09:00");
 
-  /**
-   * 폼 제출 처리 함수
-   * 
-   * @param {any} e - 폼 제출 이벤트
-   */
-  const handleSubmit = (e: any) => {
-    e.preventDefault(); // 기본 폼 제출 동작 방지
-    
-    // 제목이 비어있으면 제출하지 않음
-    if (!title) return;
-    
-    // 습관 추가
-    addHabit(title, description, frequency);
-    
-    // 폼 초기화
+  const weekDays: { label: string; value: DayOfWeek }[] = [
+    { label: "월", value: 1 }, { label: "화", value: 2 }, { label: "수", value: 3 },
+    { label: "목", value: 4 }, { label: "금", value: 5 }, { label: "토", value: 6 }, { label: "일", value: 0 },
+  ];
+
+  const handleDayClick = (day: DayOfWeek) => {
+    setSelectedDays(prev => 
+      prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
+    );
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) return;
+    if (scheduleType === 'weekly' && selectedDays.length === 0) {
+      alert("요일을 하나 이상 선택해주세요.");
+      return;
+    }
+
+    const schedule: Schedule = scheduleType === 'daily'
+      ? { type: 'daily' }
+      : { type: 'weekly', days: selectedDays.sort() };
+
+    addHabit(title, description, schedule, notificationOn, notificationTime);
+
     setTitle("");
     setDescription("");
+    setScheduleType("daily");
+    setSelectedDays([]);
+    setNotificationOn(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="habit-form">
-      <div className="form-row">
-        {/* 습관 제목 입력 필드 */}
-        <input
-          type="text"
-          placeholder="습관 이름"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="form-input"
-        />
+      {/* 습관 기본 정보 섹션 */}
+      <div className="form-section">
+        <div className="form-section-header">
+          <h4>기본 정보</h4>
+          <p>새로운 습관의 이름과 설명을 입력하세요</p>
+        </div>
         
-        {/* 습관 설명 입력 필드 */}
-        <input
-          type="text"
-          placeholder="설명 (선택)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="form-input"
-        />
+        <div className="form-group">
+          <label className="form-label">
+            <span className="label-text">습관 이름</span>
+            <span className="label-required">*</span>
+          </label>
+          <input 
+            type="text" 
+            className="form-input" 
+            placeholder="예: 아침 7시 기상, 물 2L 마시기, 운동 30분" 
+            value={title} 
+            onChange={(e) => setTitle(e.target.value)} 
+            required 
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="form-label">
+            <span className="label-text">설명 (선택)</span>
+          </label>
+          <input 
+            type="text" 
+            className="form-input" 
+            placeholder="습관에 대한 추가 설명이나 목표를 입력하세요" 
+            value={description} 
+            onChange={(e) => setDescription(e.target.value)} 
+          />
+        </div>
+      </div>
+
+      {/* 주기 설정 섹션 */}
+      <div className="form-section">
+        <div className="form-section-header">
+          <h4>실행 주기</h4>
+          <p>이 습관을 얼마나 자주 실행할지 선택하세요</p>
+        </div>
+
+        <div className="schedule-type-selector">
+          <button
+            type="button"
+            className={`schedule-type-button ${scheduleType === 'daily' ? 'active' : ''}`}
+            onClick={() => setScheduleType('daily')}
+          >
+            <div className="button-icon">📅</div>
+            <div className="button-content">
+              <span className="button-title">매일</span>
+              <span className="button-description">매일 실행</span>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            className={`schedule-type-button ${scheduleType === 'weekly' ? 'active' : ''}`}
+            onClick={() => setScheduleType('weekly')}
+          >
+            <div className="button-icon">📆</div>
+            <div className="button-content">
+              <span className="button-title">요일별</span>
+              <span className="button-description">특정 요일에만</span>
+            </div>
+          </button>
+        </div>
         
-        {/* 습관 빈도 선택 드롭다운 */}
-        <select
-          value={frequency}
-          onChange={(e) => setFrequency(e.target.value as 'daily' | 'weekly')}
-          className="form-select"
-        >
-          <option value="daily">매일</option>
-          <option value="weekly">주간</option>
-        </select>
-        
-        {/* 습관 추가 버튼 */}
-        <button type="submit" className="form-button">
-          추가
+        {scheduleType === 'weekly' && (
+          <div className="day-selector-container">
+            <label className="form-label">실행 요일 선택</label>
+            <div className="day-selector">
+              {weekDays.map(day => (
+                <button
+                  type="button"
+                  key={day.value}
+                  onClick={() => handleDayClick(day.value)}
+                  className={`day-button ${selectedDays.includes(day.value) ? 'selected' : ''}`}
+                >
+                  {day.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* 알림 설정 섹션 */}
+      <div className="form-section">
+        <div className="form-section-header">
+          <h4>알림 설정</h4>
+          <p>습관 실행을 위한 알림을 설정하세요</p>
+        </div>
+
+        <div className="notification-setting">
+          <div className="notification-toggle">
+            <input 
+              type="checkbox" 
+              id="notification-toggle"
+              className="custom-checkbox" 
+              checked={notificationOn} 
+              onChange={(e) => setNotificationOn(e.target.checked)} 
+            />
+            <label htmlFor="notification-toggle" className="notification-label">
+              <span className="label-text">알림 받기</span>
+              <span className="label-description">매일 알림을 받아서 습관을 잊지 않게 도와드려요</span>
+            </label>
+          </div>
+          
+          {notificationOn && (
+            <div className="notification-time">
+              <label className="form-label">알림 시간</label>
+              <input 
+                type="time" 
+                className="form-input time-input" 
+                value={notificationTime} 
+                onChange={(e) => setNotificationTime(e.target.value)} 
+              />
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* 제출 버튼 */}
+      <div className="form-actions">
+        <button type="submit" className="form-button primary">
+          <span className="button-icon">✨</span>
+          <span>습관 만들기</span>
         </button>
       </div>
     </form>

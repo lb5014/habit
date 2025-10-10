@@ -54,7 +54,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         const currentUser: User = {
-          id: firebaseUser.uid,
+          uid: firebaseUser.uid,
           email: firebaseUser.email || '',
           name: firebaseUser.displayName || firebaseUser.email || '사용자',
           createdAt: firebaseUser.metadata?.creationTime || new Date().toISOString(),
