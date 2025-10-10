@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY as string,
@@ -18,6 +19,7 @@ const app = initializeApp(firebaseConfig);
 // 개발/테스트 환경에서도 호출 가능한 형태로 유지
 export const analytics = getAnalytics(app);
 export const auth = getAuth(app);
+export const db = getDatabase(app);
 export default app;
 
 

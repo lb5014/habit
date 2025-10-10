@@ -61,8 +61,6 @@ const Home = () => {
               deleteHabit={deleteHabit}
               editHabit={editHabit}
               onSelectHabit={(id) => setSelectedHabitId(id)}
-              showCalendar={showCalendar}
-              setShowCalendar={setShowCalendar}
             />
           </div>
         </div>

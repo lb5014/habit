@@ -1,91 +1,110 @@
-/**
- * 습관 추가를 위한 폼 컴포넌트
- * 
- * 사용자가 새로운 습관을 추가할 수 있는 입력 폼을 제공합니다.
- * 습관 제목, 설명, 빈도를 입력받아 상위 컴포넌트로 전달합니다.
- * 
- * @author 습관 추적기 개발팀
- * @version 1.0.0
- */
-
-// React와 필요한 훅 import
 import React, { useState } from "react";
+import { Schedule, DayOfWeek } from "../types/habit";
 
-/**
- * HabitForm 컴포넌트의 Props 타입 정의
- */
 interface Props {
-  addHabit: (title: string, description: string, frequency: 'daily' | 'weekly') => void;
+  addHabit: (
+    title: string,
+    description: string,
+    schedule: Schedule,
+    notificationOn: boolean,
+    notificationTime?: string
+  ) => void;
 }
 
-/**
- * 습관 추가 폼 컴포넌트
- * 
- * @param {Props} props - 컴포넌트 props
- * @param {Function} props.addHabit - 습관 추가 함수
- * @returns {JSX.Element} 습관 추가 폼 UI
- */
 const HabitForm = ({ addHabit }: Props) => {
-  // 폼 입력 상태 관리
-  const [title, setTitle] = useState(""); // 습관 제목
-  const [description, setDescription] = useState(""); // 습관 설명
-  const [frequency, setFrequency] = useState("daily"); // 습관 빈도 (기본값: 매일)
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [scheduleType, setScheduleType] = useState<'daily' | 'weekly'>("daily");
+  const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
+  const [notificationOn, setNotificationOn] = useState(false);
+  const [notificationTime, setNotificationTime] = useState("09:00");
 
-  /**
-   * 폼 제출 처리 함수
-   * 
-   * @param {any} e - 폼 제출 이벤트
-   */
-  const handleSubmit = (e: any) => {
-    e.preventDefault(); // 기본 폼 제출 동작 방지
-    
-    // 제목이 비어있으면 제출하지 않음
-    if (!title) return;
-    
-    // 습관 추가
-    addHabit(title, description, frequency);
-    
-    // 폼 초기화
+  const weekDays: { label: string; value: DayOfWeek }[] = [
+    { label: "월", value: 1 }, { label: "화", value: 2 }, { label: "수", value: 3 },
+    { label: "목", value: 4 }, { label: "금", value: 5 }, { label: "토", value: 6 }, { label: "일", value: 0 },
+  ];
+
+  const handleDayClick = (day: DayOfWeek) => {
+    setSelectedDays(prev => 
+      prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
+    );
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title.trim()) return;
+    if (scheduleType === 'weekly' && selectedDays.length === 0) {
+      alert("요일을 하나 이상 선택해주세요.");
+      return;
+    }
+
+    const schedule: Schedule = scheduleType === 'daily'
+      ? { type: 'daily' }
+      : { type: 'weekly', days: selectedDays.sort() };
+
+    addHabit(title, description, schedule, notificationOn, notificationTime);
+
     setTitle("");
     setDescription("");
+    setScheduleType("daily");
+    setSelectedDays([]);
+    setNotificationOn(false);
   };
 
   return (
+    // [수정됨] form-row 클래스를 사용하여 입력 필드를 가로로 배치
     <form onSubmit={handleSubmit} className="habit-form">
       <div className="form-row">
-        {/* 습관 제목 입력 필드 */}
-        <input
-          type="text"
-          placeholder="습관 이름"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="form-input"
-        />
-        
-        {/* 습관 설명 입력 필드 */}
-        <input
-          type="text"
-          placeholder="설명 (선택)"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          className="form-input"
-        />
-        
-        {/* 습관 빈도 선택 드롭다운 */}
-        <select
-          value={frequency}
-          onChange={(e) => setFrequency(e.target.value as 'daily' | 'weekly')}
-          className="form-select"
-        >
-          <option value="daily">매일</option>
-          <option value="weekly">주간</option>
-        </select>
-        
-        {/* 습관 추가 버튼 */}
-        <button type="submit" className="form-button">
-          추가
-        </button>
+        {/* [수정됨] form-input 클래스 적용 */}
+        <input type="text" className="form-input" placeholder="습관 이름 (예: 아침 7시 기상)" value={title} onChange={(e) => setTitle(e.target.value)} required />
+        <input type="text" className="form-input" placeholder="설명 (선택)" value={description} onChange={(e) => setDescription(e.target.value)} />
       </div>
+
+      <div className="form-group form-group-horizontal">
+        {/* [수정됨] form-label 클래스 적용 */}
+        <label className="form-label">주기:</label>
+        {/* [수정됨] form-select 클래스 적용 */}
+        <select className="form-select" value={scheduleType} onChange={(e) => setScheduleType(e.target.value as 'daily' | 'weekly')}>
+          <option value="daily">매일</option>
+          <option value="weekly">요일별</option>
+        </select>
+      </div>
+      
+      {scheduleType === 'weekly' && (
+        <div className="day-selector">
+          {weekDays.map(day => (
+            // [수정됨] selection-button 클래스 적용
+            <button
+              type="button"
+              key={day.value}
+              onClick={() => handleDayClick(day.value)}
+              className={`selection-button ${selectedDays.includes(day.value) ? 'active' : ''}`}
+            >
+              {day.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* 3단계: 알림 설정 */}
+      <div className="form-group form-group-horizontal">
+        <label className="form-label">알림:</label>
+        
+        {/* [수정됨] className="custom-checkbox" 추가 */}
+        <input 
+          type="checkbox" 
+          className="custom-checkbox" 
+          checked={notificationOn} 
+          onChange={(e) => setNotificationOn(e.target.checked)} 
+        />
+        
+        {notificationOn && (
+          <input type="time" className="form-input" value={notificationTime} onChange={(e) => setNotificationTime(e.target.value)} />
+        )}
+      </div>
+      
+      {/* [수정됨] form-button 클래스 적용 (기존 submit-button -> form-button) */}
+      <button type="submit" className="form-button">습관 추가</button>
     </form>
   );
 };
