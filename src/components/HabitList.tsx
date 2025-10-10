@@ -40,8 +40,11 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
   const today = new Date().toISOString().split("T")[0];
   
   // 편집 상태 관리
-  const [editingId, setEditingId] = useState(null); // 현재 편집 중인 습관의 ID
-  const [editForm, setEditForm] = useState({ title: '', description: '', frequency: 'daily' }); // 편집 폼 데이터
+  const [editingId, setEditingId] = useState<string | null>(null); // 현재 편집 중인 습관의 ID
+  const [editForm, setEditForm] = useState({ title: '', description: '', frequency: 'daily' as 'daily' | 'weekly' }); // 편집 폼 데이터
+  
+  // 각 습관별 달력 보기 상태 관리
+  const [individualCalendarStates, setIndividualCalendarStates] = useState<Record<string, boolean>>({}); // 각 습관의 달력 상태를 개별 관리
   
 
   /**
@@ -49,7 +52,7 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
    * 
    * @param {Habit} habit - 편집할 습관 객체
    */
-  const startEdit = (habit) => {
+  const startEdit = (habit: Habit) => {
     setEditingId(habit.id);
     setEditForm({
       title: habit.title,
@@ -78,21 +81,21 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
     setEditForm({ title: '', description: '', frequency: 'daily' });
   };
 
+  /**
+   * 개별 습관의 달력 보기 상태를 토글하는 함수
+   * 
+   * @param {string} habitId - 토글할 습관의 ID
+   */
+  const toggleIndividualCalendar = (habitId: string) => {
+    setIndividualCalendarStates(prev => ({
+      ...prev,
+      [habitId]: !prev[habitId]
+    }));
+  };
+
 
   return (
     <div className="habit-list">
-      {/* 달력 보기 버튼 */}
-      <div className="calendar-toggle-section">
-        <button 
-          onClick={() => setShowCalendar(!showCalendar)}
-          className={`calendar-toggle-button ${showCalendar ? 'active' : ''}`}
-        >
-          <span className="calendar-icon">📅</span>
-          <span className="calendar-text">
-            {showCalendar ? '달력 숨기기' : '달력 보기'}
-          </span>
-        </button>
-      </div>
       
       {/* 습관이 없는 경우 안내 메시지 표시 */}
       {habits.length === 0 ? (
@@ -106,91 +109,109 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
           const isEditing = editingId === habit.id; // 현재 편집 중인 습관인지 확인
 
           return (
-            <div key={habit.id} className="habit-item">
-              <div onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
-                {/* 편집 모드일 때 표시되는 편집 폼 */}
-                {isEditing ? (
-                  <div className="habit-edit-form">
-                    {/* 습관 제목 편집 필드 */}
-                    <input
-                      type="text"
-                      value={editForm.title}
-                      onChange={(e) => setEditForm({...editForm, title: e.target.value})}
-                      className="form-input"
-                      placeholder="습관 이름"
-                    />
-                    
-                    {/* 습관 설명 편집 필드 */}
-                    <input
-                      type="text"
-                      value={editForm.description}
-                      onChange={(e) => setEditForm({...editForm, description: e.target.value})}
-                      className="form-input"
-                      placeholder="설명"
-                    />
-                    
-                    {/* 습관 빈도 편집 드롭다운 */}
-                    <select
-                      value={editForm.frequency}
-                      onChange={(e) => setEditForm({...editForm, frequency: e.target.value})}
-                      className="form-select"
-                    >
-                      <option value="daily">매일</option>
-                      <option value="weekly">주간</option>
-                    </select>
-                    
-                    {/* 편집 액션 버튼들 */}
-                    <div className="edit-buttons">
-                      <button onClick={saveEdit} className="form-button save-button">
-                        저장
-                      </button>
-                      <button onClick={cancelEdit} className="form-button cancel-button">
-                        취소
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  /* 일반 보기 모드 */
-                  <>
-                    {/* 습관 정보 섹션 */}
-                    <div className="habit-info">
-                      <h3>{habit.title}</h3>
-                      <p>{habit.description}</p>
-                      <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
-                    </div>
-                    
-                    {/* 습관 액션 버튼들 */}
-                    <div className="habit-actions">
-                      {/* 오늘 완료 상태 토글 버튼 */}
-                      <button
-                        onClick={() => toggleToday(habit.id)}
-                        className={`habit-button ${doneToday ? "completed" : "pending"}`}
+            <React.Fragment key={habit.id}>
+              <div className="habit-item">
+                <div onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
+                  {/* 편집 모드일 때 표시되는 편집 폼 */}
+                  {isEditing ? (
+                    <div className="habit-edit-form">
+                      {/* 습관 제목 편집 필드 */}
+                      <input
+                        type="text"
+                        value={editForm.title}
+                        onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                        className="form-input"
+                        placeholder="습관 이름"
+                      />
+                      
+                      {/* 습관 설명 편집 필드 */}
+                      <input
+                        type="text"
+                        value={editForm.description}
+                        onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                        className="form-input"
+                        placeholder="설명"
+                      />
+                      
+                      {/* 습관 빈도 편집 드롭다운 */}
+                      <select
+                        value={editForm.frequency}
+                        onChange={(e) => setEditForm({...editForm, frequency: e.target.value})}
+                        className="form-select"
                       >
-                        {doneToday ? "완료!" : "오늘 체크"}
-                      </button>
+                        <option value="daily">매일</option>
+                        <option value="weekly">주간</option>
+                      </select>
                       
-                      
-                      {/* 드롭다운 메뉴 */}
-                      <div className="dropdown">
-                        <button className="dropdown-toggle">
-                          ⋯
+                      {/* 편집 액션 버튼들 */}
+                      <div className="edit-buttons">
+                        <button onClick={saveEdit} className="form-button save-button">
+                          저장
                         </button>
-                        <div className="dropdown-menu">
-                          {/* 수정 버튼 */}
-                          <button onClick={() => startEdit(habit)} className="dropdown-item">
-                            수정
-                          </button>
-                          {/* 삭제 버튼 */}
-                          <button onClick={() => deleteHabit(habit.id)} className="dropdown-item delete">
-                            삭제
+                        <button onClick={cancelEdit} className="form-button cancel-button">
+                          취소
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    /* 일반 보기 모드 */
+                    <>
+                      {/* 습관 정보 섹션 */}
+                      <div className="habit-info">
+                        <h3>{habit.title}</h3>
+                        <p>{habit.description}</p>
+                        <div className="frequency-section">
+                          <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
+                          <button 
+                            onClick={() => toggleIndividualCalendar(habit.id)}
+                            className={`calendar-toggle-button ${individualCalendarStates[habit.id] ? 'active' : ''}`}
+                          >
+                            <span className="calendar-icon">📅</span>
+                            <span className="calendar-text">
+                              {individualCalendarStates[habit.id] ? '달력 숨기기' : '달력 보기'}
+                            </span>
                           </button>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
+                      
+                      {/* 습관 액션 버튼들 */}
+                      <div className="habit-actions">
+                        {/* 오늘 완료 상태 토글 버튼 */}
+                        <button
+                          onClick={() => toggleToday(habit.id)}
+                          className={`habit-button ${doneToday ? "completed" : "pending"}`}
+                        >
+                          {doneToday ? "완료!" : "오늘 체크"}
+                        </button>
+                        
+                        
+                        {/* 드롭다운 메뉴 */}
+                        <div className="dropdown">
+                          <button className="dropdown-toggle">
+                            ⋯
+                          </button>
+                          <div className="dropdown-menu">
+                            {/* 수정 버튼 */}
+                            <button onClick={() => startEdit(habit)} className="dropdown-item">
+                              수정
+                            </button>
+                            {/* 삭제 버튼 */}
+                            <button onClick={() => deleteHabit(habit.id)} className="dropdown-item delete">
+                              삭제
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
+              
+              {/* 개별 달력 표시 */}
+              {individualCalendarStates[habit.id] && (
+                <CalendarView selectedHabit={habit} />
+              )}
+            </React.Fragment>
           );
         })
       )}
