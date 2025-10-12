@@ -3,14 +3,24 @@
   "name": "Building Habit - 습관 관리 앱",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "24x24",
-      "type": "image/x-icon"
+      "src": "logo.svg",
+      "sizes": "58x58",
+      "type": "image/svg+xml"
     },
     {
-      "src": "logo.png",
+      "src": "logo.svg",
       "type": "image/png",
-      "sizes": "24x24"
+      "sizes": "58x58"
+    },
+    {
+      "src": "logo.svg",
+      "type": "image/png",
+      "sizes": "58x58"
+    },
+    {
+      "src": "logo.svg",
+      "type": "image/png",
+      "sizes": "58x58"
     }
   ],
   "start_url": ".",
