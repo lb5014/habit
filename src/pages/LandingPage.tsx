@@ -1,21 +1,22 @@
 /**
  * Building Habit 랜딩 페이지 컴포넌트 - 모던 디자인
- * 
+ *
  * 깔끔하고 모던한 디자인으로 서비스 소개 및 사용자 유도를 위한 랜딩 페이지입니다.
  * Hero 섹션, 문제 제기, 솔루션, 기능 소개, CTA, 푸터로 구성됩니다.
- * 
+ *
  * @author Building Habit 개발팀
- * @version 2.0.0
+ * @version 2.2.0 (로고 업데이트)
  */
 
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
+import logo from '../assets/logo.png'; // src/assets/logo.png 파일을 import합니다.
 
 /**
  * 랜딩 페이지 메인 컴포넌트
- * 
+ *
  * @returns {JSX.Element} 랜딩 페이지 UI
  */
 const LandingPage: React.FC = () => {
@@ -42,8 +43,11 @@ const LandingPage: React.FC = () => {
       <section className="hero-section">
         <div className="hero-container">
           <div className="hero-content">
-            <h1 className="hero-title">
-              Building Habi<span className="hammer-icon">🔨</span>
+            <h1 className="hero-title" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+              <img src={logo} alt="Building Habit 로고" style={{ height: '60px' }} />
+              <span>
+                Building Habi<span className="hammer-icon">🔨</span>
+              </span>
             </h1>
             <p className="hero-subtitle">
               작은 습관이 큰 변화를 만든다
@@ -54,13 +58,13 @@ const LandingPage: React.FC = () => {
               꾸준한 습관 형성의 첫걸음을 함께 시작해보세요.
             </p>
             <div className="hero-buttons">
-              <button 
+              <button
                 className="btn btn-primary btn-large"
                 onClick={handleGetStarted}
               >
                 무료로 시작하기
               </button>
-              <button 
+              <button
                 className="btn btn-secondary btn-large"
                 onClick={handleLogin}
               >
@@ -89,8 +93,8 @@ const LandingPage: React.FC = () => {
                   <div className="mockup-calendar">
                     <div className="calendar-grid">
                       {[...Array(30)].map((_, i) => (
-                        <div 
-                          key={i} 
+                        <div
+                          key={i}
                           className={`calendar-day ${i % 4 === 0 ? 'completed' : ''}`}
                         ></div>
                       ))}
@@ -243,13 +247,13 @@ const LandingPage: React.FC = () => {
               무료로 시작하고 당신의 새로운 습관을 만들어보세요.
             </p>
             <div className="cta-buttons">
-              <button 
+              <button
                 className="btn btn-accent btn-large"
                 onClick={handleGetStarted}
               >
                 무료로 시작하기
               </button>
-              <button 
+              <button
                 className="btn btn-secondary btn-large"
                 onClick={handleLogin}
               >
@@ -265,7 +269,12 @@ const LandingPage: React.FC = () => {
         <div className="container">
           <div className="footer-content">
             <div className="footer-brand">
-              <h3>Building Habi<span className="hammer-icon">🔨</span></h3>
+              <h3 style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <img src={logo} alt="Building Habit 로고" style={{ height: '30px' }} />
+                <span>
+                  Building Habi<span className="hammer-icon">🔨</span>
+                </span>
+              </h3>
               <p>작은 습관이 큰 변화를 만든다. 매일의 작은 실천이 당신의 삶을 바꿉니다.</p>
             </div>
             <div className="footer-links">
@@ -299,7 +308,7 @@ const LandingPage: React.FC = () => {
             </div>
           </div>
           <div className="footer-bottom">
-            <p>&copy; 2024 Building Habit. All rights reserved.</p>
+            <p>&copy; 2025 Building Habit. All rights reserved.</p>
           </div>
         </div>
       </footer>
