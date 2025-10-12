@@ -160,16 +160,7 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
                     
                     {/* 습관 액션 버튼들 */}
                     <div className="habit-actions">
-                      {/* 오늘 완료 상태 토글 버튼 */}
-                      <button
-                        onClick={() => toggleToday(habit.id)}
-                        className={`habit-button ${doneToday ? "completed" : "pending"}`}
-                      >
-                        {doneToday ? "완료!" : "오늘 체크"}
-                      </button>
-                      
-                      
-                      {/* 드롭다운 메뉴 */}
+                      {/* 드롭다운 메뉴 - 위쪽에 배치 */}
                       <div className="dropdown">
                         <button className="dropdown-toggle">
                           ⋯
@@ -185,6 +176,14 @@ const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit,
                           </button>
                         </div>
                       </div>
+                      
+                      {/* 오늘 완료 상태 토글 버튼 */}
+                      <button
+                        onClick={() => toggleToday(habit.id)}
+                        className={`habit-button ${doneToday ? "completed" : "pending"}`}
+                      >
+                        {doneToday ? "완료!" : "오늘 체크"}
+                      </button>
                     </div>
                   </>
                 )}
