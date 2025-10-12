@@ -460,6 +460,19 @@ p {
   line-height: 1.1;
 }
 
+/* 앱 로고 스타일 */
+.app-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+}
+
+.app-logo:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
 /* 망치 아이콘 스타일 */
 .hammer-icon {
   color: #DE5743;
@@ -467,12 +480,12 @@ p {
   margin-left: -10px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   display: inline-block;
-  transform: rotate(-35deg) scaleX(-1);
+  transform: rotate(35deg);
   transition: transform 0.3s ease;
 }
 
 .hammer-icon:hover {
-  transform: rotate(-35deg) scaleX(-1) scale(1.1);
+  transform: rotate(35deg) scale(1.1);
 }
 
 .habit-subtitle {
@@ -1204,7 +1217,7 @@ p {
 
 .habit-info h3 {
   margin: 0;
-  color: #202124;
+  color: var(--text-primary);
   font-size: 1.3rem;
   font-weight: 600;
   transition: all 0.3s ease;
@@ -1213,25 +1226,25 @@ p {
 
 .habit-info p {
   margin: 0;
-  color: #808080;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   transition: all 0.3s ease;
 }
 
 .habit-item:hover .habit-info h3 {
-  color: #4364DE;
+  color: var(--primary-color);
   transform: translateX(5px);
 }
 
 .habit-item:hover .habit-info p {
-  color: #61DAFB;
+  color: var(--secondary-color);
   transform: translateX(5px);
 }
 
 .habit-frequency {
   display: inline-block;
-  background: #f2f4ff;
-  color: #4364DE;
+  background: var(--surface-secondary);
+  color: var(--primary-color);
   padding: 0.25rem 0.75rem;
   border-radius: 12px;
   font-size: 0.8rem;
@@ -1261,15 +1274,15 @@ p {
 }
 
 .habit-button.completed {
-  background: #4364DE;
+  background: var(--primary-color);
   color: white;
-  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.24);
+  box-shadow: var(--shadow-md);
 }
 
 .habit-button.pending {
-  background: #FFFFFF;
-  color: #808080;
-  border: 2px solid #e6e6e6;
+  background: var(--surface-primary);
+  color: var(--text-secondary);
+  border: 2px solid var(--border-primary);
 }
 
 .habit-button:hover {
@@ -1277,12 +1290,12 @@ p {
 }
 
 .habit-button.completed:hover {
-  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .habit-button.pending:hover {
-  background: #edf2f7;
-  border-color: #cbd5e0;
+  background: var(--background-secondary);
+  border-color: var(--border-secondary);
 }
 
 /* 드롭다운 메뉴 스타일 */
@@ -1292,13 +1305,13 @@ p {
 }
 
 .dropdown-toggle {
-  background: #FFFFFF;
-  border: 2px solid #e6e6e6;
+  background: var(--surface-primary);
+  border: 2px solid var(--border-primary);
   border-radius: 8px;
   padding: 0.5rem;
   cursor: pointer;
   font-size: 1.2rem;
-  color: #808080;
+  color: var(--text-tertiary);
   transition: all 0.3s ease;
   width: 40px;
   height: 40px;
@@ -1308,8 +1321,8 @@ p {
 }
 
 .dropdown-toggle:hover {
-  background: #f7f7f7;
-  border-color: #d9d9d9;
+  background: var(--surface-secondary);
+  border-color: var(--border-secondary);
   transform: translateY(-1px);
 }
 
@@ -1317,10 +1330,10 @@ p {
   position: absolute;
   top: 100%;
   right: 0;
-  background: #FFFFFF;
+  background: var(--surface-primary);
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  border: 1px solid #e6e6e6;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-primary);
   min-width: 120px;
   z-index: 1000;
   opacity: 0;
@@ -1345,7 +1358,7 @@ p {
   text-align: left;
   cursor: pointer;
   font-size: 0.9rem;
-  color: #808080;
+  color: var(--text-secondary);
   transition: all 0.3s ease;
   border-radius: 0;
 }
@@ -1359,17 +1372,17 @@ p {
 }
 
 .dropdown-item:hover {
-  background: #f7f8ff;
-  color: #202124;
+  background: var(--surface-secondary);
+  color: var(--text-primary);
 }
 
 .dropdown-item.delete {
-  color: #DE5743;
+  color: var(--error-color);
 }
 
 .dropdown-item.delete:hover {
-  background: #FFE8E4;
-  color: #B53F2F;
+  background: var(--error-light);
+  color: var(--error-color);
 }
 
 /* 편집 폼 스타일 */
@@ -1387,7 +1400,7 @@ p {
 }
 
 .save-button {
-  background: #4364DE;
+  background: var(--primary-color);
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
@@ -1395,18 +1408,18 @@ p {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.24);
+  box-shadow: var(--shadow-md);
 }
 
 .save-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+  box-shadow: var(--shadow-lg);
 }
 
 .cancel-button {
-  background: #FFFFFF;
-  color: #808080;
-  border: 2px solid #e6e6e6;
+  background: var(--surface-primary);
+  color: var(--text-secondary);
+  border: 2px solid var(--border-primary);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
@@ -1415,39 +1428,41 @@ p {
 }
 
 .cancel-button:hover {
-  background: #f7f7f7;
-  border-color: #d9d9d9;
+  background: var(--surface-secondary);
+  border-color: var(--border-secondary);
   transform: translateY(-2px);
 }
 
 /* 차트 스타일 */
 .chart-container {
-  background: white;
+  background: var(--surface-primary);
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-primary);
 }
 
 .chart-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #202124;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   text-align: center;
 }
 
 /* 캘린더 스타일 */
 .calendar-container {
-  background: white;
+  background: var(--surface-primary);
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-primary);
 }
 
 .calendar-title {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -1464,9 +1479,9 @@ p {
 .calendar-weekday {
   padding: 0.75rem 0.5rem;
   font-weight: 600;
-  color: #4a5568;
+  color: var(--text-secondary);
   font-size: 0.9rem;
-  background: rgba(97, 218, 251, 0.1);
+  background: var(--surface-secondary);
   border-radius: 8px;
 }
 
@@ -1500,22 +1515,22 @@ p {
 }
 
 .calendar-day.pending {
-  background: #f7fafc;
-  color: #4a5568;
-  border: 1px solid #e2e8f0;
+  background: var(--background-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
 }
 
 .calendar-day.other-month {
   opacity: 0.3;
-  background: #f7fafc;
-  color: #a0aec0;
+  background: var(--background-secondary);
+  color: var(--text-quaternary);
 }
 
 /* 캘린더 섹션 스타일 */
 .calendar-section-title {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   text-align: center;
 }
@@ -1527,10 +1542,10 @@ p {
 }
 
 .calendar-item {
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 1rem;
-  background: #f8f9fa;
+  background: var(--surface-secondary);
 }
 
 .calendar-item .calendar-container {
@@ -1542,7 +1557,7 @@ p {
 .calendar-item .calendar-title {
   font-size: 1.1rem;
   margin-bottom: 1rem;
-  color: #2d3748;
+  color: var(--text-primary);
 }
 
 .calendar-item .calendar-weekdays {
@@ -1552,7 +1567,7 @@ p {
 .calendar-item .calendar-weekday {
   padding: 0.5rem 0.25rem;
   font-size: 0.8rem;
-  background: rgba(97, 218, 251, 0.1);
+  background: var(--surface-primary);
 }
 
 .calendar-item .calendar-grid {
@@ -1571,16 +1586,17 @@ p {
 
 /* 선택 버튼 스타일 */
 .selection-container {
-  background: white;
+  background: var(--surface-primary);
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-primary);
 }
 
 .selection-title {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #2d3748;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
@@ -1592,32 +1608,32 @@ p {
 
 .selection-button {
   padding: 0.75rem 1.5rem;
-  border: 2px solid #e6e6e6;
+  border: 2px solid var(--border-primary);
   border-radius: 10px;
-  background: white;
-  color: #808080;
+  background: var(--surface-primary);
+  color: var(--text-secondary);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .selection-button:hover {
-  border-color: #4364DE;
-  background: #f7f8ff;
+  border-color: var(--primary-color);
+  background: var(--surface-secondary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(67, 100, 222, 0.15);
+  box-shadow: var(--shadow-md);
 }
 
 .selection-button.active {
-  background: #4364DE;
+  background: var(--primary-color);
   color: white;
-  border-color: #4364DE;
-  box-shadow: 0 4px 15px rgba(67, 100, 222, 0.3);
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-md);
 }
 
 .selection-button.active:hover {
-  background: #3654C1;
-  box-shadow: 0 6px 20px rgba(67, 100, 222, 0.4);
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-lg);
 }
 
 /* ========================================
@@ -2034,14 +2050,14 @@ p {
 
 .user-details h3 {
   margin: 0;
-  color: black;
+  color: var(--text-primary);
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .user-details p {
   margin: 0;
-  color: black;
+  color: var(--text-secondary);
   font-size: 0.75rem;
 }
 
@@ -2541,7 +2557,7 @@ p {
   display: block;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #f7fafc;
+  color: #a0aec0;
 }
 
 .stat-label {
@@ -2709,12 +2725,13 @@ body.dark .habit-header {
 }
 
 body.dark .habit-title {
-  color: #f7fafc;
+  color: var(--text-primary);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+
 body.dark .habit-subtitle {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 /* 다크모드 - 카드 스타일 */
@@ -2736,11 +2753,11 @@ body.dark .user-info-compact {
 }
 
 body.dark .user-details h3 {
-  color: #f7fafc;
+  color: var(--text-primary);
 }
 
 body.dark .user-details p {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 /* 다크모드 - 게스트 정보 */
@@ -2750,7 +2767,7 @@ body.dark .guest-info {
 }
 
 body.dark .guest-text {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 /* 다크모드 - 상단 컨트롤 */
@@ -2801,12 +2818,12 @@ body.dark .progress-tagbar:hover {
 }
 
 body.dark .progress-icon {
-  color: #61DAFB;
+  color: var(--secondary-color);
   text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
 }
 
 body.dark .progress-text {
-  color: #e2e8f0;
+  color: var(--text-secondary);
 }
 
 body.dark .progress-chart-tooltip {
@@ -2816,20 +2833,20 @@ body.dark .progress-chart-tooltip {
 }
 
 body.dark .progress-value {
-  color: #61DAFB;
+  color: var(--secondary-color);
   text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
 }
 
 body.dark .progress-label {
-  color: #e2e8f0;
+  color: var(--text-secondary);
 }
 
 body.dark .stat-number {
-  color: #f7fafc;
+  color: var(--text-primary);
 }
 
 body.dark .stat-label {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 /* 다크모드 - 차트 태그바 */
@@ -2845,12 +2862,12 @@ body.dark .chart-tagbar:hover {
 }
 
 body.dark .chart-icon {
-  color: #61DAFB;
+  color: var(--secondary-color);
   text-shadow: 0 0 15px rgba(97, 218, 251, 0.7);
 }
 
 body.dark .chart-text {
-  color: #e2e8f0;
+  color: var(--text-secondary);
 }
 
 body.dark .chart-tooltip {
@@ -2860,7 +2877,7 @@ body.dark .chart-tooltip {
 }
 
 body.dark .chart-title {
-  color: #f7fafc;
+  color: var(--text-primary);
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -2875,20 +2892,21 @@ body.dark .habit-chart-item:hover {
 }
 
 body.dark .habit-name {
-  color: #f7fafc;
+  color: var(--text-primary);
 }
 
 body.dark .habit-progress {
-  color: #61DAFB;
+  color: var(--secondary-color);
 }
 
+
 body.dark .habit-ring-bg {
-  stroke: #4a5568;
+  stroke: var(--border-secondary);
   opacity: 0.5;
 }
 
 body.dark .habit-ring {
-  stroke: #61DAFB;
+  stroke: var(--secondary-color);
   filter: drop-shadow(0 0 6px rgba(97, 218, 251, 0.6));
 }
 
@@ -2898,6 +2916,7 @@ body.dark .form-input {
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #f7fafc;
 }
+
 
 body.dark .form-input:focus {
   border-color: #667eea;
@@ -2921,37 +2940,17 @@ body.dark .auth-button.primary:hover:not(:disabled) {
 }
 
 /* 다크모드 - 습관 아이템 */
-body.dark .habit-item {
-  background: rgba(26, 26, 46, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 4px solid #667eea;
-}
-
-body.dark .habit-item::before {
-  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
-}
-
-body.dark .habit-item:hover {
+body.dark .habit-item-content {
   background: rgba(26, 26, 46, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 4px solid var(--primary-color);
+}
+
+body.dark .habit-item:hover .habit-item-content {
+  background: rgba(26, 26, 46, 0.9);
   border-color: rgba(255, 255, 255, 0.15);
-  border-left-color: #61DAFB;
+  border-left-color: var(--secondary-color);
   box-shadow: 0 8px 30px rgba(97, 218, 251, 0.2);
-}
-
-body.dark .habit-item h3 {
-  color: #f7fafc;
-}
-
-body.dark .habit-item p {
-  color: #cbd5e0;
-}
-
-body.dark .habit-item:hover .habit-info h3 {
-  color: #61DAFB;
-}
-
-body.dark .habit-item:hover .habit-info p {
-  color: #97d4ff;
 }
 
 /* 다크모드 - 체크박스 */
@@ -2961,20 +2960,20 @@ body.dark .habit-checkbox {
 }
 
 body.dark .habit-checkbox.checked {
-  background: #667eea;
-  border-color: #667eea;
+  background: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 /* 다크모드 - 편집/삭제 버튼 */
 body.dark .habit-actions button {
   background: rgba(255, 255, 255, 0.1);
-  color: #cbd5e0;
+  color: var(--text-secondary);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 body.dark .habit-actions button:hover {
   background: rgba(255, 255, 255, 0.2);
-  color: #f7fafc;
+  color: var(--text-primary);
 }
 
 body.dark .habit-actions .delete-button:hover {
@@ -3006,7 +3005,7 @@ body.dark .calendar-toggle-button.active:hover {
 
 /* 다크모드 - 스트릭 카운터 */
 body.dark .streak-counter {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 /* 다크모드 - 달력 */
@@ -3016,7 +3015,7 @@ body.dark .calendar-grid {
 }
 
 body.dark .calendar-day {
-  color: #cbd5e0;
+  color: var(--text-secondary);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -3024,8 +3023,8 @@ body.dark .calendar-day:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-body.dark .calendar-day.checked {
-  background: #667eea;
+body.dark .calendar-day.completed {
+  background: var(--success-color);
   color: white;
 }
 
@@ -3036,17 +3035,17 @@ body.dark .progress-chart {
 }
 
 body.dark .chart-title {
-  color: #f7fafc;
+  color: var(--text-primary);
 }
 
 body.dark .chart-subtitle {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 /* 다크모드 - 에러 메시지 */
 body.dark .error-message {
   background: rgba(197, 48, 48, 0.2);
-  color: #fed7d7;
+  color: var(--error-light);
   border: 1px solid rgba(197, 48, 48, 0.3);
 }
 
@@ -3062,11 +3061,11 @@ body.dark .auth-card {
 }
 
 body.dark .auth-title {
-  color: #f7fafc;
+  color: var(--text-primary);
 }
 
 body.dark .auth-subtitle {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 body.dark .auth-footer {
@@ -3074,15 +3073,15 @@ body.dark .auth-footer {
 }
 
 body.dark .auth-footer p {
-  color: #a0aec0;
+  color: var(--text-tertiary);
 }
 
 body.dark .auth-link {
-  color: #667eea;
+  color: var(--primary-color);
 }
 
 body.dark .auth-link:hover:not(:disabled) {
-  color: #5a67d8;
+  color: var(--primary-dark);
 }
 
 /* 다크모드 - 구분선 */
@@ -3092,13 +3091,13 @@ body.dark .auth-divider::after {
 }
 
 body.dark .auth-divider span {
-  color: #a0aec0;
+  color: var(--text-tertiary);
 }
 
 /* 다크모드 - 구글 로그인 버튼 */
 body.dark .google-login-button {
   background: rgba(255, 255, 255, 0.1);
-  color: #f7fafc;
+  color: var(--text-primary);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -3108,7 +3107,7 @@ body.dark .google-login-button:hover {
 
 /* 다크모드 - 사용자 아바타 */
 body.dark .user-avatar {
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
 }
 
 /* ========================================
@@ -3266,34 +3265,34 @@ body.dark .calendar-section {
 
 
 body.dark .calendar-title-small {
-  color: #f7fafc;
+  color: var(--text-primary);
 }
 
 body.dark .calendar-weekday-small {
-  color: #cbd5e0;
-  background: rgba(102, 126, 234, 0.2);
+  color: var(--text-secondary);
+  background: var(--surface-secondary);
 }
 
 body.dark .calendar-day-small {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 body.dark .calendar-day-small.other-month {
-  color: #718096;
+  color: var(--text-quaternary);
 }
 
 
 body.dark .achievement-info {
-  color: #cbd5e0;
+  color: var(--text-secondary);
 }
 
 body.dark .achievement-percentage {
-  color: #667eea;
+  color: var(--primary-color);
 }
 
 body.dark .achievement-text,
 body.dark .achievement-count {
-  color: #a0aec0;
+  color: var(--text-tertiary);
 }
 
 .form-group-horizontal {
@@ -3315,7 +3314,7 @@ body.dark .achievement-count {
   gap: 0.5rem;
   flex-wrap: wrap;
   padding: 0.5rem;
-  background-color: #f7f7f7;
+  background-color: var(--surface-secondary);
   border-radius: 12px;
 }
 
@@ -3328,7 +3327,7 @@ body.dark .achievement-count {
 
 /* 다크모드일 때의 요일 선택기 배경색 */
 body.dark .day-selector {
-  background-color: rgba(26, 26, 46, 0.8);
+  background-color: var(--surface-secondary);
 }
 
 /* ========================================
@@ -3555,12 +3554,12 @@ body.dark .custom-checkbox {
 }
 
 body.dark .custom-checkbox:hover {
-  border-color: #667eea;
+  border-color: var(--primary-color);
 }
 
 body.dark .custom-checkbox:checked {
-  background-color: #667eea;
-  border-color: #667eea;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 /* 습관 목록을 감싸는 카드가 드롭다운 메뉴를 가리지 않도록 설정 */

@@ -116,7 +116,6 @@ const AppContent = () => {
         <div className="progress-tagbar">
           <div className="progress-info">
             <span className="progress-icon">📊</span>
-            <span className="progress-text">달성률</span>
           </div>
           <div className="progress-chart-tooltip">
             <div className="circular-progress">

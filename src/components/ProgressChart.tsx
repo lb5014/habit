@@ -74,10 +74,10 @@ const ProgressChart = ({ habits }: Props) => {
 
   // Chart.js에 전달할 데이터 객체
   const data = {
-    labels: labels.map((label, index) => `${label} (${dataValues[index]}일)`), // 습관 제목과 완료 일수 표시
+    labels: labels, // 습관 제목만 표시 (일수 제거)
     datasets: [
       {
-        label: "완료 일수", // 범례 라벨
+        label: "", // 범례 라벨 제거
         data: dataValues, // 완료된 날짜 수
         backgroundColor: backgroundColors.slice(0, habits.length), // 습관 수만큼 색상 사용
         borderColor: borderColors.slice(0, habits.length), // 테두리 색상
@@ -92,27 +92,16 @@ const ProgressChart = ({ habits }: Props) => {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom' as const,
-        labels: {
-          padding: 20,
-          usePointStyle: true,
-        },
+        display: false, // 범례 완전히 숨김
       },
       tooltip: {
-        callbacks: {
-          label: function(context: any) {
-            const label = context.label || '';
-            const value = context.parsed;
-            return `${label}: ${value}일 완료`;
-          }
-        }
+        enabled: false, // 툴팁 완전히 숨김
       },
     },
   };
 
   return (
     <div className="chart-container">
-      <h2 className="chart-title">습관 완료 현황</h2>
       {/* 습관이 있는 경우 원형 차트 표시, 없는 경우 안내 메시지 표시 */}
       {habits.length > 0 ? (
         <div style={{ height: '250px', width: '100%' }}>
