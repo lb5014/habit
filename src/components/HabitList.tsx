@@ -1,187 +1,286 @@
-/**
- * 습관 목록을 표시하고 관리하는 컴포넌트
- * 
- * 습관 목록을 표시하고, 각 습관에 대해 다음 기능을 제공합니다:
- * - 오늘 완료 상태 토글
- * - 습관 수정 (인라인 편집)
- * - 습관 삭제
- * - 드롭다운 메뉴를 통한 액션 선택
- * 
- * @author 습관 추적기 개발팀
- * @version 1.0.0
- */
-
-// React와 필요한 타입 import
 import React, { useState } from "react";
-import { Habit } from "../types/habit";
-import CalendarView from "./CalendarView";
+import { Habit, Schedule, DayOfWeek } from "../types/habit";
 
-/**
- * HabitList 컴포넌트의 Props 타입 정의
- */
 interface Props {
-  habits: Habit[]; // 습관 목록
-  toggleToday: (id: string) => void; // 오늘 완료 상태 토글 함수
-  deleteHabit: (id: string) => void; // 습관 삭제 함수
-  editHabit: (id: string, title: string, description: string, frequency: 'daily' | 'weekly') => void; // 습관 수정 함수
-  onSelectHabit?: (id: string) => void; // 습관 선택 시 호출 (달성률 위젯 표시용)
-  showCalendar: boolean; // 달력 보기 상태
-  setShowCalendar: (show: boolean) => void; // 달력 보기 상태 변경 함수
+  habits: Habit[];
+  toggleToday: (id: string) => void;
+  deleteHabit: (id: string) => void;
+  editHabit: (
+    id: string,
+    title: string,
+    description: string,
+    schedule: Schedule,
+    notificationOn: boolean,
+    notificationTime?: string
+  ) => void;
+  onSelectHabit?: (id: string) => void;
 }
 
-/**
- * 습관 목록 컴포넌트
- * 
- * @param {Props} props - 컴포넌트 props
- * @returns {JSX.Element} 습관 목록 UI
- */
-const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit, showCalendar, setShowCalendar }: Props) => {
-  // 오늘 날짜를 YYYY-MM-DD 형식으로 생성
+const HabitList = ({ habits, toggleToday, deleteHabit, editHabit, onSelectHabit }: Props) => {
   const today = new Date().toISOString().split("T")[0];
+  const [editingId, setEditingId] = useState<string | null>(null);
   
-  // 편집 상태 관리
-  const [editingId, setEditingId] = useState(null); // 현재 편집 중인 습관의 ID
-  const [editForm, setEditForm] = useState({ title: '', description: '', frequency: 'daily' }); // 편집 폼 데이터
-  
+  // [추가] 현재 열려있는 드롭다운 메뉴의 ID를 저장하는 상태
+  const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
-  /**
-   * 습관 편집을 시작하는 함수
-   * 
-   * @param {Habit} habit - 편집할 습관 객체
-   */
-  const startEdit = (habit) => {
+  const [editForm, setEditForm] = useState({
+    title: '',
+    description: '',
+    scheduleType: 'daily' as 'daily' | 'weekly',
+    selectedDays: [] as DayOfWeek[],
+    notificationOn: false,
+    notificationTime: '09:00',
+  });
+
+  const weekDays: { label: string; value: DayOfWeek }[] = [
+    { label: "월", value: 1 }, { label: "화", value: 2 }, { label: "수", value: 3 },
+    { label: "목", value: 4 }, { label: "금", value: 5 }, { label: "토", value: 6 }, { label: "일", value: 0 },
+  ];
+  
+  const formatSchedule = (schedule: Schedule) => {
+    if (!schedule) return ''; // schedule이 없을 경우를 대비
+    if (schedule.type === 'daily') return '매일';
+    if (schedule.type === 'weekly' && schedule.days) {
+      const sortedDays = [...schedule.days].sort();
+      const dayLabels = sortedDays.map(dayValue => {
+        return weekDays.find(d => d.value === dayValue)?.label || '';
+      });
+      return `매주 ${dayLabels.join(', ')}`;
+    }
+    return '';
+  };
+
+  const startEdit = (habit: Habit) => {
     setEditingId(habit.id);
     setEditForm({
       title: habit.title,
       description: habit.description,
-      frequency: habit.frequency
+      scheduleType: habit.schedule.type,
+      selectedDays: habit.schedule.days || [],
+      notificationOn: habit.notificationOn,
+      notificationTime: habit.notificationTime || '09:00',
     });
   };
 
-  /**
-   * 습관 편집을 저장하는 함수
-   */
   const saveEdit = () => {
-    // 제목이 비어있지 않을 때만 저장
-    if (editForm.title.trim()) {
-      editHabit(editingId, editForm.title, editForm.description, editForm.frequency);
-      setEditingId(null);
-      setEditForm({ title: '', description: '', frequency: 'daily' });
+    if (editingId && editForm.title.trim()) {
+      const schedule: Schedule = editForm.scheduleType === 'daily'
+        ? { type: 'daily' }
+        : { type: 'weekly', days: editForm.selectedDays.sort() };
+
+      editHabit(
+        editingId,
+        editForm.title,
+        editForm.description,
+        schedule,
+        editForm.notificationOn,
+        editForm.notificationTime
+      );
+      cancelEdit();
     }
   };
 
-  /**
-   * 습관 편집을 취소하는 함수
-   */
   const cancelEdit = () => {
     setEditingId(null);
-    setEditForm({ title: '', description: '', frequency: 'daily' });
+    setEditForm({
+      title: '', description: '', scheduleType: 'daily',
+      selectedDays: [], notificationOn: false, notificationTime: '09:00'
+    });
+  };
+  
+  const handleDayClickInEdit = (day: DayOfWeek) => {
+    setEditForm(prev => {
+      const newDays = prev.selectedDays.includes(day)
+        ? prev.selectedDays.filter(d => d !== day)
+        : [...prev.selectedDays, day];
+      return { ...prev, selectedDays: newDays };
+    });
   };
 
+  // [추가] 드롭다운 메뉴를 열고 닫는 것을 처리하는 함수
+  const handleToggleDropdown = (habitId: string) => {
+    setOpenDropdownId(prevId => (prevId === habitId ? null : habitId));
+  };
 
   return (
     <div className="habit-list">
-      
-      {/* 습관이 없는 경우 안내 메시지 표시 */}
       {habits.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '2rem', color: '#718096' }}>
-          <p>아직 등록된 습관이 없습니다. 새로운 습관을 추가해보세요!</p>
+        <div className="empty-state">
+          <div className="empty-icon">📝</div>
+          <p>아직 등록된 습관이 없습니다.</p>
+          <p>새로운 습관을 추가해보세요!</p>
         </div>
       ) : (
-        /* 습관 목록 렌더링 */
         habits.map((habit) => {
-          const doneToday = habit.completedDates.includes(today); // 오늘 완료 여부 확인
-          const isEditing = editingId === habit.id; // 현재 편집 중인 습관인지 확인
+          const doneToday = habit.completedDates.includes(today);
+          const isEditing = editingId === habit.id;
+          const completedDates = habit.completedDates || [];
+          const streakCount = completedDates.length;
 
           return (
-            <div key={habit.id} className="habit-item">
-              <div onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
-                {/* 편집 모드일 때 표시되는 편집 폼 */}
+            <div key={habit.id} className={`habit-item ${doneToday ? 'completed' : ''}`}>
+              <div className="habit-item-content">
                 {isEditing ? (
                   <div className="habit-edit-form">
-                    {/* 습관 제목 편집 필드 */}
-                    <input
-                      type="text"
-                      value={editForm.title}
-                      onChange={(e) => setEditForm({...editForm, title: e.target.value})}
-                      className="form-input"
-                      placeholder="습관 이름"
-                    />
+                    <div className="edit-form-header">
+                      <h4>습관 수정</h4>
+                    </div>
                     
-                    {/* 습관 설명 편집 필드 */}
-                    <input
-                      type="text"
-                      value={editForm.description}
-                      onChange={(e) => setEditForm({...editForm, description: e.target.value})}
-                      className="form-input"
-                      placeholder="설명"
-                    />
-                    
-                    {/* 습관 빈도 편집 드롭다운 */}
-                    <select
-                      value={editForm.frequency}
-                      onChange={(e) => setEditForm({...editForm, frequency: e.target.value})}
-                      className="form-select"
-                    >
-                      <option value="daily">매일</option>
-                      <option value="weekly">주간</option>
-                    </select>
-                    
-                    {/* 편집 액션 버튼들 */}
-                    <div className="edit-buttons">
-                      <button onClick={saveEdit} className="form-button save-button">
-                        저장
+                    <div className="edit-form-content">
+                      <div className="form-group">
+                        <label className="form-label">
+                          <span className="label-text">습관 이름</span>
+                          <span className="label-required">*</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={editForm.title} 
+                          onChange={(e) => setEditForm({...editForm, title: e.target.value})} 
+                          required 
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">
+                          <span className="label-text">설명</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={editForm.description} 
+                          onChange={(e) => setEditForm({...editForm, description: e.target.value})} 
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label className="form-label">
+                          <span className="label-text">실행 주기</span>
+                        </label>
+                        <div className="schedule-type-selector">
+                          <button
+                            type="button"
+                            className={`schedule-type-button ${editForm.scheduleType === 'daily' ? 'active' : ''}`}
+                            onClick={() => setEditForm({...editForm, scheduleType: 'daily'})}
+                          >
+                            <div className="button-icon">📅</div>
+                            <div className="button-content">
+                              <span className="button-title">매일</span>
+                            </div>
+                          </button>
+                          <button
+                            type="button"
+                            className={`schedule-type-button ${editForm.scheduleType === 'weekly' ? 'active' : ''}`}
+                            onClick={() => setEditForm({...editForm, scheduleType: 'weekly'})}
+                          >
+                            <div className="button-icon">📆</div>
+                            <div className="button-content">
+                              <span className="button-title">요일별</span>
+                            </div>
+                          </button>
+                        </div>
+                        
+                        {editForm.scheduleType === 'weekly' && (
+                          <div className="day-selector">
+                            {weekDays.map(day => (
+                              <button
+                                type="button"
+                                key={day.value}
+                                onClick={() => handleDayClickInEdit(day.value)}
+                                className={`day-button ${editForm.selectedDays.includes(day.value) ? 'selected' : ''}`}
+                              >
+                                {day.label}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="edit-form-actions">
+                      <button onClick={saveEdit} className="form-button primary">
+                        <span className="button-icon">💾</span>
+                        <span>저장</span>
                       </button>
-                      <button onClick={cancelEdit} className="form-button cancel-button">
-                        취소
+                      <button onClick={cancelEdit} className="form-button secondary">
+                        <span className="button-icon">❌</span>
+                        <span>취소</span>
                       </button>
                     </div>
                   </div>
                 ) : (
-                  /* 일반 보기 모드 */
                   <>
-                    {/* 습관 정보 섹션 */}
-                    <div className="habit-info">
-                      <h3>{habit.title}</h3>
-                      <p>{habit.description}</p>
-                      <div className="frequency-section">
-                        <span className="habit-frequency">{habit.frequency === 'daily' ? '매일' : '주간'}</span>
-                        <button 
-                          onClick={() => setShowCalendar(!showCalendar)}
-                          className={`calendar-toggle-button ${showCalendar ? 'active' : ''}`}
-                        >
-                          <span className="calendar-icon">📅</span>
-                          <span className="calendar-text">
-                            {showCalendar ? '달력 숨기기' : '달력 보기'}
-                          </span>
-                        </button>
+                    <div className="habit-info" onClick={() => onSelectHabit && onSelectHabit(habit.id)}>
+                      <div className="habit-header">
+                        <div className="habit-title-section">
+                          <h3 className="habit-name">{habit.title}</h3>
+                          {habit.description && (
+                            <p className="habit-description">{habit.description}</p>
+                          )}
+                        </div>
+                        <div className="habit-status">
+                          <div className={`status-indicator ${doneToday ? 'completed' : 'pending'}`}>
+                            {doneToday ? '✅' : '⏳'}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="habit-details">
+                        <div className="habit-meta">
+                          <div className="habit-frequency">
+                            <span className="meta-icon">📅</span>
+                            <span className="meta-text">{formatSchedule(habit.schedule)}</span>
+                          </div>
+                          <div className="habit-streak">
+                            <span className="meta-icon">🔥</span>
+                            <span className="meta-text">{streakCount}일 연속</span>
+                          </div>
+                          {habit.notificationOn && (
+                            <div className="habit-notification">
+                              <span className="meta-icon">🔔</span>
+                              <span className="meta-text">{habit.notificationTime}</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                     
-                    {/* 습관 액션 버튼들 */}
                     <div className="habit-actions">
-                      {/* 오늘 완료 상태 토글 버튼 */}
-                      <button
-                        onClick={() => toggleToday(habit.id)}
-                        className={`habit-button ${doneToday ? "completed" : "pending"}`}
+                      <button 
+                        onClick={() => toggleToday(habit.id)} 
+                        className={`habit-action-button ${doneToday ? "completed" : "pending"}`}
                       >
-                        {doneToday ? "완료!" : "오늘 체크"}
+                        <span className="button-icon">
+                          {doneToday ? "✅" : "⏳"}
+                        </span>
+                        <span className="button-text">
+                          {doneToday ? "완료!" : "오늘 체크"}
+                        </span>
                       </button>
                       
-                      
-                      {/* 드롭다운 메뉴 */}
-                      <div className="dropdown">
-                        <button className="dropdown-toggle">
-                          ⋯
+                      <div className="habit-menu">
+                        <button 
+                          onClick={() => handleToggleDropdown(habit.id)} 
+                          className="menu-toggle"
+                          aria-label="메뉴 열기"
+                        >
+                          <span className="menu-icon">⋯</span>
                         </button>
-                        <div className="dropdown-menu">
-                          {/* 수정 버튼 */}
-                          <button onClick={() => startEdit(habit)} className="dropdown-item">
-                            수정
+                        
+                        <div className={`menu-dropdown ${openDropdownId === habit.id ? 'open' : ''}`}>
+                          <button 
+                            onClick={() => { startEdit(habit); setOpenDropdownId(null); }} 
+                            className="menu-item edit"
+                          >
+                            <span className="menu-item-icon">✏️</span>
+                            <span className="menu-item-text">수정</span>
                           </button>
-                          {/* 삭제 버튼 */}
-                          <button onClick={() => deleteHabit(habit.id)} className="dropdown-item delete">
-                            삭제
+                          <button 
+                            onClick={() => deleteHabit(habit.id)} 
+                            className="menu-item delete"
+                          >
+                            <span className="menu-item-icon">🗑️</span>
+                            <span className="menu-item-text">삭제</span>
                           </button>
                         </div>
                       </div>

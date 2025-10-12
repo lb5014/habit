@@ -9,7 +9,7 @@
  * 사용자 정보 타입
  */
 export interface User {
-  id: string; // 사용자 고유 ID
+  uid: string; // 사용자 고유 ID
   email: string; // 이메일 (로그인 ID)
   name: string; // 사용자 이름
   createdAt: string; // 계정 생성일
