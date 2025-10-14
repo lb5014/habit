@@ -792,23 +792,13 @@ p {
 .habit-item {
   position: relative;
   /* overflow: hidden 제거 - 드롭다운 메뉴가 잘리지 않도록 함 */
+  transition: all var(--transition-normal);
 }
 
-.habit-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--primary-color);
-  transition: all var(--transition-normal);
-  border-radius: var(--radius-lg) 0 0 var(--radius-lg); /* 왼쪽 모서리만 둥글게 */
-}
+
 
 .habit-item:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-5px);
   border-color: var(--border-secondary);
 }
 
@@ -1167,32 +1157,11 @@ p {
   align-items: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  border-left: 4px solid #4364DE;
+  
   position: relative;
   overflow: visible; /* 드롭다운 메뉴가 잘리지 않도록 함 */
 }
 
-.habit-item-content::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(67, 100, 222, 0.1), transparent);
-  transition: left 0.6s ease;
-  z-index: 1;
-}
-
-.habit-item:hover .habit-item-content::before {
-  left: 100%;
-}
-
-.habit-item:hover .habit-item-content {
-  transform: translateX(8px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(67, 100, 222, 0.2);
-  border-left-color: #61DAFB;
-}
 
 .habit-item-content > * {
   position: relative;
@@ -1238,12 +1207,10 @@ p {
 
 .habit-item:hover .habit-info h3 {
   color: var(--primary-color);
-  transform: translateX(5px);
 }
 
 .habit-item:hover .habit-info p {
   color: var(--secondary-color);
-  transform: translateX(5px);
 }
 
 .habit-frequency {
@@ -1264,9 +1231,6 @@ p {
   transition: all 0.3s ease;
 }
 
-.habit-item:hover .habit-actions {
-  transform: translateX(-5px);
-}
 
 .habit-button {
   padding: 0.75rem 1.5rem;
