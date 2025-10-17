@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
@@ -19,22 +18,21 @@ import "./App.css";
  * 메인 앱 컨텐츠 컴포넌트 (인증된 사용자용)
  */
 const AppContent = () => {
-  const { user, logout, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-  const { habits, addHabit, toggleToday, deleteHabit, editHabit } = useHabits();
-  const { toasts, removeToast, showSuccess, showError } = useToast();
-  const [showCalendar, setShowCalendar] = useState(false);
+  const { user, logout, isAuthenticated } = useAuth(); // 인증 컨텍스트 사용
+  const navigate = useNavigate(); // 네비게이션 훅
+  const { habits, addHabit, toggleToday, deleteHabit, editHabit } = useHabits(); // 습관 훅
+  const { toasts, removeToast, showSuccess, showError } = useToast(); // 토스트 훅
 
-  const getOverallProgress = () => {
+  const getOverallProgress = () => { // 오늘의 전체 습관 달성률 계산
     if (habits.length === 0) return 0;
     const totalHabits = habits.length;
     let completedCount = 0;
     const today = new Date().toISOString().split("T")[0];
 
     habits.forEach(habit => {
-        if (habit.completedDates?.includes(today)) {
-            completedCount++;
-        }
+      if (habit.completedDates?.includes(today)) {
+        completedCount++;
+      }
     });
 
     return Math.round((completedCount / totalHabits) * 100);
@@ -84,9 +82,9 @@ const AppContent = () => {
     try {
       const habit = habits.find(h => h.id === id);
       const wasCompleted = habit?.completedDates?.includes(new Date().toISOString().split("T")[0]);
-      
+
       toggleToday(id);
-      
+
       if (wasCompleted) {
         showSuccess(
           '습관이 취소되었습니다',
@@ -169,7 +167,7 @@ const AppContent = () => {
               </div>
             ) : (
               <div className="guest-info">
-                 <button onClick={() => navigate('/login')} className="auth-button primary">
+                <button onClick={() => navigate('/login')} className="auth-button primary">
                   로그인
                 </button>
               </div>
@@ -224,14 +222,14 @@ const AppContent = () => {
             <div className="stats-content">
               <div className="progress-circle">
                 <svg width="120" height="120">
-                  <circle 
-                    className="progress-bg" 
-                    stroke="var(--border-primary)" 
-                    strokeWidth="8" 
-                    fill="transparent" 
-                    r="52" 
-                    cx="60" 
-                    cy="60" 
+                  <circle
+                    className="progress-bg"
+                    stroke="var(--border-primary)"
+                    strokeWidth="8"
+                    fill="transparent"
+                    r="52"
+                    cx="60"
+                    cy="60"
                   />
                   <circle
                     className="progress-fill"
@@ -268,10 +266,11 @@ const AppContent = () => {
           {/* 간단한 캘린더 카드 */}
           <div className="habit-card calendar-card">
             <div className="card-header">
-              <h3>이번 주</h3>
+              <h3>이번 달</h3>
             </div>
             {habits.length > 0 ? (
-              <CalendarView habit={habits[0]} />
+              // habits[0] 대신 habits 전체를 전달
+              <CalendarView habits={habits} />
             ) : (
               <div className="empty-state">
                 <div className="empty-icon">📅</div>
