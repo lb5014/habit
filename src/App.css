@@ -2003,6 +2003,28 @@ p {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.settings-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+}
+
+.settings-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
 .user-avatar {
   width: 35px;
   height: 35px;
@@ -2719,6 +2741,14 @@ body.dark .habit-card:hover {
 body.dark .user-info-compact {
   background: rgba(26, 26, 46, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+body.dark .settings-button {
+  color: var(--text-primary);
+}
+
+body.dark .settings-button:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 body.dark .user-details h3 {

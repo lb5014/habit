@@ -1,0 +1,392 @@
+/* 설정 페이지 스타일 */
+.settings-page {
+  min-height: 100vh;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* 헤더 */
+.settings-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+.back-icon {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.settings-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  margin-left: 20px;
+  color: var(--text-primary);
+}
+
+/* 설정 컨텐츠 */
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 설정 섹션 */
+.settings-section {
+  background: var(--background-secondary);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--border-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  color: var(--text-primary);
+}
+
+.section-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 사용자 정보 카드 */
+.user-info-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--background-primary);
+  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+}
+
+.user-avatar-large {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: var(--text-primary);
+}
+
+.user-email {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* 계정 액션 버튼들 */
+.account-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-button {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: var(--background-primary);
+  color: var(--text-primary);
+}
+
+.action-button.secondary {
+  border-color: var(--border-primary);
+}
+
+.action-button.secondary:hover {
+  background: var(--background-secondary);
+  border-color: var(--primary-color);
+}
+
+.action-button.danger {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+.action-button.danger:hover {
+  background: #c82333;
+  border-color: #bd2130;
+}
+
+/* 테마 설정 */
+.theme-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setting-label {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.theme-options {
+  display: flex;
+  gap: 12px;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 2px solid var(--border-primary);
+  border-radius: 8px;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.theme-option:hover {
+  border-color: var(--primary-color);
+  background: var(--background-secondary);
+}
+
+.theme-option.active {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+}
+
+.theme-icon {
+  font-size: 16px;
+}
+
+/* 알림 설정 */
+.notification-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-info {
+  flex: 1;
+}
+
+.setting-description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin: 4px 0 0 0;
+}
+
+/* 토글 스위치 */
+.toggle-switch {
+  position: relative;
+}
+
+.toggle-switch input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-label {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  background: var(--border-primary);
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.toggle-label::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-label {
+  background: var(--primary-color);
+}
+
+.toggle-switch input[type="checkbox"]:checked + .toggle-label::before {
+  transform: translateX(26px);
+}
+
+/* 앱 정보 */
+.app-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* 정책 링크 */
+.policy-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.policy-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.policy-link:hover {
+  color: var(--primary-color-dark);
+  text-decoration: underline;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .settings-page {
+    padding: 16px;
+  }
+  
+  .settings-header {
+    margin-bottom: 20px;
+  }
+  
+  .settings-title {
+    font-size: 24px;
+    margin-left: 16px;
+  }
+  
+  .settings-section {
+    padding: 20px;
+  }
+  
+  .theme-options {
+    flex-direction: column;
+  }
+  
+  .account-actions {
+    gap: 8px;
+  }
+  
+  .action-button {
+    padding: 10px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-page {
+    padding: 12px;
+  }
+  
+  .settings-section {
+    padding: 16px;
+  }
+  
+  .user-info-card {
+    padding: 16px;
+  }
+  
+  .user-avatar-large {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+}
