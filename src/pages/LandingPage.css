@@ -29,8 +29,8 @@
 
 /* 기본 설정 */
 .landing-page {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   line-height: 1.6;
   color: var(--text-primary);
@@ -77,8 +77,28 @@
   overflow: hidden;
 }
 
+.hero-logo {
+  height: 60px;
+}
+
+.hero-title-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-logo {
+  height: 30px;
+}
+
+.footer-brand-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .hero-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -105,11 +125,13 @@
 }
 
 .hero-title {
+  font-family: "Oleo Script Swash Caps", cursive;
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: var(--spacing-md);
   line-height: 1.1;
   letter-spacing: -0.02em;
+  color: white;
 }
 
 .hammer-icon {
@@ -158,13 +180,18 @@
 }
 
 .btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -281,9 +308,15 @@
   padding: var(--spacing-lg);
   border-radius: var(--border-radius);
   margin-bottom: var(--spacing-md);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
 }
 
 .habit-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   font-weight: 600;
   margin-bottom: var(--spacing-md);
   color: var(--text-primary);
@@ -293,6 +326,11 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
 .progress-bar {
@@ -308,6 +346,7 @@
   background: var(--primary-color);
   border-radius: 4px;
   transition: width 0.3s ease;
+  width: 75%;
 }
 
 .mockup-calendar {
@@ -445,7 +484,7 @@
 }
 
 .feature-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -488,7 +527,7 @@
 }
 
 .value-section::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
