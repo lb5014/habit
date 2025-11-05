@@ -53,7 +53,41 @@
 .settings-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+}
+
+/* 탭 네비게이션 */
+.settings-tabs {
+  display: flex;
+  gap: 8px;
+  background: var(--background-secondary);
+  border: 1px solid var(--border-primary);
+  padding: 8px;
+  border-radius: 12px;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 16px;
+  background: var(--background-primary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--text-primary);
+  border-color: var(--primary-color);
+}
+
+.tab.active {
+  background: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
 }
 
 /* 설정 섹션 */
@@ -86,6 +120,36 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+/* 공통 가로 행 레이아웃 */
+.settings-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.settings-row:last-child {
+  border-bottom: none;
+}
+
+.row-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* 사용자 정보 카드 */

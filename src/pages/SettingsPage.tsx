@@ -15,6 +15,7 @@ const SettingsPage: React.FC = () => {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [activeTab, setActiveTab] = useState<'account' | 'display' | 'notifications' | 'about'>('account');
 
   // 이메일/비밀번호 가입 사용자 여부 (Firebase providerId === 'password')
   const isEmailPasswordUser = user?.providerData?.[0]?.providerId === 'password';
@@ -61,142 +62,164 @@ const SettingsPage: React.FC = () => {
         <h1 className="settings-title">설정</h1>
       </div>
 
-      {/* 설정 섹션들 */}
+      {/* 탭 네비게이션 및 탭 컨텐츠 */}
       <div className="settings-content">
-        {/* 계정 섹션 */}
-        <div className="settings-section">
-          <div className="section-header">
-            <h2 className="section-title">계정</h2>
-            <p className="section-description">계정 정보 및 보안 설정</p>
-          </div>
-          <div className="section-content">
-            {/* 사용자 정보 */}
-            <div className="user-info-card">
-              <div className="user-avatar-large">
-                {user?.name.charAt(0).toUpperCase()}
-              </div>
-              <div className="user-details">
-                <h3 className="user-name">{user?.name}</h3>
-                <p className="user-email">{user?.email}</p>
-              </div>
-            </div>
-
-            {/* 계정 액션 버튼들 */}
-            <div className="account-actions">
-              {isEmailPasswordUser && (
-                <button 
-                  onClick={handlePasswordChange}
-                  className="action-button secondary"
-                >
-                  비밀번호 변경
-                </button>
-              )}
-              <button 
-                onClick={handleLogout}
-                className="action-button secondary"
-              >
-                로그아웃
-              </button>
-              <button 
-                onClick={handleDeleteAccount}
-                className="action-button danger"
-              >
-                회원 탈퇴
-              </button>
-            </div>
-          </div>
+        <div className="settings-tabs">
+          <button className={`tab ${activeTab === 'account' ? 'active' : ''}`} onClick={() => setActiveTab('account')}>계정</button>
+          <button className={`tab ${activeTab === 'display' ? 'active' : ''}`} onClick={() => setActiveTab('display')}>화면</button>
+          <button className={`tab ${activeTab === 'notifications' ? 'active' : ''}`} onClick={() => setActiveTab('notifications')}>알림</button>
+          <button className={`tab ${activeTab === 'about' ? 'active' : ''}`} onClick={() => setActiveTab('about')}>정보</button>
         </div>
 
-        {/* 화면 섹션 */}
         <div className="settings-section">
-          <div className="section-header">
-            <h2 className="section-title">화면</h2>
-            <p className="section-description">테마 및 화면 설정</p>
-          </div>
-          <div className="section-content">
-            <div className="theme-settings">
-              <h3 className="setting-label">테마</h3>
-              <div className="theme-options">
-                <button 
-                  onClick={() => handleThemeChange('light')}
-                  className={`theme-option ${theme === 'light' ? 'active' : ''}`}
-                >
-                  <span className="theme-icon">☀️</span>
-                  라이트
-                </button>
-                <button 
-                  onClick={() => handleThemeChange('dark')}
-                  className={`theme-option ${theme === 'dark' ? 'active' : ''}`}
-                >
-                  <span className="theme-icon">🌙</span>
-                  다크
-                </button>
-                <button 
-                  onClick={() => handleThemeChange('system')}
-                  className={`theme-option ${theme === 'system' ? 'active' : ''}`}
-                >
-                  <span className="theme-icon">⚙️</span>
-                  시스템 설정
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 알림 섹션 */}
-        <div className="settings-section">
-          <div className="section-header">
-            <h2 className="section-title">알림</h2>
-            <p className="section-description">알림 설정 관리</p>
-          </div>
-          <div className="section-content">
-            <div className="notification-settings">
-              <div className="setting-item">
-                <div className="setting-info">
-                  <h3 className="setting-label">알림 활성화</h3>
-                  <p className="setting-description">습관 알림을 받을지 설정합니다</p>
+          {activeTab === 'account' && (
+            <div className="section-content">
+              <div className="user-info-card">
+                <div className="user-avatar-large">
+                  {user?.name.charAt(0).toUpperCase()}
                 </div>
-                <div className="toggle-switch">
-                  <input
-                    type="checkbox"
-                    id="notifications"
-                    checked={notificationsEnabled}
-                    onChange={(e) => setNotificationsEnabled(e.target.checked)}
-                  />
-                  <label htmlFor="notifications" className="toggle-label"></label>
+                <div className="user-details">
+                  <h3 className="user-name">{user?.name}</h3>
+                  <p className="user-email">{user?.email}</p>
+                </div>
+              </div>
+
+              <div className="settings-rows">
+                {isEmailPasswordUser && (
+                  <div className="settings-row">
+                    <div className="row-left">
+                      <h3 className="setting-label">비밀번호 변경</h3>
+                      <p className="setting-description">계정 비밀번호를 변경합니다</p>
+                    </div>
+                    <div className="row-right">
+                      <button onClick={handlePasswordChange} className="action-button secondary">변경</button>
+                    </div>
+                  </div>
+                )}
+
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">로그아웃</h3>
+                    <p className="setting-description">현재 기기에서 로그아웃합니다</p>
+                  </div>
+                  <div className="row-right">
+                    <button onClick={handleLogout} className="action-button secondary">로그아웃</button>
+                  </div>
+                </div>
+
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">회원 탈퇴</h3>
+                    <p className="setting-description">모든 데이터를 삭제하고 계정을 탈퇴합니다</p>
+                  </div>
+                  <div className="row-right">
+                    <button onClick={handleDeleteAccount} className="action-button danger">탈퇴</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          )}
 
-        {/* 정보 섹션 */}
-        <div className="settings-section">
-          <div className="section-header">
-            <h2 className="section-title">정보</h2>
-            <p className="section-description">앱 정보 및 정책</p>
-          </div>
-          <div className="section-content">
-            <div className="app-info">
-              <div className="info-item">
-                <span className="info-label">앱 버전</span>
-                <span className="info-value">Version 2.2.0</span>
-              </div>
-              <div className="info-item">
-                <span className="info-label">빌드 번호</span>
-                <span className="info-value">2024.01.15</span>
+          {activeTab === 'display' && (
+            <div className="section-content">
+              <div className="settings-rows">
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">테마</h3>
+                    <p className="setting-description">앱의 테마 모드를 설정합니다</p>
+                  </div>
+                  <div className="row-right">
+                    <div className="theme-options">
+                      <button 
+                        onClick={() => handleThemeChange('light')}
+                        className={`theme-option ${theme === 'light' ? 'active' : ''}`}
+                      >
+                        <span className="theme-icon">☀️</span>
+                        라이트
+                      </button>
+                      <button 
+                        onClick={() => handleThemeChange('dark')}
+                        className={`theme-option ${theme === 'dark' ? 'active' : ''}`}
+                      >
+                        <span className="theme-icon">🌙</span>
+                        다크
+                      </button>
+                      <button 
+                        onClick={() => handleThemeChange('system')}
+                        className={`theme-option ${theme === 'system' ? 'active' : ''}`}
+                      >
+                        <span className="theme-icon">⚙️</span>
+                        시스템
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            <div className="policy-links">
-              <a href="#" className="policy-link">
-                이용약관
-              </a>
-              <a href="#" className="policy-link">
-                개인정보처리방침
-              </a>
+          )}
+
+          {activeTab === 'notifications' && (
+            <div className="section-content">
+              <div className="settings-rows">
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">알림 활성화</h3>
+                    <p className="setting-description">습관 알림을 받을지 설정합니다</p>
+                  </div>
+                  <div className="row-right">
+                    <div className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        id="notifications"
+                        checked={notificationsEnabled}
+                        onChange={(e) => setNotificationsEnabled(e.target.checked)}
+                      />
+                      <label htmlFor="notifications" className="toggle-label"></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
+
+          {activeTab === 'about' && (
+            <div className="section-content">
+              <div className="settings-rows">
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">앱 버전</h3>
+                    <p className="setting-description">현재 설치된 앱의 버전</p>
+                  </div>
+                  <div className="row-right">
+                    <span className="info-value">Version 2.2.0</span>
+                  </div>
+                </div>
+
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">빌드 번호</h3>
+                    <p className="setting-description">현재 빌드의 식별 값</p>
+                  </div>
+                  <div className="row-right">
+                    <span className="info-value">2024.01.15</span>
+                  </div>
+                </div>
+
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">정책</h3>
+                    <p className="setting-description">이용약관과 개인정보처리방침</p>
+                  </div>
+                  <div className="row-right">
+                    <div className="policy-links">
+                      <a href="#" className="policy-link">이용약관</a>
+                      <a href="#" className="policy-link">개인정보처리방침</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
