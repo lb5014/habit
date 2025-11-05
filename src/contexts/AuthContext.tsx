@@ -58,6 +58,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           email: firebaseUser.email || '',
           name: firebaseUser.displayName || firebaseUser.email || '사용자',
           createdAt: firebaseUser.metadata?.creationTime || new Date().toISOString(),
+          providerData: firebaseUser.providerData || [],
         };
         setAuthState({
           user: currentUser,

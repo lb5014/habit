@@ -16,6 +16,9 @@ const SettingsPage: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
+  // 이메일/비밀번호 가입 사용자 여부 (Firebase providerId === 'password')
+  const isEmailPasswordUser = user?.providerData?.[0]?.providerId === 'password';
+
   // 뒤로 가기 핸들러
   const handleGoBack = () => {
     navigate('/app');
@@ -80,12 +83,14 @@ const SettingsPage: React.FC = () => {
 
             {/* 계정 액션 버튼들 */}
             <div className="account-actions">
-              <button 
-                onClick={handlePasswordChange}
-                className="action-button secondary"
-              >
-                비밀번호 변경
-              </button>
+              {isEmailPasswordUser && (
+                <button 
+                  onClick={handlePasswordChange}
+                  className="action-button secondary"
+                >
+                  비밀번호 변경
+                </button>
+              )}
               <button 
                 onClick={handleLogout}
                 className="action-button secondary"
