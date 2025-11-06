@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-route
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import SettingsPage from "./pages/SettingsPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import CalendarView from "./components/CalendarView";
@@ -201,9 +202,18 @@ const AppContent = () => {
                   <h3>{user.name}님</h3>
                   <p>{user.email}</p>
                 </div>
-                <button onClick={logout} className="logout-button">
-                  로그아웃
-                </button>
+                <div className="user-actions">
+                  <button 
+                    onClick={() => navigate('/settings')} 
+                    className="settings-button"
+                    title="설정"
+                  >
+                    ⚙️
+                  </button>
+                  <button onClick={logout} className="logout-button">
+                    로그아웃
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="guest-info">
@@ -348,6 +358,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <AppContent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
                 </ProtectedRoute>
               }
             />

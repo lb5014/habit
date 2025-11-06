@@ -33,3 +33,6 @@ yarn-error.log*
 # OS
 .DS_Store
 Thumbs.db
+
+# Firebase 호스팅 캐시 파일 무시
+.firebase/*.cache

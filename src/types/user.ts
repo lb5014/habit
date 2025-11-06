@@ -13,6 +13,7 @@ export interface User {
   email: string; // 이메일 (로그인 ID)
   name: string; // 사용자 이름
   createdAt: string; // 계정 생성일
+  providerData?: any[]; // Firebase 인증 제공자 정보 배열
 }
 
 /**
