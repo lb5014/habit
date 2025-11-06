@@ -3,13 +3,15 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 /**
  * 테마 타입 정의
  */
-type Theme = 'light' | 'dark';
+type Theme = 'light' | 'dark' | 'system';
 
 /**
  * 테마 컨텍스트 타입 정의
  */
 interface ThemeContextType {
   theme: Theme;
+  actualTheme: 'light' | 'dark'; // 실제 적용되는 테마
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   isDark: boolean;
 }
@@ -34,30 +36,58 @@ interface ThemeProviderProps {
  */
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // 로컬 스토리지에서 테마 설정을 가져오거나 기본값(라이트 모드) 사용
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setThemeState] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('habit-tracker-theme');
     return (savedTheme as Theme) || 'light';
   });
 
+  // 실제 적용되는 테마 계산
+  const actualTheme = theme === 'system' 
+    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : theme;
+
   // 다크모드 여부 계산
-  const isDark = theme === 'dark';
+  const isDark = actualTheme === 'dark';
 
   /**
-   * 테마 토글 함수
+   * 테마 설정 함수
    */
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
     localStorage.setItem('habit-tracker-theme', newTheme);
   };
 
+  /**
+   * 테마 토글 함수 (light <-> dark만)
+   */
+  const toggleTheme = () => {
+    const newTheme = actualTheme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+  };
+
+  // 시스템 테마 변경 감지
+  useEffect(() => {
+    if (theme === 'system') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => {
+        // 시스템 테마가 변경되면 강제로 리렌더링
+        setThemeState('system');
+      };
+      
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, [theme]);
+
   // 테마 변경 시 body 클래스 업데이트
   useEffect(() => {
-    document.body.className = theme;
-  }, [theme]);
+    document.body.className = actualTheme;
+  }, [actualTheme]);
 
   const value: ThemeContextType = {
     theme,
+    actualTheme,
+    setTheme,
     toggleTheme,
     isDark,
   };
