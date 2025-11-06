@@ -1,5 +1,10 @@
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { useEffect } from 'react';
+import { requestNotificationPermission } from './utils/notifications';
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { doc, setDoc, getFirestore } from "firebase/firestore";
+import app from "./firebase";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -22,6 +27,41 @@ const AppContent = () => {
   const navigate = useNavigate(); // 네비게이션 훅
   const { habits, addHabit, toggleToday, deleteHabit, editHabit } = useHabits(); // 습관 훅
   const { toasts, removeToast, showSuccess, showError } = useToast(); // 토스트 훅
+
+  // 로그인 사용자에 대해 FCM 토큰 발급/저장 및 포그라운드 메시지 처리
+  useEffect(() => {
+    const setupFCM = async () => {
+      if (!user) return;
+      try {
+        const messaging = getMessaging(app);
+        const registration = await navigator.serviceWorker
+          .getRegistration()
+          .then((reg) => reg ?? navigator.serviceWorker.register('/firebase-messaging-sw.js'));
+
+        const token = await getToken(messaging, {
+          vapidKey: "YOUR_VAPID_KEY_FROM_FIREBASE_CONSOLE",
+          serviceWorkerRegistration: registration,
+        });
+
+        if (token) {
+          console.log('FCM Token:', token);
+          const firestore = getFirestore(app);
+          const userDocRef = doc(firestore, 'users', user.uid);
+          await setDoc(userDocRef, { fcmToken: token }, { merge: true });
+        } else {
+          console.log('FCM 토큰을 얻을 수 없습니다. 권한을 확인하세요.');
+        }
+
+        onMessage(messaging, (payload) => {
+          console.log('포그라운드 메시지 수신: ', payload);
+          // 필요 시 인앱 알림 또는 showNotification 사용 가능
+        });
+      } catch (err) {
+        console.error('FCM 오류:', err);
+      }
+    };
+    setupFCM();
+  }, [user]);
 
   const getOverallProgress = () => { // 오늘의 전체 습관 달성률 계산
     if (habits.length === 0) return 0;
@@ -291,6 +331,10 @@ const AppContent = () => {
  * 메인 App 컴포넌트
  */
 const App = () => {
+  useEffect(() => {
+    // 앱이 마운트될 때 알림 권한 요청
+    requestNotificationPermission();
+  }, []);
   return (
     <ThemeProvider>
       <AuthProvider>

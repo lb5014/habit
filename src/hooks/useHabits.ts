@@ -3,6 +3,7 @@ import { Habit, Schedule } from "../types/habit";
 import { db } from "../firebase"; 
 import { ref, onValue, set, push, remove, update } from "firebase/database";
 import { useAuth } from "../contexts/AuthContext";
+import { showNotification } from "../utils/notifications";
 
 export function useHabits() {
   const { user } = useAuth(); 
@@ -95,6 +96,24 @@ export function useHabits() {
     const updatedDates = alreadyDone
       ? completedDates.filter(date => date !== today)
       : [...completedDates, today];
+
+    // [수정된 알림 로직]
+    // isDone (완료 여부)에 따라 분기
+    const isDone = !alreadyDone;
+    if (isDone) {
+      // --- 완료 알림 ---
+
+      // 조건: '운동하기' 습관일 때만 다른 이모지와 문구 사용
+      if (habitToUpdate.title.includes("운동하기")) {
+        showNotification('최고입니다! 🔥', `"${habitToUpdate.title}" 완료! 정말 대단해요!`);
+      } else {
+        // 기본 완료 알림
+        showNotification('습관 완료! 🎉', `축하합니다! "${habitToUpdate.title}" 습관을 완료했습니다.`);
+      }
+    } else {
+      // --- [추가된 부분] 완료가 취소되었을 때 알림 ---
+      showNotification('습관 취소 😅', `"${habitToUpdate.title}" 습관 완료가 취소되었습니다.`);
+    }
       
     update(habitRef, { completedDates: updatedDates });
   };
