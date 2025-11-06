@@ -39,7 +39,7 @@ const Home = () => {
 
   // 애드센스 ID
   const AD_PUBLISHER_ID = "ca-pub-3312578759263961";
-  const AD_SLOT_ID_TOP = "YOUR_AD_SLOT_ID_1"; // TODO: 실제 슬롯 ID로 교체
+  const AD_SLOT_ID_TOP = "1566831757";
 
   // 선택된 습관 객체 찾기
   const selectedHabit = habits.find((h) => h.id === selectedHabitId);
