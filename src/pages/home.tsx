@@ -18,6 +18,8 @@ import HabitForm from "../components/HabitForm";
 import HabitList from "../components/HabitList";
 import ProgressChart from "../components/ProgressChart";
 import AchievementWidget from "../components/AchievementWidget";
+import { useAuth } from "../contexts/AuthContext";
+import AdComponent from "../components/AdComponent";
 
 /**
  * 홈 페이지 컴포넌트
@@ -33,6 +35,11 @@ const Home = () => {
   
   // 달력 보기 상태 관리
   const [showCalendar, setShowCalendar] = useState(false);
+  const { user, isAuthenticated } = useAuth();
+
+  // 애드센스 ID
+  const AD_PUBLISHER_ID = "ca-pub-3312578759263961";
+  const AD_SLOT_ID_TOP = "YOUR_AD_SLOT_ID_1"; // TODO: 실제 슬롯 ID로 교체
 
   // 선택된 습관 객체 찾기
   const selectedHabit = habits.find((h) => h.id === selectedHabitId);
@@ -44,6 +51,11 @@ const Home = () => {
         <h1 className="habit-title">습관 추적기</h1>
         <p className="habit-subtitle">매일의 작은 습관이 큰 변화를 만듭니다</p>
       </div>
+
+      {/* [추가] 로그인한 사용자에게만 광고 표시 */}
+      {isAuthenticated && user ? (
+        <AdComponent publisherId={AD_PUBLISHER_ID} slotId={AD_SLOT_ID_TOP} />
+      ) : null}
 
       {/* 습관 추가 폼 카드 */}
       <div className="habit-card">
