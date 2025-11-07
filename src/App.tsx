@@ -152,35 +152,6 @@ const AppContent = () => {
         <div className="theme-toggle-container">
           <ThemeToggle />
         </div>
-        <div className="progress-tagbar">
-          <div className="progress-info">
-            <span className="progress-icon">📊</span>
-          </div>
-          <div className="progress-chart-tooltip">
-            <div className="circular-progress">
-              <svg className="progress-ring" width="120" height="120">
-                <circle className="progress-ring-circle-bg" stroke="#e2e8f0" strokeWidth="8" fill="transparent" r="52" cx="60" cy="60" />
-                <circle
-                  className="progress-ring-circle"
-                  stroke="#4364DE"
-                  strokeWidth="8"
-                  fill="transparent"
-                  r="52"
-                  cx="60"
-                  cy="60"
-                  style={{
-                    strokeDasharray: `${2 * Math.PI * 52}`,
-                    strokeDashoffset: `${2 * Math.PI * 52 * (1 - getOverallProgress() / 100)}`
-                  }}
-                />
-              </svg>
-              <div className="progress-center">
-                <span className="progress-value">{getOverallProgress()}%</span>
-                <span className="progress-label">오늘 달성</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* 대시보드 헤더 */}
