@@ -1,40 +1,91 @@
-import { useState, useEffect } from "react";
-import { Habit, Schedule } from "../types/habit"; 
-import { db } from "../firebase"; 
+import { useState, useEffect, useRef } from "react";
+import { Habit, Schedule } from "../types/habit";
+import { db } from "../firebase";
 import { ref, onValue, set, push, remove, update } from "firebase/database";
 import { useAuth } from "../contexts/AuthContext";
 import { showNotification } from "../utils/notifications";
 
 export function useHabits() {
-  const { user } = useAuth(); 
+  const { user } = useAuth();
   const [habits, setHabits] = useState<Habit[]>([]);
+  const notificationTimerIdsRef = useRef<NodeJS.Timeout[]>([]);
 
   useEffect(() => {
     if (!user) {
       setHabits([]);
+      notificationTimerIdsRef.current.forEach((timerId) =>
+        clearTimeout(timerId)
+      );
+      notificationTimerIdsRef.current = [];
       return;
     }
 
     const habitsRef = ref(db, `habits/${user.uid}`);
-    
+
     const unsubscribe = onValue(habitsRef, (snapshot) => {
       const data = snapshot.val();
 
       // [수정됨] Firebase는 빈 배열을 저장하지 않으므로,
       // completedDates가 없을 경우(undefined)를 대비해 항상 빈 배열로 초기화해줍니다.
-      const loadedHabits = data ? Object.keys(data).map(key => {
-        const habitData = data[key];
-        return {
-          id: key,
-          ...habitData,
-          completedDates: habitData.completedDates || [], 
-        };
-      }) : [];
-      
+      const loadedHabits = data
+        ? Object.keys(data).map((key) => {
+            const habitData = data[key];
+            return {
+              id: key,
+              ...habitData,
+              completedDates: habitData.completedDates || [],
+            };
+          })
+        : [];
+
       setHabits(loadedHabits);
+
+      // 4. 기존 타이머를 ref에서 읽어와 모두 취소
+      notificationTimerIdsRef.current.forEach((timerId) =>
+        clearTimeout(timerId)
+      );
+
+      // 5. ref를 비웁니다. (새 타이머로 채울 준비)
+      notificationTimerIdsRef.current = [];
+
+      const now = new Date();
+
+      loadedHabits.forEach((habit) => {
+        if (habit.notificationOn && habit.notificationTime) {
+          const [hours, minutes] = habit.notificationTime
+            .split(":")
+            .map(Number);
+          const notificationDateTime = new Date();
+          notificationDateTime.setHours(hours, minutes, 0, 0);
+
+          if (now < notificationDateTime) {
+            const msUntilNotify =
+              notificationDateTime.getTime() - now.getTime();
+
+            const timerId = setTimeout(() => {
+              showNotification(
+                "습관 실천할 시간이에요! 💡",
+                `오늘은 "${habit.title}" 하는 날입니다. 잊지 마세요!`
+              );
+            }, msUntilNotify);
+
+            // 6. 상태(setState) 대신 ref에 직접 타이머 ID를 추가
+            notificationTimerIdsRef.current.push(timerId);
+          }
+        }
+      });
+      // --- 👆 알림 예약 로직 끝 ---
     });
 
-    return () => unsubscribe();
+    return () => {
+      // 7. 컴포넌트가 언마운트되면 ref에 저장된 모든 타이머를 취소
+      notificationTimerIdsRef.current.forEach((timerId) =>
+        clearTimeout(timerId)
+      );
+      unsubscribe();
+    };
+
+    // 8. 의존성 배열에서 notificationTimers를 제거 (무한 루프 방지)
   }, [user]);
 
   const addHabit = (
@@ -45,7 +96,9 @@ export function useHabits() {
     notificationTime?: string
   ) => {
     if (!user) {
-      console.warn("로그인하지 않은 상태에서는 습관 데이터를 저장할 수 없습니다.");
+      console.warn(
+        "로그인하지 않은 상태에서는 습관 데이터를 저장할 수 없습니다."
+      );
       return;
     }
     const habitsRef = ref(db, `habits/${user.uid}`);
@@ -63,7 +116,7 @@ export function useHabits() {
 
     set(newHabitRef, newHabitData);
   };
-  
+
   const editHabit = (
     id: string,
     newTitle: string,
@@ -85,36 +138,22 @@ export function useHabits() {
   const toggleToday = (id: string) => {
     if (!user) return;
     const today = new Date().toISOString().split("T")[0];
-    const habitToUpdate = habits.find(h => h.id === id);
+    const habitToUpdate = habits.find((h) => h.id === id);
     if (!habitToUpdate) return;
-    
+
     const habitRef = ref(db, `habits/${user.uid}/${id}`);
     // 이 부분은 이미 안전하게 처리되어 있었지만, 로드 시 처리하는 것이 더 근본적인 해결책입니다.
     const completedDates = habitToUpdate.completedDates || [];
     const alreadyDone = completedDates.includes(today);
 
     const updatedDates = alreadyDone
-      ? completedDates.filter(date => date !== today)
+      ? completedDates.filter((date) => date !== today)
       : [...completedDates, today];
 
     // [수정된 알림 로직]
     // isDone (완료 여부)에 따라 분기
     const isDone = !alreadyDone;
-    if (isDone) {
-      // --- 완료 알림 ---
 
-      // 조건: '운동하기' 습관일 때만 다른 이모지와 문구 사용
-      if (habitToUpdate.title.includes("운동하기")) {
-        showNotification('최고입니다! 🔥', `"${habitToUpdate.title}" 완료! 정말 대단해요!`);
-      } else {
-        // 기본 완료 알림
-        showNotification('습관 완료! 🎉', `축하합니다! "${habitToUpdate.title}" 습관을 완료했습니다.`);
-      }
-    } else {
-      // --- [추가된 부분] 완료가 취소되었을 때 알림 ---
-      showNotification('습관 취소 😅', `"${habitToUpdate.title}" 습관 완료가 취소되었습니다.`);
-    }
-      
     update(habitRef, { completedDates: updatedDates });
   };
 
