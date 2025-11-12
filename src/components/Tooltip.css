@@ -1,0 +1,105 @@
+/* src/components/Tooltip.css */
+
+.tooltip-popup {
+  /* 배경색, 패딩, z-index 등 기본 스타일 추가 */
+  background-color: #2d3748; /* 어두운 회색 (테마의 text-primary에 가까움) */
+  color: white; /* 텍스트 색상 */
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap; /* 줄바꿈 텍스트를 허용 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  z-index: 10000; /* 다른 UI 요소보다 위에 확실히 표시되도록 높은 z-index 설정 */
+  opacity: 0.95; 
+  /* 부드러운 시작을 위한 transition */
+  transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;
+}
+
+/* 캘린더 툴팁 스타일 */
+.calendar-tooltip {
+  padding: 12px;
+  max-width: 280px;
+  min-width: 200px;
+}
+
+.tooltip-header {
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tooltip-header strong {
+  font-size: 15px;
+  color: white;
+}
+
+.tooltip-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tooltip-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tooltip-stat {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tooltip-habits {
+  margin-top: 4px;
+}
+
+.tooltip-habits-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 6px;
+}
+
+.tooltip-habits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tooltip-habit-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  padding: 4px 0;
+}
+
+.tooltip-habit-item.completed {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.tooltip-habit-item:not(.completed) {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.tooltip-habit-check {
+  font-size: 14px;
+  width: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tooltip-habit-item.completed .tooltip-habit-check {
+  color: #48bb78;
+}
+
+.tooltip-habit-name {
+  flex: 1;
+}

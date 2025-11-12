@@ -1,6 +1,7 @@
 // src/components/CalendarView.tsx
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Habit, DayOfWeek } from "../types/habit";
 import {
   startOfMonth,
@@ -11,6 +12,7 @@ import {
   endOfWeek,
 } from "date-fns";
 import { interpolateColor } from "../utils/color";
+import "./Tooltip.css";
 
 interface Props {
   habits: Habit[];
@@ -19,6 +21,12 @@ interface Props {
 const COLOR_ZERO_PERCENT = "#e2e8f0"; // 연한 회색 (미완료)
 const COLOR_HUNDRED_PERCENT = "#48bb78"; // 초록색 (100% 완료)
 
+interface TooltipData {
+  date: Date;
+  x: number;
+  y: number;
+}
+
 const CalendarView = ({ habits }: Props) => {
   const today = new Date();
   const monthStart = startOfMonth(today);
@@ -26,27 +34,121 @@ const CalendarView = ({ habits }: Props) => {
   const calendarStart = startOfWeek(monthStart, { weekStartsOn: 0 });
   const calendarEnd = endOfWeek(monthEnd, { weekStartsOn: 0 });
   const days = eachDayOfInterval({ start: calendarStart, end: calendarEnd });
+  const [tooltip, setTooltip] = useState<TooltipData | null>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  // 툴팁 닫기 기능: 외부 클릭 또는 Escape 키
+  useEffect(() => {
+    if (!tooltip) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      
+      // 툴팁 자체를 클릭한 경우는 무시
+      if (tooltipRef.current?.contains(target)) {
+        e.stopPropagation();
+        return;
+      }
+      
+      // 캘린더 컨테이너 내부 클릭은 무시 (날짜 클릭은 handleDayClick에서 처리)
+      if (calendarRef.current?.contains(target)) {
+        return;
+      }
+      
+      // 그 외의 경우 툴팁 닫기
+      setTooltip(null);
+    };
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setTooltip(null);
+      }
+    };
+
+    // 이벤트를 약간 지연시켜 등록하여 handleDayClick이 먼저 처리되도록 함
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("click", handleClickOutside, true);
+    }, 100);
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [tooltip]);
+
+  // 날짜별로 예정된 습관 목록 가져오기
+  const getScheduledHabits = (day: Date) => {
+    const dayOfWeek = day.getDay();
+    return habits.filter((habit) => {
+      if (habit.schedule.type === "daily") {
+        return true;
+      }
+      if (habit.schedule.type === "weekly" && habit.schedule.days) {
+        return habit.schedule.days.includes(dayOfWeek as DayOfWeek);
+      }
+      return false;
+    });
+  };
+
+  // 날짜 클릭 핸들러
+  const handleDayClick = (day: Date, e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // 클릭 위치 계산 및 화면 경계 체크
+    const x = e.clientX;
+    const y = e.clientY;
+    const tooltipWidth = 280; // max-width
+    const tooltipHeight = 250; // 예상 높이
+    const offset = 15;
+    
+    let tooltipX = x + offset;
+    let tooltipY = y + offset;
+    
+    // 화면 오른쪽 경계 체크
+    if (tooltipX + tooltipWidth > window.innerWidth) {
+      tooltipX = Math.max(offset, x - tooltipWidth - offset);
+    }
+    
+    // 화면 아래쪽 경계 체크
+    if (tooltipY + tooltipHeight > window.innerHeight) {
+      tooltipY = Math.max(offset, y - tooltipHeight - offset);
+    }
+    
+    // 화면 왼쪽 경계 체크
+    if (tooltipX < 0) {
+      tooltipX = offset;
+    }
+    
+    // 화면 위쪽 경계 체크
+    if (tooltipY < 0) {
+      tooltipY = offset;
+    }
+    
+    // 같은 날짜를 클릭한 경우 토글, 다른 날짜 클릭 시 업데이트
+    const dayStr = format(day, "yyyy-MM-dd");
+    if (tooltip && format(tooltip.date, "yyyy-MM-dd") === dayStr) {
+      setTooltip(null);
+    } else {
+      // 즉시 툴팁 표시
+      setTooltip({
+        date: day,
+        x: tooltipX,
+        y: tooltipY,
+      });
+    }
+  };
 
   // 3. 날짜별 스타일을 계산하는 새 함수 (수정됨)
   const getDayStyle = (day: Date) => {
     const dateStr = format(day, "yyyy-MM-dd");
-
-    // 1. 현재 날짜의 요일(dayOfWeek)을 가져옵니다. (0: 일요일, 1: 월요일, ...)
     const dayOfWeek = day.getDay();
+    const scheduledHabits = getScheduledHabits(day);
 
-    // 2. 이 날짜에 '실행하도록 예약된' 습관만 필터링합니다.
-    const scheduledHabits = habits.filter((habit) => {
-      if (habit.schedule.type === "daily") {
-        return true; // '매일' 습관은 항상 포함
-      }
-      if (habit.schedule.type === "weekly" && habit.schedule.days) {
-        // '요일별' 습관은 오늘 요일이 포함된 경우에만
-        return habit.schedule.days.includes(dayOfWeek as DayOfWeek);
-      }
-      return false; // 그 외 (schedule이 없거나 타입이 안 맞으면)
-    });
-
-    // 3. 필터링된 습관 목록을 기준으로 totalCount와 completedCount를 재계산합니다.
     const totalCount = scheduledHabits.length;
     const completedCount = scheduledHabits.filter((h) =>
       h.completedDates.includes(dateStr)
@@ -54,8 +156,6 @@ const CalendarView = ({ habits }: Props) => {
 
     // 4. 실행할 습관이 아예 없는 날(예: 주말) 처리
     if (totalCount === 0) {
-      // 0% 달성과 구별하기 위해 투명도를 살짝 주거나,
-      // 0%와 동일한 색상으로 처리할 수 있습니다.
       return { background: COLOR_ZERO_PERCENT, opacity: 0.6 };
     }
 
@@ -72,8 +172,30 @@ const CalendarView = ({ habits }: Props) => {
     };
   };
 
+  // 툴팁 내용 생성
+  const getTooltipContent = (day: Date) => {
+    const dateStr = format(day, "yyyy-MM-dd");
+    const scheduledHabits = getScheduledHabits(day);
+    const completedHabits = scheduledHabits.filter((h) =>
+      h.completedDates.includes(dateStr)
+    );
+
+    const totalCount = scheduledHabits.length;
+    const completedCount = completedHabits.length;
+    const completionRate = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
+
+    return {
+      date: format(day, "yyyy년 M월 d일"),
+      totalCount,
+      completedCount,
+      completionRate,
+      scheduledHabits,
+      completedHabits,
+    };
+  };
+
   return (
-    <div className="calendar-container-small">
+    <div ref={calendarRef} className="calendar-container-small">
       <div className="calendar-weekdays-small">
         {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
           <div key={day} className="calendar-weekday-small">
@@ -93,6 +215,7 @@ const CalendarView = ({ habits }: Props) => {
                 !isCurrentMonth ? "other-month" : ""
               }`}
               style={dayStyle}
+              onClick={(e) => handleDayClick(day, e)}
               title={`${format(day, "yyyy년 M월 d일")}`}
             >
               {isCurrentMonth ? format(day, "d") : ""}
@@ -100,6 +223,76 @@ const CalendarView = ({ habits }: Props) => {
           );
         })}
       </div>
+
+      {/* 클릭 툴팁 - Portal로 body에 렌더링 */}
+      {tooltip && createPortal(
+        (() => {
+          const content = getTooltipContent(tooltip.date);
+          return (
+            <div
+              ref={tooltipRef}
+              className="tooltip-popup calendar-tooltip"
+              style={{
+                position: "fixed",
+                top: `${tooltip.y}px`,
+                left: `${tooltip.x}px`,
+                pointerEvents: "auto",
+                zIndex: 10000,
+              }}
+              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+            >
+              <div className="tooltip-header">
+                <strong>{content.date}</strong>
+              </div>
+              <div className="tooltip-content">
+                <div className="tooltip-stats">
+                  {content.totalCount > 0 ? (
+                    <>
+                      <div className="tooltip-stat">
+                        완료: {content.completedCount}/{content.totalCount}
+                      </div>
+                      <div className="tooltip-stat">
+                        달성률: {Math.round(content.completionRate)}%
+                      </div>
+                    </>
+                  ) : (
+                    <div className="tooltip-stat">예정된 습관이 없습니다</div>
+                  )}
+                </div>
+                {content.totalCount > 0 && (
+                  <div className="tooltip-habits">
+                    <div className="tooltip-habits-title">습관 목록:</div>
+                    <ul className="tooltip-habits-list">
+                      {content.scheduledHabits.map((habit) => {
+                        const isCompleted = content.completedHabits.some(
+                          (h) => h.id === habit.id
+                        );
+                        return (
+                          <li
+                            key={habit.id}
+                            className={`tooltip-habit-item ${
+                              isCompleted ? "completed" : ""
+                            }`}
+                          >
+                            <span className="tooltip-habit-check">
+                              {isCompleted ? "✓" : "○"}
+                            </span>
+                            <span className="tooltip-habit-name">
+                              {habit.title}
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })(),
+        document.body
+      )}
     </div>
   );
 };
