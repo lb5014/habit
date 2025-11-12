@@ -947,6 +947,17 @@ p {
   background: var(--surface-secondary);
 }
 
+.habit-action-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.habit-action-button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 /* 습관 메뉴 */
 .habit-menu {
   position: relative;

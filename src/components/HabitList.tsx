@@ -133,6 +133,13 @@ const HabitList = ({
           const completedDates = habit.completedDates || [];
           const streakCount = completedDates.length;
 
+          // 오늘 실행되는 날인지 판별
+          const todayDayOfWeek = new Date().getDay();
+          const isScheduledForToday =
+            habit.schedule.type === "daily" ||
+            (habit.schedule.type === "weekly" &&
+              habit.schedule.days?.includes(todayDayOfWeek as DayOfWeek));
+
           return (
             <div
               key={habit.id}
@@ -363,6 +370,7 @@ const HabitList = ({
                         className={`habit-action-button ${
                           doneToday ? "completed" : "pending"
                         }`}
+                        disabled={!isScheduledForToday}
                       >
                         <span className="button-icon">
                           {doneToday ? "✅" : "⏳"}
