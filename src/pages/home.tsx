@@ -28,7 +28,7 @@ import AdComponent from "../components/AdComponent";
  */
 const Home = () => {
   // useHabits 훅을 통해 습관 관련 상태와 함수들 가져오기
-  const { habits, addHabit, toggleToday, deleteHabit, editHabit } = useHabits();
+  const { habits, addHabit, toggleToday, deleteHabit } = useHabits();
   
   // 목록에서 선택된 습관의 ID 상태 관리 (달성률 위젯용)
   const [selectedHabitId, setSelectedHabitId] = useState<string | null>(null);
@@ -71,7 +71,6 @@ const Home = () => {
               habits={habits} 
               toggleToday={toggleToday} 
               deleteHabit={deleteHabit}
-              editHabit={editHabit}
               onSelectHabit={(id) => setSelectedHabitId(id)}
             />
           </div>

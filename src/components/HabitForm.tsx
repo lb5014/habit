@@ -1,23 +1,56 @@
-import React, { useState } from "react";
-import { Schedule, DayOfWeek } from "../types/habit";
+import React, { useState, useEffect } from "react";
+import { Schedule, DayOfWeek, Habit } from "../types/habit";
 
 interface Props {
-  addHabit: (
+  addHabit?: (
     title: string,
     description: string,
     schedule: Schedule,
     notificationOn: boolean,
     notificationTime?: string
   ) => void;
+  editHabit?: (
+    id: string,
+    title: string,
+    description: string,
+    schedule: Schedule,
+    notificationOn: boolean,
+    notificationTime?: string
+  ) => void;
+  initialData?: Habit;
+  onSuccess?: () => void;
 }
 
-const HabitForm = ({ addHabit }: Props) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [scheduleType, setScheduleType] = useState<'daily' | 'weekly'>("daily");
-  const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>([]);
-  const [notificationOn, setNotificationOn] = useState(false);
-  const [notificationTime, setNotificationTime] = useState("09:00");
+const HabitForm = ({ addHabit, editHabit, initialData, onSuccess }: Props) => {
+  const isEditMode = !!initialData && !!editHabit;
+  const habitId = initialData?.id;
+
+  const [title, setTitle] = useState(initialData?.title || "");
+  const [description, setDescription] = useState(initialData?.description || "");
+  const [scheduleType, setScheduleType] = useState<'daily' | 'weekly'>(
+    initialData?.schedule.type || "daily"
+  );
+  const [selectedDays, setSelectedDays] = useState<DayOfWeek[]>(
+    initialData?.schedule.days || []
+  );
+  const [notificationOn, setNotificationOn] = useState(
+    initialData?.notificationOn || false
+  );
+  const [notificationTime, setNotificationTime] = useState(
+    initialData?.notificationTime || "09:00"
+  );
+
+  // initialData가 변경되면 폼 상태 업데이트
+  useEffect(() => {
+    if (initialData) {
+      setTitle(initialData.title);
+      setDescription(initialData.description || "");
+      setScheduleType(initialData.schedule.type);
+      setSelectedDays(initialData.schedule.days || []);
+      setNotificationOn(initialData.notificationOn);
+      setNotificationTime(initialData.notificationTime || "09:00");
+    }
+  }, [initialData]);
 
   const weekDays: { label: string; value: DayOfWeek }[] = [
     { label: "월", value: 1 }, { label: "화", value: 2 }, { label: "수", value: 3 },
@@ -42,13 +75,22 @@ const HabitForm = ({ addHabit }: Props) => {
       ? { type: 'daily' }
       : { type: 'weekly', days: selectedDays.sort() };
 
-    addHabit(title, description, schedule, notificationOn, notificationTime);
+    if (isEditMode && editHabit && habitId) {
+      editHabit(habitId, title, description, schedule, notificationOn, notificationTime);
+    } else if (addHabit) {
+      addHabit(title, description, schedule, notificationOn, notificationTime);
+      // 추가 모드일 때만 폼 초기화
+      setTitle("");
+      setDescription("");
+      setScheduleType("daily");
+      setSelectedDays([]);
+      setNotificationOn(false);
+    }
 
-    setTitle("");
-    setDescription("");
-    setScheduleType("daily");
-    setSelectedDays([]);
-    setNotificationOn(false);
+    // 성공 콜백 호출
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 
   return (
@@ -57,7 +99,11 @@ const HabitForm = ({ addHabit }: Props) => {
       <div className="form-section">
         <div className="form-section-header">
           <h4>기본 정보</h4>
-          <p>새로운 습관의 이름과 설명을 입력하세요</p>
+          <p>
+            {isEditMode
+              ? "습관의 이름과 설명을 수정하세요"
+              : "새로운 습관의 이름과 설명을 입력하세요"}
+          </p>
         </div>
         
         <div className="form-group">
@@ -152,12 +198,12 @@ const HabitForm = ({ addHabit }: Props) => {
           <div className="notification-toggle">
             <input 
               type="checkbox" 
-              id="notification-toggle"
+              id={isEditMode ? `notification-toggle-${habitId}` : "notification-toggle"}
               className="custom-checkbox" 
               checked={notificationOn} 
               onChange={(e) => setNotificationOn(e.target.checked)} 
             />
-            <label htmlFor="notification-toggle" className="notification-label">
+            <label htmlFor={isEditMode ? `notification-toggle-${habitId}` : "notification-toggle"} className="notification-label">
               <span className="label-text">알림 받기</span>
               <span className="label-description">매일 알림을 받아서 습관을 잊지 않게 도와드려요</span>
             </label>
@@ -180,8 +226,8 @@ const HabitForm = ({ addHabit }: Props) => {
       {/* 제출 버튼 */}
       <div className="form-actions">
         <button type="submit" className="form-button primary">
-          <span className="button-icon">✨</span>
-          <span>습관 만들기</span>
+          <span className="button-icon">{isEditMode ? "💾" : "✨"}</span>
+          <span>{isEditMode ? "습관 수정하기" : "습관 만들기"}</span>
         </button>
       </div>
     </form>

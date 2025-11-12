@@ -10,6 +10,7 @@ import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import SettingsPage from "./pages/SettingsPage";
+import EditHabitPage from "./pages/EditHabitPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import CalendarView from "./components/CalendarView";
@@ -26,7 +27,7 @@ import "./App.css";
 const AppContent = () => {
   const { user, logout, isAuthenticated } = useAuth(); // 인증 컨텍스트 사용
   const navigate = useNavigate(); // 네비게이션 훅
-  const { habits, addHabit, toggleToday, deleteHabit, editHabit } = useHabits(); // 습관 훅
+  const { habits, addHabit, toggleToday, deleteHabit } = useHabits(); // 습관 훅
   const { toasts, removeToast, showSuccess, showError } = useToast(); // 토스트 훅
 
   // 로그인 사용자에 대해 FCM 토큰 발급/저장 및 포그라운드 메시지 처리
@@ -221,7 +222,6 @@ const AppContent = () => {
                 habits={habits}
                 toggleToday={handleToggleToday}
                 deleteHabit={handleDeleteHabit}
-                editHabit={editHabit}
               />
             ) : (
               <div className="empty-state">
@@ -337,6 +337,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/app/edit-habit/:habitId"
+              element={
+                <ProtectedRoute>
+                  <EditHabitPage />
                 </ProtectedRoute>
               }
             />
