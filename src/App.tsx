@@ -21,6 +21,7 @@ import ToastContainer from "./components/ToastContainer";
 import ProtectedRoute from './routes/ProtectedRoute';
 import { useHabits } from "./hooks/useHabits";
 import { useToast } from "./hooks/useToast";
+import { DayOfWeek } from "./types/habit";
 import "./App.css";
 
 /**
@@ -67,19 +68,38 @@ const AppContent = () => {
     setupFCM();
   }, [user]);
 
-  const getOverallProgress = () => { // 오늘의 전체 습관 달성률 계산
-    if (habits.length === 0) return 0;
-    const totalHabits = habits.length;
-    let completedCount = 0;
+  const getProgressStats = () => { // 오늘의 전체 습관 달성률 계산
     const today = new Date().toISOString().split("T")[0];
+    const todayDayOfWeek = new Date().getDay() as DayOfWeek;
 
-    habits.forEach(habit => {
+    // 1. 오늘 실행하도록 예약된 습관만 필터링합니다.
+    const scheduledHabits = habits.filter(habit => {
+      if (habit.schedule.type === 'daily') {
+        return true;
+      }
+      if (habit.schedule.type === 'weekly' && habit.schedule.days) {
+        return habit.schedule.days.includes(todayDayOfWeek);
+      }
+      return false;
+    });
+
+    const total = scheduledHabits.length; // 👈 '전체' 
+
+    if (total === 0) {
+      return { percentage: 0, completed: 0, total: 0 };
+    }
+
+    // 4. 필터링된 습관 중에서 완료된 것을 셉니다.
+    let completed = 0; // 👈 '완료' 숫자
+    scheduledHabits.forEach(habit => {
       if (habit.completedDates?.includes(today)) {
-        completedCount++;
+        completed++;
       }
     });
 
-    return Math.round((completedCount / totalHabits) * 100);
+    const percentage = Math.round((completed / total) * 100); // 👈 '퍼센트'
+
+    return { percentage, completed, total };
   };
 
   // 습관 추가 핸들러 (토스트 알림 포함)
@@ -177,8 +197,8 @@ const AppContent = () => {
                   <p>{user.email}</p>
                 </div>
                 <div className="user-actions">
-                  <button 
-                    onClick={() => navigate('/settings')} 
+                  <button
+                    onClick={() => navigate('/settings')}
                     className="settings-button"
                     title="설정"
                   >
@@ -243,49 +263,52 @@ const AppContent = () => {
               <h3>오늘의 달성률</h3>
             </div>
             <div className="stats-content">
-              <div className="progress-circle">
-                <svg width="120" height="120">
-                  <circle
-                    className="progress-bg"
-                    stroke="var(--border-primary)"
-                    strokeWidth="8"
-                    fill="transparent"
-                    r="52"
-                    cx="60"
-                    cy="60"
-                  />
-                  <circle
-                    className="progress-fill"
-                    stroke="var(--primary-color)"
-                    strokeWidth="8"
-                    fill="transparent"
-                    r="52"
-                    cx="60"
-                    cy="60"
-                    style={{
-                      strokeDasharray: `${2 * Math.PI * 52}`,
-                      strokeDashoffset: `${2 * Math.PI * 52 * (1 - getOverallProgress() / 100)}`
-                    }}
-                  />
-                </svg>
-                <div className="progress-text">
-                  <span className="progress-percentage">{getOverallProgress()}%</span>
-                  <span className="progress-label">달성</span>
-                </div>
-              </div>
-              <div className="stats-details">
-                <div className="stat-item">
-                  <span className="stat-number">{habits.filter(h => h.completedDates?.includes(new Date().toISOString().split("T")[0])).length}</span>
-                  <span className="stat-label">완료</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-number">{habits.length}</span>
-                  <span className="stat-label">전체</span>
-                </div>
-              </div>
+              {/* 1. 함수를 한 번만 호출해서 모든 값을 가져옵니다. */}
+              {(() => {
+                const { percentage, completed, total } = getProgressStats();
+                return (
+                  <>
+                    <div className="progress-circle">
+                      <svg width="120" height="120">
+                        {/* ... (progress-bg circle) ... */}
+                        <circle
+                          className="progress-fill"
+                          stroke="var(--primary-color)"
+                          strokeWidth="8"
+                          fill="transparent"
+                          r="52"
+                          cx="60"
+                          cy="60"
+                          style={{
+                            strokeDasharray: `${2 * Math.PI * 52}`,
+                            // 2. 'percentage' 변수 사용
+                            strokeDashoffset: `${2 * Math.PI * 52 * (1 - percentage / 100)}`
+                          }}
+                        />
+                      </svg>
+                      <div className="progress-text">
+                        {/* 3. 'percentage' 변수 사용 */}
+                        <span className="progress-percentage">{percentage}%</span>
+                        <span className="progress-label">달성</span>
+                      </div>
+                    </div>
+                    <div className="stats-details">
+                      <div className="stat-item">
+                        {/* 4. 'completed' 변수 사용 (버그 수정됨) */}
+                        <span className="stat-number">{completed}</span>
+                        <span className="stat-label">완료</span>
+                      </div>
+                      <div className="stat-item">
+                        {/* 5. 'total' 변수 사용 (버그 수정됨) */}
+                        <span className="stat-number">{total}</span>
+                        <span className="stat-label">전체</span>
+                      </div>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
           </div>
-
           {/* 간단한 캘린더 카드 */}
           <div className="habit-card calendar-card">
             <div className="card-header">
@@ -302,6 +325,8 @@ const AppContent = () => {
             )}
           </div>
         </div>
+
+
       </div>
 
       {/* 토스트 알림 컨테이너 */}
