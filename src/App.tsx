@@ -11,6 +11,8 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import SettingsPage from "./pages/SettingsPage";
 import EditHabitPage from "./pages/EditHabitPage";
+import QnAPage from "./pages/QnAPage";
+import ContactPage from "./pages/ContactPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import CalendarView from "./components/CalendarView";
@@ -348,6 +350,8 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
+            <Route path="/qna" element={<QnAPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>

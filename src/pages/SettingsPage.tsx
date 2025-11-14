@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import './SettingsPage.css';
@@ -215,6 +215,26 @@ const SettingsPage: React.FC = () => {
                       <a href="#" className="policy-link">이용약관</a>
                       <a href="#" className="policy-link">개인정보처리방침</a>
                     </div>
+                  </div>
+                </div>
+
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">자주 묻는 질문</h3>
+                    <p className="setting-description">FAQ를 확인하세요</p>
+                  </div>
+                  <div className="row-right">
+                    <Link to="/qna" className="action-button secondary">보기</Link>
+                  </div>
+                </div>
+
+                <div className="settings-row">
+                  <div className="row-left">
+                    <h3 className="setting-label">문의하기</h3>
+                    <p className="setting-description">문의사항이 있으시면 연락주세요</p>
+                  </div>
+                  <div className="row-right">
+                    <Link to="/contact" className="action-button secondary">문의</Link>
                   </div>
                 </div>
               </div>

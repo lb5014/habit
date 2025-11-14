@@ -10,7 +10,7 @@
 
 import React from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./LandingPage.css";
 import logo from "../assets/logo.png"; // src/assets/logo.png 파일을 import합니다.
 
@@ -327,7 +327,7 @@ const LandingPage: React.FC = () => {
                     <a href="#support">고객 지원</a>
                   </li>
                   <li>
-                    <a href="#faq">자주 묻는 질문</a>
+                    <Link to="/qna">자주 묻는 질문</Link>
                   </li>
                 </ul>
               </div>
@@ -338,7 +338,7 @@ const LandingPage: React.FC = () => {
                     <a href="#about">회사 소개</a>
                   </li>
                   <li>
-                    <a href="#contact">문의하기</a>
+                    <Link to="/contact">문의하기</Link>
                   </li>
                   <li>
                     <a href="#privacy">개인정보처리방침</a>
