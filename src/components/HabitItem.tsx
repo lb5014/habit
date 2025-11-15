@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Habit, Schedule, DayOfWeek } from "../types/habit";
+import { calculateStreak } from "../utils/streakCalculator";
 
 interface Props {
   habit: Habit;
@@ -20,8 +21,7 @@ const HabitItem: React.FC<Props> = ({
   const [openDropdownId, setOpenDropdownId] = useState<string | null>(null);
 
   const doneToday = habit.completedDates.includes(today);
-  const completedDates = habit.completedDates || [];
-  const streakCount = completedDates.length;
+  const streakCount = calculateStreak(habit);
 
   // 오늘 실행되는 날인지 판별
   const todayDayOfWeek = new Date().getDay();
