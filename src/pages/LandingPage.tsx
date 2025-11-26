@@ -321,10 +321,10 @@ const LandingPage: React.FC = () => {
                     <Link to="/features">기능 소개</Link>
                   </li>
                   <li>
-                    <a href="#pricing">요금제</a>
+                    <Link to="/pricing">요금제</Link>
                   </li>
                   <li>
-                    <a href="#support">고객 지원</a>
+                    <Link to="/support">고객 지원</Link>
                   </li>
                   <li>
                     <Link to="/qna">자주 묻는 질문</Link>

@@ -1,0 +1,350 @@
+.support-page {
+  padding: 4rem 1.5rem 6rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  color: var(--text-primary, #111);
+}
+
+.support-hero {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.support-hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.support-hero-content h1 {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  margin: 1rem 0;
+}
+
+.support-hero-content .description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-secondary, #555);
+  margin-top: 1rem;
+}
+
+.eyebrow {
+  letter-spacing: 0.3em;
+  font-size: 0.8rem;
+  color: var(--primary-color, #5a67d8);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.support-channels {
+  margin-bottom: 5rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-header h2 {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  margin: 0 0 0.5rem 0;
+}
+
+.section-header p {
+  color: var(--text-secondary, #666);
+  font-size: 1.1rem;
+}
+
+.channels-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.channel-card {
+  background: var(--card-bg, #fff);
+  border: 2px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.channel-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.12);
+}
+
+.channel-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.channel-card h3 {
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.channel-description {
+  color: var(--text-secondary, #666);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+
+.channel-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--primary-color, #5a67d8);
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(90, 103, 216, 0.3);
+  border: none;
+  cursor: pointer;
+}
+
+.channel-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(90, 103, 216, 0.4);
+}
+
+.support-hours {
+  margin-bottom: 5rem;
+}
+
+.hours-card {
+  background: linear-gradient(135deg, rgba(90, 103, 216, 0.1), rgba(128, 90, 213, 0.1));
+  border: 2px solid rgba(90, 103, 216, 0.2);
+  border-radius: 24px;
+  padding: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hours-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
+.hours-icon {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.hours-text h3 {
+  font-size: 1.75rem;
+  margin: 0 0 1rem 0;
+  color: var(--primary-color, #5a67d8);
+}
+
+.hours-text p {
+  color: var(--text-secondary, #666);
+  line-height: 1.8;
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
+}
+
+.hours-note {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(90, 103, 216, 0.2);
+  font-size: 0.95rem;
+  color: var(--text-secondary, #666);
+}
+
+.help-topics {
+  margin-bottom: 5rem;
+}
+
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.topic-card {
+  background: var(--card-bg, #fff);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.topic-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.12);
+}
+
+.topic-card h3 {
+  font-size: 1.5rem;
+  margin: 0 0 0.75rem 0;
+  color: var(--primary-color, #5a67d8);
+}
+
+.topic-description {
+  color: var(--text-secondary, #666);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+.topic-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+
+.topic-items li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: var(--text-primary, #111);
+  font-size: 0.95rem;
+}
+
+.topic-items li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color, #5a67d8);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.topic-link {
+  color: var(--primary-color, #5a67d8);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+  margin-top: auto;
+}
+
+.topic-link:hover {
+  color: var(--primary-hover, #4c51bf);
+  text-decoration: underline;
+}
+
+.support-cta {
+  background: linear-gradient(135deg, #5a67d8, #805ad5);
+  color: #fff;
+  border-radius: 28px;
+  padding: 3rem;
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.support-cta .eyebrow {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.support-cta h2 {
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  margin: 1rem 0;
+}
+
+.support-cta p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1rem 0 2rem;
+  opacity: 0.95;
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn.primary {
+  background: #fff;
+  color: var(--primary-color, #5a67d8);
+  box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+.btn.outline {
+  border: 2px solid #fff;
+  color: #fff;
+  background: transparent;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn.primary:hover {
+  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 640px) {
+  .support-page {
+    padding: 2.5rem 1rem 4rem;
+  }
+
+  .support-hero {
+    margin-bottom: 3rem;
+  }
+
+  .channels-grid,
+  .topics-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .channel-card,
+  .topic-card {
+    padding: 2rem;
+  }
+
+  .hours-card {
+    padding: 2rem;
+  }
+
+  .hours-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .support-cta {
+    padding: 2rem;
+    margin-top: 3.5rem;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
+

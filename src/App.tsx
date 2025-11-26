@@ -14,6 +14,8 @@ import EditHabitPage from "./pages/EditHabitPage";
 import QnAPage from "./pages/QnAPage";
 import ContactPage from "./pages/ContactPage";
 import FeaturesPage from "./pages/FeaturesPage";
+import PricingPage from "./pages/PricingPage";
+import SupportPage from "./pages/SupportPage";
 import HabitForm from "./components/HabitForm";
 import HabitList from "./components/HabitList";
 import CalendarView from "./components/CalendarView";
@@ -379,6 +381,8 @@ const App = () => {
             <Route path="/qna" element={<QnAPage />} />
             <Route path="/features" element={<FeaturesPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/support" element={<SupportPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
