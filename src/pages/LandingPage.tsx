@@ -318,7 +318,7 @@ const LandingPage: React.FC = () => {
                 <h4>서비스</h4>
                 <ul>
                   <li>
-                    <a href="#features">기능 소개</a>
+                    <Link to="/features">기능 소개</Link>
                   </li>
                   <li>
                     <a href="#pricing">요금제</a>
