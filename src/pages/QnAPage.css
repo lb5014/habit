@@ -182,24 +182,156 @@
 /* 반응형 디자인 */
 @media (max-width: 768px) {
   .qna-page {
-    padding: 1rem;
+    padding: 2rem 1.25rem;
+    min-height: auto;
+  }
+
+  .qna-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .back-button {
+    margin-bottom: 1.25rem;
+    padding: 0.45rem 0.9rem;
+    font-size: 0.875rem;
   }
 
   .qna-title {
-    font-size: 2rem;
+    font-size: clamp(1.75rem, 4vw, 2rem);
+    margin-bottom: 0.4rem;
   }
 
   .qna-subtitle {
     font-size: 1rem;
   }
 
+  .qna-content {
+    gap: 1.75rem;
+  }
+
+  .qna-list {
+    gap: 0.875rem;
+  }
+
+  .qna-item {
+    border-radius: 10px;
+  }
+
+  .qna-question {
+    padding: 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .question-text {
+    padding-right: 0.875rem;
+    font-size: 1rem;
+  }
+
+  .question-icon {
+    font-size: 1.35rem;
+    min-width: 22px;
+  }
+
+  .qna-answer {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+  }
+
+  .qna-answer p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .qna-footer {
+    margin-top: 1.75rem;
+    padding: 1.75rem;
+  }
+
+  .qna-footer-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .qna-footer-content p {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .contact-button {
+    width: 100%;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .qna-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .qna-header {
+    margin-bottom: 2rem;
+  }
+
+  .back-button {
+    margin-bottom: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .qna-title {
+    font-size: 1.75rem;
+  }
+
+  .qna-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .qna-content {
+    gap: 1.5rem;
+  }
+
+  .qna-list {
+    gap: 0.75rem;
+  }
+
   .qna-question {
     padding: 1rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .question-text {
+    padding-right: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .question-icon {
+    font-size: 1.25rem;
+    min-width: 20px;
   }
 
   .qna-answer {
     padding: 0 1rem 1rem 1rem;
+  }
+
+  .qna-answer p {
+    font-size: 0.9rem;
+  }
+
+  .qna-footer {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .qna-footer-content h3 {
+    font-size: 1.15rem;
+  }
+
+  .qna-footer-content p {
+    font-size: 0.9rem;
+  }
+
+  .contact-button {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
   }
 }
 

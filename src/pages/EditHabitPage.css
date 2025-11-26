@@ -93,3 +93,111 @@
   margin: 0.5rem 0;
 }
 
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .edit-habit-page {
+    padding: 1.5rem 1.25rem;
+    min-height: auto;
+  }
+
+  .edit-habit-header {
+    margin-bottom: 1.75rem;
+    gap: 0.875rem;
+  }
+
+  .back-button {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.875rem;
+  }
+
+  .edit-habit-title {
+    font-size: clamp(1.5rem, 4vw, 1.75rem);
+  }
+
+  .edit-habit-content {
+    gap: 1.25rem;
+  }
+
+  .habit-card {
+    padding: 1.75rem;
+    border-radius: 10px;
+  }
+
+  .card-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.35rem;
+  }
+
+  .card-header p {
+    font-size: 0.85rem;
+  }
+
+  .empty-state {
+    padding: 3rem 1.5rem;
+  }
+
+  .empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .empty-state p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-habit-page {
+    padding: 1.25rem 1rem;
+  }
+
+  .edit-habit-header {
+    margin-bottom: 1.5rem;
+    gap: 0.75rem;
+  }
+
+  .back-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+
+  .edit-habit-title {
+    font-size: 1.5rem;
+  }
+
+  .edit-habit-content {
+    gap: 1.125rem;
+  }
+
+  .habit-card {
+    padding: 1.5rem;
+  }
+
+  .card-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.25rem;
+  }
+
+  .card-header p {
+    font-size: 0.8rem;
+  }
+
+  .empty-state {
+    padding: 2.5rem 1.25rem;
+  }
+
+  .empty-icon {
+    font-size: 2.25rem;
+  }
+
+  .empty-state p {
+    font-size: 0.9rem;
+  }
+}
+

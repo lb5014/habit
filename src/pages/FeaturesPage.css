@@ -185,9 +185,124 @@
   color: #fff;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .features-page {
-    padding: 2.5rem 1rem 4rem;
+    padding: 3rem 1.25rem 5rem;
+  }
+
+  .features-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .features-hero-content h1 {
+    font-size: clamp(2rem, 5vw, 2.5rem);
+  }
+
+  .features-hero-content .description {
+    font-size: 1rem;
+  }
+
+  .features-hero-card {
+    padding: 1.75rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+  }
+
+  .features-grid-section,
+  .experience-section,
+  .supporting-section {
+    margin-bottom: 4rem;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.75rem, 4vw, 2rem);
+  }
+
+  .section-header p {
+    font-size: 1rem;
+  }
+
+  .features-grid,
+  .experience-steps,
+  .supporting-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .feature-card,
+  .experience-card,
+  .supporting-card {
+    padding: 1.75rem;
+  }
+
+  .feature-card h3,
+  .experience-card h3,
+  .supporting-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .experience-card .step {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+
+  .cta-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2.5rem 1.75rem;
+    margin-top: 4rem;
+    gap: 1.5rem;
+  }
+
+  .cta-banner h2 {
+    font-size: clamp(1.75rem, 4vw, 2rem);
+  }
+
+  .cta-banner p {
+    font-size: 1rem;
+  }
+
+  .cta-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .cta-actions .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-page {
+    padding: 2rem 1rem 4rem;
+  }
+
+  .features-hero {
+    margin-bottom: 3rem;
+  }
+
+  .features-hero-content h1 {
+    font-size: 1.875rem;
+  }
+
+  .features-hero-card {
+    padding: 1.5rem;
   }
 
   .features-grid-section,
@@ -196,10 +311,14 @@
     margin-bottom: 3.5rem;
   }
 
+  .section-header {
+    margin-bottom: 2rem;
+  }
+
   .features-grid,
   .experience-steps,
   .supporting-grid {
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .feature-card,
@@ -208,11 +327,29 @@
     padding: 1.5rem;
   }
 
+  .feature-card h3,
+  .experience-card h3,
+  .supporting-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .experience-card .step {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+  }
+
   .cta-banner {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem;
-    margin-top: 3.5rem;
+    padding: 2rem 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .cta-banner h2 {
+    font-size: 1.75rem;
+  }
+
+  .cta-banner p {
+    font-size: 0.95rem;
   }
 }
 
