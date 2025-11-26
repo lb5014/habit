@@ -730,6 +730,7 @@
   .hero-section {
     min-height: auto;
     padding: var(--spacing-xl) 0;
+    overflow: visible;
   }
 
   .hero-container {
@@ -746,6 +747,12 @@
 
   .hero-logo {
     height: 50px;
+  }
+
+  .hero-title-container {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
   }
 
   .hero-subtitle {
@@ -767,10 +774,15 @@
 
   .hero-visual {
     margin-top: var(--spacing-lg);
+    width: 100%;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .hero-mockup {
     max-width: 100%;
+    width: 100%;
   }
 
   .mockup-screen {
@@ -903,6 +915,7 @@
 
   .hero-section {
     padding: var(--spacing-lg) 0;
+    overflow: visible;
   }
 
   .hero-container {
@@ -918,12 +931,21 @@
     height: 45px;
   }
 
+  .hero-title-container {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
   .hero-subtitle {
     font-size: 1.1rem;
   }
 
   .hero-description {
     font-size: 0.95rem;
+  }
+
+  .hero-visual {
+    max-width: 320px;
   }
 
   .section-content {
@@ -997,5 +1019,276 @@
 
   .footer-logo {
     height: 25px;
+  }
+}
+
+/* 작은 모바일 기기 (아이폰 SE, 갤럭시 등) */
+@media (max-width: 375px) {
+  .container {
+    padding: 0 0.875rem;
+  }
+
+  .hero-section {
+    padding: 1.5rem 0;
+  }
+
+  .hero-container {
+    padding: 0 0.875rem;
+    gap: 1.5rem;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .hero-logo {
+    height: 40px;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-description {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .hero-buttons {
+    gap: 0.75rem;
+  }
+
+  .hero-visual {
+    max-width: 280px;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+
+  .section-content {
+    padding: 1.5rem 0;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .problem-section,
+  .solution-section,
+  .features-section {
+    padding: 1.5rem 0;
+  }
+
+  .problem-grid,
+  .solution-grid,
+  .features-grid {
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .problem-item,
+  .solution-item,
+  .feature-card {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .problem-icon,
+  .solution-icon {
+    font-size: 2.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .problem-item h3,
+  .solution-item h3,
+  .feature-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .problem-item p,
+  .solution-item p,
+  .feature-card p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .value-section {
+    padding: 1.5rem 0;
+  }
+
+  .value-title {
+    font-size: 1.625rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .value-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .value-stats {
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .stat-item {
+    padding: 1rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.95rem;
+  }
+
+  .stat-description {
+    font-size: 0.85rem;
+  }
+
+  .cta-section {
+    padding: 1.5rem 0;
+  }
+
+  .cta-title {
+    font-size: 1.625rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+  }
+
+  .cta-buttons {
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    min-height: 44px;
+  }
+
+  .footer {
+    padding: 1.5rem 0 1rem;
+  }
+
+  .footer-content {
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .footer-brand h3 {
+    font-size: 1.375rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.875rem;
+  }
+
+  .footer-links {
+    gap: 1.25rem;
+  }
+
+  .footer-column h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-column a {
+    font-size: 0.85rem;
+  }
+
+  .footer-logo {
+    height: 22px;
+  }
+
+  .mockup-content {
+    padding: 1.25rem;
+  }
+
+  .mockup-habit-card {
+    padding: 1rem;
+  }
+
+  .habit-title {
+    font-size: 0.9rem;
+  }
+
+  .progress-bar {
+    height: 6px;
+  }
+}
+
+/* 중간 모바일 기기 (360px) */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 0.8rem;
+  }
+
+  .hero-title {
+    font-size: 1.45rem;
+  }
+
+  .hero-logo {
+    height: 38px;
+  }
+
+  .section-title {
+    font-size: 1.45rem;
+  }
+
+  .value-title,
+  .cta-title {
+    font-size: 1.55rem;
+  }
+}
+
+/* 매우 작은 화면 (320px 이하) */
+@media (max-width: 320px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .hero-title {
+    font-size: 1.375rem;
+  }
+
+  .hero-logo {
+    height: 35px;
+  }
+
+  .section-title {
+    font-size: 1.375rem;
+  }
+
+  .value-title,
+  .cta-title {
+    font-size: 1.5rem;
+  }
+
+  .problem-item,
+  .solution-item,
+  .feature-card {
+    padding: 1rem;
   }
 }
