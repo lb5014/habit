@@ -84,15 +84,21 @@
   transform: translateY(-2px);
 }
 
+.features-grid-section,
+.experience-section,
+.supporting-section {
+  margin-bottom: 5rem;
+}
+
 .section-header {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
 }
 
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .feature-card,
@@ -101,8 +107,16 @@
   background: var(--card-bg, #fff);
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 20px;
-  padding: 1.75rem;
+  padding: 2rem;
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover,
+.experience-card:hover,
+.supporting-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.12);
 }
 
 .card-eyebrow {
@@ -131,7 +145,7 @@
 .experience-steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
+  gap: 2rem;
 }
 
 .experience-card .step {
@@ -150,15 +164,15 @@
 .supporting-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .cta-banner {
   background: linear-gradient(135deg, #5a67d8, #805ad5);
   color: #fff;
   border-radius: 28px;
-  padding: 2.5rem;
-  margin-top: 4rem;
+  padding: 3rem;
+  margin-top: 5rem;
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -176,9 +190,29 @@
     padding: 2.5rem 1rem 4rem;
   }
 
+  .features-grid-section,
+  .experience-section,
+  .supporting-section {
+    margin-bottom: 3.5rem;
+  }
+
+  .features-grid,
+  .experience-steps,
+  .supporting-grid {
+    gap: 1.5rem;
+  }
+
+  .feature-card,
+  .experience-card,
+  .supporting-card {
+    padding: 1.5rem;
+  }
+
   .cta-banner {
     flex-direction: column;
     align-items: flex-start;
+    padding: 2rem;
+    margin-top: 3.5rem;
   }
 }
 
