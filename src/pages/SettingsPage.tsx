@@ -212,8 +212,8 @@ const SettingsPage: React.FC = () => {
                   </div>
                   <div className="row-right">
                     <div className="policy-links">
-                      <a href="#" className="policy-link">이용약관</a>
-                      <a href="#" className="policy-link">개인정보처리방침</a>
+                      <Link to="/terms" className="policy-link">이용약관</Link>
+                      <Link to="/privacy" className="policy-link">개인정보처리방침</Link>
                     </div>
                   </div>
                 </div>

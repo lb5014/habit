@@ -341,10 +341,10 @@ const LandingPage: React.FC = () => {
                     <Link to="/contact">문의하기</Link>
                   </li>
                   <li>
-                    <a href="#privacy">개인정보처리방침</a>
+                    <Link to="/privacy">개인정보처리방침</Link>
                   </li>
                   <li>
-                    <a href="#terms">이용약관</a>
+                    <Link to="/terms">이용약관</Link>
                   </li>
                 </ul>
               </div>
